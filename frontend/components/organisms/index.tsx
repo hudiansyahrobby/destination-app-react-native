@@ -1,0 +1,13 @@
+export { default as Appbar } from './Appbar';
+export { default as Login } from './Login';
+export { default as Register } from './Register';
+export { default as ForgetPassword } from './ForgetPassword';
+export { default as Destination } from './Destination';
+export { default as DestinationList } from './DestinationList';
+export { default as DestinationDetail } from './DestinationDetail';
+export { default as CommentDetail } from './CommentDetail';
+export { default as Setting } from './Setting';
+export { default as EditProfile } from './EditProfile';
+export { default as AdminDashboard } from './AdminDashboard';
+export { default as UserList } from './UserList';
+export { default as DestinationAdminList } from './DestinationAdminList';

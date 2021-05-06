@@ -1,0 +1,13 @@
+export { default as Login } from './Login';
+export { default as Register } from './Register';
+export { default as ForgetPassword } from './ForgetPassword';
+export { default as Destination } from './Destination';
+export { default as Home } from './Home';
+export { default as Detail } from './Detail';
+export { default as Favorite } from './Favorite';
+export { default as Profile } from './Profile';
+export { default as Setting } from './Setting';
+export { default as EditProfile } from './EditProfile';
+export { default as AdminDashboard } from './AdminDashboard';
+export { default as UserList } from './UserList';
+export { default as DestinationList } from './DestinationList';
