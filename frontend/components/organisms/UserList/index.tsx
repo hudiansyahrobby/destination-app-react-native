@@ -8,7 +8,7 @@ import UserCard from '../../molecules/UserCard';
 
 const UserList = () => {
   const { data, isLoading, isError } = useUsers();
-  const users = data;
+  const users = data.data;
 
   if (isLoading) {
     return (

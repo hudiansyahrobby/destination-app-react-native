@@ -11,7 +11,7 @@ const addBulkDestinations = async (destinations: IDestination[]) => {
 
 const getAllDestinations = async () => {
   const { data } = await axios.get('/products');
-  return data?.data;
+  return data;
 };
 
 const getDestination = async (id: string) => {
