@@ -3,14 +3,19 @@ import { StyleSheet } from 'react-native';
 import Avatar from '../../atom/Avatar';
 import { Subtitle, Title } from '../../atom/Typography';
 
-const ProfileCard = () => {
+interface ProfileCardProps {
+  country?: string;
+  name: string;
+}
+
+const ProfileCard: React.FC<ProfileCardProps> = ({ name, country }) => {
   return (
     <>
       <Avatar title="MT" size="xlarge" />
       <Title position="center" style={styles.title}>
-        Mount Thomas
+        {name}
       </Title>
-      <Subtitle position="center">New York, USA</Subtitle>
+      {country && <Subtitle position="center">{country}</Subtitle>}
     </>
   );
 };

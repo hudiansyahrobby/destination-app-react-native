@@ -12,7 +12,7 @@ const SettingHeader = () => {
         <Title size="md" style={{ color: PRIMARY_COLOR }}>
           Mount Thom
         </Title>
-        <Subtitle size="sm">New York, USA</Subtitle>
+        <Subtitle size="sm">Indonesia</Subtitle>
       </View>
     </View>
   );

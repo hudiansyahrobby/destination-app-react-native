@@ -1,24 +1,45 @@
+import { useRoute } from '@react-navigation/core';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
+import useUser from '../../../hooks/UserHooks/useUser';
+import { IUserProfile } from '../../../types/UserType';
 import DividerLine from '../../atom/Divider/DividerLine';
 import HorizontalScroll from '../../atom/HorizontalScroll';
 import { Subtitle, Title } from '../../atom/Typography';
 import { DestinationCard, ProfileCard } from '../../molecules';
 
 const Profile = () => {
+  const { params } = useRoute();
+
+  const userId = (params as any)?.itemId;
+  const { data, isError, isLoading } = useUser(userId);
+
+  const user: IUserProfile = data;
+  console.log('USERKU', user);
+  if (isLoading) {
+    return (
+      <View style={styles.text}>
+        <Title size="sm">Loading...</Title>
+      </View>
+    );
+  }
+
+  if (isError) {
+    return (
+      <View style={styles.text}>
+        <Title size="sm">Error</Title>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
-      <ProfileCard />
+      <ProfileCard name={user.displayName} country={user.country} />
       <DividerLine />
       <View style={styles.about}>
-        <Title size="md">About Me</Title>
+        <Title size="md">Tentang Saya</Title>
         <Subtitle size="sm" position="justify">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque
-          tempora quae, reiciendis rem possimus libero numquam exercitationem
-          autem amet maiores, sunt distinctio ducimus quia iste? Labore fugit ab
-          eius praesentium laborum ipsam voluptatem accusamus deleniti
-          consectetur dolorem iusto numquam assumenda officia amet, eveniet
-          nemo. Vel, assumenda quia? Ex, repellat ipsa.
+          {user.about || 'Tidak ada deskripsi'}
         </Subtitle>
       </View>
       <HorizontalScroll>
@@ -40,5 +61,9 @@ const styles = StyleSheet.create({
   about: {
     marginHorizontal: 25,
     marginTop: 25,
+  },
+  text: {
+    marginHorizontal: 20,
+    marginTop: 20,
   },
 });

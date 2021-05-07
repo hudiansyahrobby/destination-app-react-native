@@ -2,25 +2,25 @@ import { useNavigation } from '@react-navigation/core';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Avatar, ListItem } from 'react-native-elements';
-import { IDestination } from '../../../types/DestinationType';
+import { IUser } from '../../../types/UserType';
 
-interface ListsProps {
-  destinations: IDestination[];
+interface UserCardProps {
+  users: IUser[];
 }
 
-const Lists: React.FC<ListsProps> = ({ destinations }) => {
+const UserCard: React.FC<UserCardProps> = ({ users }) => {
   const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
-      {destinations.map((destination, index) => (
+      {users.map((user, index) => (
         <ListItem
           key={index}
           bottomDivider
           topDivider
           onPress={() =>
-            navigation.navigate('Detail', {
-              itemId: destination.id,
+            navigation.navigate('Profile', {
+              itemId: user.uid,
             })
           }>
           <Avatar
@@ -31,10 +31,8 @@ const Lists: React.FC<ListsProps> = ({ destinations }) => {
             rounded
           />
           <ListItem.Content>
-            <ListItem.Title>{destination.name}</ListItem.Title>
-            <ListItem.Subtitle>
-              {destination.province} - {destination.city}
-            </ListItem.Subtitle>
+            <ListItem.Title>{user.displayName}</ListItem.Title>
+            <ListItem.Subtitle>{user.email}</ListItem.Subtitle>
           </ListItem.Content>
           <ListItem.Chevron />
         </ListItem>
@@ -43,7 +41,7 @@ const Lists: React.FC<ListsProps> = ({ destinations }) => {
   );
 };
 
-export default Lists;
+export default UserCard;
 
 const styles = StyleSheet.create({
   container: { marginVertical: 20 },

@@ -14,7 +14,7 @@ interface DetailHeaderProps {
 const DetailHeader: React.FC<DetailHeaderProps> = ({ destinationId }) => {
   const { isLoading, data, isError } = useDestination(destinationId);
   const destination: IDestination = data;
-  console.log('DEST NAMEs', destination);
+
   if (isLoading) {
     return (
       <View style={styles.text}>

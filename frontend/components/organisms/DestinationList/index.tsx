@@ -19,7 +19,7 @@ const DestinationList = () => {
   if (isError) {
     return (
       <View style={styles.text}>
-        <Title size="sm">Loading...</Title>
+        <Title size="sm">Loading..</Title>
       </View>
     );
   }
