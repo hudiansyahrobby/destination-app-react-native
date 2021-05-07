@@ -1,11 +1,36 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Image } from 'react-native-elements';
+import useDestination from '../../../hooks/DestinationHooks/useDestination';
+import { IDestination } from '../../../types/DestinationType';
 import CarouselCards from '../../atom/Carousel';
 import Rating from '../../atom/Rating';
 import { Title, TextWithIcon, Subtitle } from '../../atom/Typography';
 
-const DetailHeader = () => {
+interface DetailHeaderProps {
+  destinationId: string;
+}
+
+const DetailHeader: React.FC<DetailHeaderProps> = ({ destinationId }) => {
+  const { isLoading, data, isError } = useDestination(destinationId);
+  const destination: IDestination = data;
+  console.log('DEST NAMEs', destination);
+  if (isLoading) {
+    return (
+      <View style={styles.text}>
+        <Title size="sm">Loading...</Title>
+      </View>
+    );
+  }
+
+  if (isError) {
+    return (
+      <View style={styles.text}>
+        <Title size="sm">Error</Title>
+      </View>
+    );
+  }
+
   return (
     <View>
       <Image
@@ -17,27 +42,15 @@ const DetailHeader = () => {
       />
 
       <Title size="md" style={styles.title}>
-        Pantai Ampenan
+        {destination?.name}
       </Title>
       <Rating rating={5} size={22} />
-      <TextWithIcon icon="globe" text="Provinsi NTB" />
-      <TextWithIcon icon="business" text="Kota Mataram" />
+      <TextWithIcon icon="globe" text={destination?.province} />
+      <TextWithIcon icon="business" text={destination?.city} />
       <Title size="sm" style={styles.title}>
         Tentang destinasi
       </Title>
-      <Subtitle size="sm">
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Expedita
-        necessitatibus temporibus, inventore ullam quidem omnis nam ipsam culpa
-        possimus corrupti. Tempore aliquid fuga minima nisi quam, laboriosam
-        debitis qui officiis odio porro magni praesentium provident sequi
-        temporibus fugit eaque fugiat magnam delectus tenetur corrupti officia,
-        neque dolorem? Natus quam iure vero blanditiis quo minus sit tempore
-        assumenda qui, molestiae accusamus facere eveniet nulla dicta earum
-        mollitia corporis illum iste modi minima asperiores id impedit similique
-        dolorum? Modi cum facilis optio architecto sequi facere porro
-        praesentium repudiandae error saepe aliquid nisi, dolorum ut itaque
-        deserunt vero dolores alias nostrum? Nesciunt, optio?
-      </Subtitle>
+      <Subtitle size="sm">{destination?.description}</Subtitle>
       <CarouselCards />
     </View>
   );
@@ -50,5 +63,9 @@ const styles = StyleSheet.create({
   title: {
     marginTop: 20,
     marginBottom: 13,
+  },
+  text: {
+    marginHorizontal: 20,
+    marginTop: 20,
   },
 });

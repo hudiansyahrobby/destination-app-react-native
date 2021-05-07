@@ -1,0 +1,11 @@
+{
+    "VSCodeCounter.exclude": [
+        "**/.gitignore",
+        "**/.vscode/**",
+        "**/.node_modules/**"
+    ],
+    "files.exclude": {
+        "**/android": true,
+        "**/ios": true
+    }
+}

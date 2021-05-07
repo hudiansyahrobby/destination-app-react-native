@@ -17,8 +17,6 @@ const Rating: React.FC<RatingProps> = (
     ...styles[position],
     ...otherStyle,
   };
-  console.log(containerStyle);
-  console.log(otherStyle);
   return (
     <View style={containerStyle}>
       <AirbnbRating

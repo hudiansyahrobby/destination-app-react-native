@@ -2,11 +2,14 @@ import { useNavigation } from '@react-navigation/core';
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Card, Text } from 'react-native-elements';
+import { IDestination } from '../../../types/DestinationType';
 import Rating from '../../atom/Rating';
 
-interface DestinationCardProps {}
+interface DestinationCardProps {
+  destination: IDestination;
+}
 
-const DestinationCard: React.FC<DestinationCardProps> = ({}) => {
+const DestinationCard: React.FC<DestinationCardProps> = ({ destination }) => {
   const navigation = useNavigation();
 
   return (
@@ -20,13 +23,16 @@ const DestinationCard: React.FC<DestinationCardProps> = ({}) => {
       />
       <Card.Title
         style={styles.title}
-        onPress={() => navigation.navigate('Detail')}>
-        Pantai Ampenan
+        onPress={() =>
+          navigation.navigate('Detail', {
+            itemId: destination.id,
+          })
+        }>
+        {destination?.name}
       </Card.Title>
       <Rating rating={5} />
       <Text style={styles.description}>
-        The idea with React Native Elements is more about component structure
-        than actual design.
+        {destination?.description?.substring(0, 149)}
       </Text>
     </Card>
   );

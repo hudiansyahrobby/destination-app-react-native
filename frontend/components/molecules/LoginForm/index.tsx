@@ -6,8 +6,24 @@ import { Text } from 'react-native-elements';
 import { SimpleButton } from '../../atom/Button';
 import { StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
+import useLogin from '../../../hooks/AuthHooks/useLogin';
 
 const LoginForm = () => {
+  const [login, setLogin] = React.useState({
+    email: '',
+    password: '',
+  });
+
+  const onInputChange = (inputName: string, inputValue: string) => {
+    setLogin({ ...login, [inputName]: inputValue });
+  };
+
+  const { data, error, isLoading, mutateAsync } = useLogin();
+
+  const onSubmit = async () => {
+    await mutateAsync(login);
+  };
+
   const navigation = useNavigation();
 
   return (
@@ -16,12 +32,14 @@ const LoginForm = () => {
         label="Email Address"
         keyboardType="email-address"
         placeholder="Email Address"
+        onChangeText={(value) => onInputChange('email', value)}
         leftIcon={<Ionicons name="mail" size={24} color={GRAY_COLOR} />}
       />
 
       <TextInput
         label="Password"
         placeholder="Password"
+        onChangeText={(value) => onInputChange('password', value)}
         secureTextEntry
         leftIcon={<Ionicons name="lock-closed" size={24} color={GRAY_COLOR} />}
         rightIcon={<Ionicons name="eye" size={24} color={GRAY_COLOR} />}
@@ -31,7 +49,7 @@ const LoginForm = () => {
         onPress={() => navigation.navigate('ForgetPassword')}>
         Lupa Password ?
       </Text>
-      <SimpleButton title="Masuk Akun" />
+      <SimpleButton title="Masuk Akun" onPress={onSubmit} />
     </>
   );
 };

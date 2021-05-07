@@ -1,11 +1,9 @@
 import axios from 'axios';
-import { API_BASE } from '@env';
 
 const fetchClient = () => {
-  // Create instance
   let instance = axios.create({
-    baseURL: API_BASE,
-    withCredentials: true,
+    baseURL: 'http://192.168.1.15:8080/api/v1',
+    // withCredentials: true,
   });
 
   return instance;

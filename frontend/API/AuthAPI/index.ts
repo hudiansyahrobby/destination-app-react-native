@@ -1,19 +1,28 @@
+import { IUser } from '../../types/UserType';
 import axios from '../axios';
 
-const signup = async () => {
-  await axios.post('/signup');
+const signup = async (registerData: IUser) => {
+  await axios.post('/auth/firebase-register', registerData);
 };
 
-const login = async () => {
-  await axios.post('/login');
+const login = async (loginData: Pick<IUser, 'email' | 'password'>) => {
+  await axios.post('/auth/firebase-login', loginData);
+};
+
+const loginGoogle = async () => {
+  await axios.post('/auth/google-login');
+};
+
+const loginFacebook = async () => {
+  await axios.post('/auth/facebook-login');
 };
 
 const refreshToken = async () => {
-  await axios.post('/refresh-token');
+  await axios.post('/auth/refresh-token');
 };
 
 const logout = async () => {
-  await axios.post('/logout');
+  await axios.post('/auth/logout');
 };
 
-export { signup, login, refreshToken, logout };
+export { signup, login, refreshToken, logout, loginGoogle, loginFacebook };

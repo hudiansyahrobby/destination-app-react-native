@@ -1,14 +1,35 @@
 import React from 'react';
-import { DestinationCard } from '../../molecules/';
 import { StyleSheet, View } from 'react-native';
+import useDestinations from '../../../hooks/DestinationHooks/useDestinations';
+import { IDestination } from '../../../types/DestinationType';
+import { Title } from '../../atom/Typography';
+import { DestinationCard } from '../../molecules/';
 
 const DestinationList = () => {
+  const { data, isLoading, isError } = useDestinations();
+
+  if (isLoading) {
+    return (
+      <View style={styles.text}>
+        <Title size="sm">Loading...</Title>
+      </View>
+    );
+  }
+
+  if (isError) {
+    return (
+      <View style={styles.text}>
+        <Title size="sm">Loading...</Title>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
-      {[1, 2, 3, 4, 5].map(() => {
+      {(data as any).map((destination: IDestination) => {
         return (
           <View style={styles.child}>
-            <DestinationCard />
+            <DestinationCard destination={destination} />
           </View>
         );
       })}
@@ -27,5 +48,9 @@ const styles = StyleSheet.create({
   },
   child: {
     width: '50%',
+  },
+  text: {
+    marginHorizontal: 20,
+    marginTop: 20,
   },
 });
