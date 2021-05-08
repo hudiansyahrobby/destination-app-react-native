@@ -5,6 +5,7 @@ import useDestinations from '../../../hooks/DestinationHooks/useDestinations';
 import useUsers from '../../../hooks/UserHooks/useUsers';
 import { StyleSheet, View } from 'react-native';
 import { Title } from '../../atom/Typography';
+import { useSelector } from 'react-redux';
 
 const AdminDashboard = () => {
   const {
@@ -12,6 +13,8 @@ const AdminDashboard = () => {
     isLoading: isDestinationLoading,
     isError: isDestinationError,
   } = useDestinations();
+
+  const { user } = useSelector((state: any) => state.user);
 
   const {
     data: users,
@@ -34,17 +37,21 @@ const AdminDashboard = () => {
       </View>
     );
   }
-  console.log('USERS', users);
   const totalDestination = destinations.meta.count;
   const totalUsers = users.meta.count;
 
   return (
     <>
-      <WelcomeCard name="Robby Hudiansyah" />
-      <ItemList title={`${totalUsers} Pengguna Terdaftar`} goto="UserList" />
+      <WelcomeCard name={user?.displayName} />
+      <ItemList
+        title={`${totalUsers} Pengguna Terdaftar`}
+        goto="UserList"
+        icon="person"
+      />
       <ItemList
         title={`${totalDestination} Jumlah Destinasi`}
         goto="DestinationList"
+        icon="location"
       />
     </>
   );

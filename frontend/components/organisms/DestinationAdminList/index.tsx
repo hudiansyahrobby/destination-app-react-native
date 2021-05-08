@@ -10,8 +10,8 @@ import Lists from '../../molecules/Lists';
 const DestinationAdminList = () => {
   const { data, isLoading, isError } = useDestinations();
 
-  const destinations: IDestination[] = data;
-
+  const destinations: IDestination[] = data.data;
+  console.log('DEST', destinations);
   if (isLoading) {
     return (
       <View style={styles.text}>

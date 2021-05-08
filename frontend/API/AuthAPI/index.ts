@@ -6,7 +6,8 @@ const signup = async (registerData: IUser) => {
 };
 
 const login = async (loginData: Pick<IUser, 'email' | 'password'>) => {
-  await axios.post('/auth/firebase-login', loginData);
+  const { data } = await axios.post('/auth/firebase-login', loginData);
+  return data.data.user;
 };
 
 const loginGoogle = async () => {

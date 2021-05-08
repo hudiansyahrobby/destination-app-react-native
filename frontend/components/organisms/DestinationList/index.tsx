@@ -29,7 +29,7 @@ const DestinationList = () => {
       {(data.data as any).map((destination: IDestination) => {
         return (
           <View style={styles.child}>
-            <DestinationCard destination={destination} />
+            <DestinationCard destination={destination} key={destination.id} />
           </View>
         );
       })}

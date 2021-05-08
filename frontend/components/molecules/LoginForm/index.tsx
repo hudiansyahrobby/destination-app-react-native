@@ -18,7 +18,7 @@ const LoginForm = () => {
     setLogin({ ...login, [inputName]: inputValue });
   };
 
-  const { data, error, isLoading, mutateAsync } = useLogin();
+  const { isError, error, isLoading, mutateAsync } = useLogin();
 
   const onSubmit = async () => {
     await mutateAsync(login);
@@ -26,8 +26,11 @@ const LoginForm = () => {
 
   const navigation = useNavigation();
 
+  const loginError: any = error;
+  console.log(loginError);
   return (
     <>
+      {isError && <Text>Error</Text>}
       <TextInput
         label="Email Address"
         keyboardType="email-address"
@@ -49,7 +52,7 @@ const LoginForm = () => {
         onPress={() => navigation.navigate('ForgetPassword')}>
         Lupa Password ?
       </Text>
-      <SimpleButton title="Masuk Akun" onPress={onSubmit} />
+      <SimpleButton title="Masuk Akun" onPress={onSubmit} loading={isLoading} />
     </>
   );
 };

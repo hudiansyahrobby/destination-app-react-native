@@ -2,9 +2,9 @@ import { useScrollToTop } from '@react-navigation/native';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import Profile from '../../organisms/Profile';
+import ProfileBody from '../../organisms/Profile';
 
-const Home = () => {
+const Profile = () => {
   const ref = React.useRef(null);
 
   useScrollToTop(ref);
@@ -12,13 +12,13 @@ const Home = () => {
   return (
     <ScrollView contentContainerStyle={styles.scrollView} ref={ref}>
       <View style={styles.container}>
-        <Profile />
+        <ProfileBody />
       </View>
     </ScrollView>
   );
 };
 
-export default Home;
+export default Profile;
 
 const styles = StyleSheet.create({
   container: {

@@ -13,7 +13,7 @@ const Lists: React.FC<ListsProps> = ({ destinations }) => {
 
   return (
     <View style={styles.container}>
-      {destinations.map((destination, index) => (
+      {destinations?.map((destination, index) => (
         <ListItem
           key={index}
           bottomDivider

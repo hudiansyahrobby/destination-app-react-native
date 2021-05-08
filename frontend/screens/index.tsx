@@ -11,3 +11,4 @@ export { default as EditProfileScreen } from './EditProfileScreen';
 export { default as AdminDashboardScreen } from './AdminDashboardScreen';
 export { default as UserListScreen } from './UserListScreen';
 export { default as DestinationListScreen } from './DestinationListScreen';
+export { default as MyProfileScreen } from './MyProfileScreen';

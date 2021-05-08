@@ -9,9 +9,10 @@ import { PRIMARY_COLOR } from '../../../constants/color';
 interface ItemListProps {
   title: string;
   goto: string;
+  icon: string;
 }
 
-const ItemList: React.FC<ItemListProps> = ({ title, goto }) => {
+const ItemList: React.FC<ItemListProps> = ({ title, goto, icon }) => {
   const navigation = useNavigation();
 
   return (
@@ -19,7 +20,7 @@ const ItemList: React.FC<ItemListProps> = ({ title, goto }) => {
       Component={TouchableScale}
       containerStyle={styles.container}
       onPress={() => navigation.navigate(goto)}>
-      <Ionicons name="ios-bar-chart-outline" size={40} color={PRIMARY_COLOR} />
+      <Ionicons name={icon} size={40} color={PRIMARY_COLOR} />
       <ListItem.Content>
         <ListItem.Title style={styles.title}>{title}</ListItem.Title>
       </ListItem.Content>

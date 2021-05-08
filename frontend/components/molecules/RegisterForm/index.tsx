@@ -4,6 +4,7 @@ import { TextInput } from '../../atom/Form';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { SimpleButton } from '../../atom/Button';
 import useSignup from '../../../hooks/AuthHooks/useSignup';
+import { Text } from 'react-native-elements';
 
 const RegisterForm = () => {
   const [register, setRegister] = useState({
@@ -17,14 +18,17 @@ const RegisterForm = () => {
     setRegister({ ...register, [inputName]: inputValue });
   };
 
-  const { data, error, isLoading, mutateAsync } = useSignup();
+  const { error, isError, isLoading, mutateAsync } = useSignup();
 
   const onSubmit = async () => {
     await mutateAsync(register);
   };
 
+  const signupError: any = error;
+  console.log(signupError);
   return (
     <>
+      {isError && <Text>Error</Text>}
       <TextInput
         label="Nama"
         value={register.displayName}
@@ -61,7 +65,7 @@ const RegisterForm = () => {
         leftIcon={<Ionicons name="lock-closed" size={24} color={GRAY_COLOR} />}
         rightIcon={<Ionicons name="eye" size={24} color={GRAY_COLOR} />}
       />
-      <SimpleButton title="Buat Akun" onPress={onSubmit} />
+      <SimpleButton title="Buat Akun" onPress={onSubmit} loading={isLoading} />
     </>
   );
 };

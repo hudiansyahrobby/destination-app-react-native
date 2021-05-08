@@ -8,9 +8,9 @@ import { PRIMARY_COLOR } from '../../../constants/color';
 const SettingBody = () => {
   const list = [
     {
-      title: 'Your Profile',
+      title: 'My Profile',
       icon: 'person-circle-outline',
-      navigation: 'Profile',
+      navigation: 'MyProfile',
     },
     {
       title: 'Edit Profile',

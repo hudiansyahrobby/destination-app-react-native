@@ -11,3 +11,4 @@ export { default as EditProfile } from './EditProfile';
 export { default as AdminDashboard } from './AdminDashboard';
 export { default as UserList } from './UserList';
 export { default as DestinationList } from './DestinationList';
+export { default as MyProfile } from './MyProfile';

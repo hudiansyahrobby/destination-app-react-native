@@ -12,6 +12,4 @@ export type IUserProfile = IUser & {
   country?: string;
   createdAt: Date;
   updatedAt: Date;
-  username?: string;
-  phoneNumber?: string;
 };

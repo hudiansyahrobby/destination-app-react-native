@@ -9,6 +9,7 @@ import {
   AdminDashboardScreen,
   UserListScreen,
   DestinationListScreen,
+  MyProfileScreen,
 } from '../../../screens';
 import { PRIMARY_COLOR } from '../../../constants/color';
 import HeaderRight from '../../../components/atom/HeaderRight';
@@ -36,6 +37,7 @@ const UserStackNavigation = () => {
           title: 'Pengaturan',
         }}
       />
+
       <Stack.Screen
         name="Profile"
         component={ProfileScreen}
@@ -43,6 +45,15 @@ const UserStackNavigation = () => {
           headerRight: () => <HeaderRight text="Logout" />,
         }}
       />
+
+      <Stack.Screen
+        name="MyProfile"
+        component={MyProfileScreen}
+        options={{
+          headerRight: () => <HeaderRight text="Logout" />,
+        }}
+      />
+
       <Stack.Screen
         name="EditProfile"
         component={EditProfileScreen}
