@@ -53,6 +53,12 @@ const AdminDashboard = () => {
         goto="DestinationList"
         icon="location"
       />
+
+      <ItemList
+        title="Tambah Destinasi Baru"
+        goto="AddDestination"
+        icon="rocket"
+      />
     </>
   );
 };

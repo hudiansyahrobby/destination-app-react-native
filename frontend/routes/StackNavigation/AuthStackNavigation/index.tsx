@@ -56,12 +56,6 @@ const AuthStackNavigation = () => {
         component={ForgetPasswordScreen}
         options={{
           title: 'Reset Password',
-          headerRight: () => (
-            <HeaderRight
-              text="Login"
-              onPress={() => navigation.navigate('Login')}
-            />
-          ),
         }}
       />
     </Stack.Navigator>

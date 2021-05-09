@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
     paddingHorizontal: 30,
-    paddingTop: 60,
+    paddingTop: 40,
     minHeight: '100%',
   },
   scrollView: { flexGrow: 1 },

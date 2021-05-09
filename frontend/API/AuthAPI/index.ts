@@ -23,7 +23,8 @@ const refreshToken = async () => {
 };
 
 const logout = async () => {
-  await axios.post('/auth/logout');
+  const { data } = await axios.post('/auth/logout');
+  return data;
 };
 
 export { signup, login, refreshToken, logout, loginGoogle, loginFacebook };

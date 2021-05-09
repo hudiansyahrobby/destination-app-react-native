@@ -11,7 +11,7 @@ const DestinationAdminList = () => {
   const { data, isLoading, isError } = useDestinations();
 
   const destinations: IDestination[] = data.data;
-  console.log('DEST', destinations);
+
   if (isLoading) {
     return (
       <View style={styles.text}>
@@ -27,6 +27,7 @@ const DestinationAdminList = () => {
       </View>
     );
   }
+
   return (
     <>
       <TitleWithSubtitle title="Daftar Destinasi" subtitle="Cari Destinasi" />

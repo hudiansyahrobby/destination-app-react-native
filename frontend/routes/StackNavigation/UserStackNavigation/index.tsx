@@ -10,9 +10,11 @@ import {
   UserListScreen,
   DestinationListScreen,
   MyProfileScreen,
+  AddDestinationScreen,
 } from '../../../screens';
 import { PRIMARY_COLOR } from '../../../constants/color';
 import HeaderRight from '../../../components/atom/HeaderRight';
+import useLogout from '../../../hooks/AuthHooks/useLogout';
 
 const Stack = createStackNavigator();
 
@@ -25,6 +27,12 @@ const screenOptionStyle = {
 };
 
 const UserStackNavigation = () => {
+  const { mutateAsync } = useLogout();
+
+  const onLogout = async () => {
+    await mutateAsync();
+  };
+
   return (
     <Stack.Navigator
       screenOptions={screenOptionStyle}
@@ -33,7 +41,7 @@ const UserStackNavigation = () => {
         name="Setting"
         component={SettingScreen}
         options={{
-          headerRight: () => <HeaderRight text="Logout" />,
+          headerRight: () => <HeaderRight text="Keluar" onPress={onLogout} />,
           title: 'Pengaturan',
         }}
       />
@@ -42,7 +50,7 @@ const UserStackNavigation = () => {
         name="Profile"
         component={ProfileScreen}
         options={{
-          headerRight: () => <HeaderRight text="Logout" />,
+          title: 'Profil',
         }}
       />
 
@@ -50,7 +58,7 @@ const UserStackNavigation = () => {
         name="MyProfile"
         component={MyProfileScreen}
         options={{
-          headerRight: () => <HeaderRight text="Logout" />,
+          headerTitle: 'Profil Saya',
         }}
       />
 
@@ -58,15 +66,15 @@ const UserStackNavigation = () => {
         name="EditProfile"
         component={EditProfileScreen}
         options={{
-          headerTitle: 'Edit Profile',
-          headerRight: () => <HeaderRight text="Logout" />,
+          headerTitle: 'Edit Profil',
         }}
       />
+
       <Stack.Screen
         name="Favorite"
         component={FavoriteScreen}
         options={{
-          headerRight: () => <HeaderRight text="Logout" />,
+          headerTitle: 'Destinasi Favorit',
         }}
       />
 
@@ -75,7 +83,22 @@ const UserStackNavigation = () => {
         component={AdminDashboardScreen}
         options={{
           headerTitle: 'Admin Dashboard',
-          headerRight: () => <HeaderRight text="Logout" />,
+        }}
+      />
+
+      <Stack.Screen
+        name="AddDestination"
+        component={AddDestinationScreen}
+        options={{
+          headerTitle: 'Tambah Destinasi Baru',
+        }}
+      />
+
+      <Stack.Screen
+        name="EditDestination"
+        component={AddDestinationScreen}
+        options={{
+          headerTitle: 'Edit Destinasi',
         }}
       />
 
@@ -84,7 +107,6 @@ const UserStackNavigation = () => {
         component={UserListScreen}
         options={{
           headerTitle: 'User List',
-          headerRight: () => <HeaderRight text="Logout" />,
         }}
       />
 
@@ -93,7 +115,6 @@ const UserStackNavigation = () => {
         component={DestinationListScreen}
         options={{
           headerTitle: 'Destination List',
-          headerRight: () => <HeaderRight text="Logout" />,
         }}
       />
     </Stack.Navigator>

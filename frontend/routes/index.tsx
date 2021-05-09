@@ -6,9 +6,13 @@ import { PRIMARY_COLOR } from '../constants/color';
 import AuthStackNavigation from './StackNavigation/AuthStackNavigation';
 import MainStackNavigation from './StackNavigation/MainStackNavigation';
 import { UserStackNavigation } from './StackNavigation';
+import { useSelector } from 'react-redux';
 
 const Routes = () => {
   const Tab = createBottomTabNavigator();
+
+  const { isLogin } = useSelector((state: any) => state.user);
+
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -36,16 +40,20 @@ const Routes = () => {
           component={MainStackNavigation}
           options={{ title: 'Beranda' }}
         />
-        <Tab.Screen
-          name="Auth"
-          component={AuthStackNavigation}
-          options={{ title: 'Login' }}
-        />
-        <Tab.Screen
-          name="Settings"
-          component={UserStackNavigation}
-          options={{ title: 'Pengaturan' }}
-        />
+        {!isLogin && (
+          <Tab.Screen
+            name="Auth"
+            component={AuthStackNavigation}
+            options={{ title: 'Login' }}
+          />
+        )}
+        {isLogin && (
+          <Tab.Screen
+            name="Settings"
+            component={UserStackNavigation}
+            options={{ title: 'Pengaturan' }}
+          />
+        )}
       </Tab.Navigator>
     </NavigationContainer>
   );

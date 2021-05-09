@@ -6,7 +6,7 @@ import { IUserProfile } from '../../../types/UserType';
 import DividerLine from '../../atom/Divider/DividerLine';
 import HorizontalScroll from '../../atom/HorizontalScroll';
 import { Subtitle, Title } from '../../atom/Typography';
-import { DestinationCard, ProfileCard } from '../../molecules';
+import { ProfileCard } from '../../molecules';
 
 const MyProfile = () => {
   const { user: loggedInUser } = useSelector((state: any) => state.user);
@@ -59,8 +59,10 @@ export default MyProfile;
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 60,
-    marginBottom: 40,
+    paddingTop: 60,
+    paddingBottom: 40,
+    backgroundColor: 'white',
+    minHeight: '100%',
   },
   about: {
     marginHorizontal: 25,

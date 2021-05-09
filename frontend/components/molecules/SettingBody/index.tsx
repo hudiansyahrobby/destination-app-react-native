@@ -27,16 +27,6 @@ const SettingBody = () => {
       icon: 'heart-outline',
       navigation: 'Favorite',
     },
-    {
-      title: 'Rate Us',
-      icon: 'star-outline',
-      navigation: 'Favorite',
-    },
-    {
-      title: 'Logout',
-      icon: 'exit-outline',
-      navigation: 'Login',
-    },
   ];
 
   const navigation = useNavigation();

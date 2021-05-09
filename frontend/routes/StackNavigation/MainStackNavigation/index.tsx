@@ -25,12 +25,7 @@ const MainStackNavigation = () => {
         name="Home"
         component={HomeScreen}
         options={{
-          headerRight: () => (
-            <HeaderRight
-              text="Login"
-              onPress={() => navigation.navigate('Login')}
-            />
-          ),
+          headerTitle: 'Beranda',
         }}
       />
       <Stack.Screen

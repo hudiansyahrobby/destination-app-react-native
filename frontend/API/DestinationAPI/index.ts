@@ -15,9 +15,7 @@ const getAllDestinations = async () => {
 };
 
 const getDestination = async (id: string) => {
-  console.log('ID', id);
   const { data } = await axios.get(`/products/${id}`);
-  console.log('HAHAHA', data.data);
   return data.data;
 };
 

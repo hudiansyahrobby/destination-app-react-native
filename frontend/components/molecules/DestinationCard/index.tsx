@@ -13,7 +13,7 @@ const DestinationCard: React.FC<DestinationCardProps> = ({ destination }) => {
   const navigation = useNavigation();
 
   return (
-    <Card containerStyle={styles.card}>
+    <Card containerStyle={styles.card} key={destination.id}>
       <Card.Image
         style={styles.image}
         source={{

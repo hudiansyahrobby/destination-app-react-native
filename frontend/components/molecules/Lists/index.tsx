@@ -13,9 +13,9 @@ const Lists: React.FC<ListsProps> = ({ destinations }) => {
 
   return (
     <View style={styles.container}>
-      {destinations?.map((destination, index) => (
+      {destinations?.map((destination) => (
         <ListItem
-          key={index}
+          key={destination.id}
           bottomDivider
           topDivider
           onPress={() =>

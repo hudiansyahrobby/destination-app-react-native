@@ -1,22 +1,32 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { useSelector } from 'react-redux';
 import { PRIMARY_COLOR } from '../../../constants/color';
+import { capitalizeEachWord } from '../../../helpers/capitalizeEachWord';
+import { IUserProfile } from '../../../types/UserType';
 import Avatar from '../../atom/Avatar';
 import { Subtitle, Title } from '../../atom/Typography';
 
-const SettingHeader = () => {
-  const { user } = useSelector((state: any) => state.user);
+interface SettingHeaderProps {
+  user: IUserProfile;
+}
 
+const SettingHeader: React.FC<SettingHeaderProps> = ({ user }) => {
   return (
     <View style={styles.container}>
-      <Avatar title={user?.displayName[0].toUpperCase()} size={100} />
-      <View>
+      <Avatar
+        title={user?.displayName[0]?.toUpperCase()}
+        size={100}
+        placeholderStyle={styles.imagePlaceholder}
+        avatarStyle={styles.avatar}
+        rounded
+        source={{ uri: user.photoURL }}
+      />
+      <View style={styles.name}>
         <Title size="md" style={{ color: PRIMARY_COLOR }}>
-          {user?.displayName}
+          {capitalizeEachWord(user?.displayName)}
         </Title>
 
-        <Subtitle size="sm">{user?.country || user?.email}</Subtitle>
+        <Subtitle size="sm">{user?.email}</Subtitle>
       </View>
     </View>
   );
@@ -28,8 +38,17 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     alignItems: 'flex-end',
     marginBottom: 20,
   },
+  name: {
+    marginLeft: 20,
+  },
+  avatar: {
+    borderWidth: 6,
+    borderColor: '#D1D5DB',
+    borderRadius: 100,
+  },
+  imagePlaceholder: { backgroundColor: '#6366F1' },
 });

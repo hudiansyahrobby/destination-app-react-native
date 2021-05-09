@@ -6,7 +6,7 @@ import { StyleSheet } from 'react-native';
 const EditProfile = () => {
   return (
     <>
-      <Title h1Style={styles.title}>Edit Profile</Title>
+      <Title h1Style={styles.title}>Edit Profil</Title>
       <EditProfileForm />
     </>
   );

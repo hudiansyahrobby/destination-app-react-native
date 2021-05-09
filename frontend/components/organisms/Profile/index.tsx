@@ -6,7 +6,7 @@ import { IUserProfile } from '../../../types/UserType';
 import DividerLine from '../../atom/Divider/DividerLine';
 import HorizontalScroll from '../../atom/HorizontalScroll';
 import { Subtitle, Title } from '../../atom/Typography';
-import { DestinationCard, ProfileCard } from '../../molecules';
+import { ProfileCard } from '../../molecules';
 
 const Profile = () => {
   const { params } = useRoute();
@@ -34,7 +34,11 @@ const Profile = () => {
 
   return (
     <View style={styles.container}>
-      <ProfileCard name={user.displayName} country={user.country} />
+      <ProfileCard
+        name={user.displayName}
+        country={user.country}
+        email={user.email}
+      />
       <DividerLine />
       <View style={styles.about}>
         <Title size="md">Tentang Saya</Title>

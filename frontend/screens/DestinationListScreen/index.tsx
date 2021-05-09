@@ -6,7 +6,7 @@ const DestinationListScreen = () => {
   const ref = React.useRef(null);
 
   useScrollToTop(ref);
-  console.log('HAHAHAH');
+
   return <DestinationList />;
 };
 
