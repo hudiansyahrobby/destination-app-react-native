@@ -1,4 +1,3 @@
-import { updatedProfileData } from '../../types/UserType';
 import axios from '../axios';
 
 const searchUsers = async (keyword: string) => {

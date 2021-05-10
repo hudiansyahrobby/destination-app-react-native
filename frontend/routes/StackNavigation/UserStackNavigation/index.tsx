@@ -11,6 +11,9 @@ import {
   DestinationListScreen,
   MyProfileScreen,
   AddDestinationScreen,
+  AddCategoryScreen,
+  EditCategoryScreen,
+  CategoryListScreen,
 } from '../../../screens';
 import { PRIMARY_COLOR } from '../../../constants/color';
 import HeaderRight from '../../../components/atom/HeaderRight';
@@ -103,10 +106,34 @@ const UserStackNavigation = () => {
       />
 
       <Stack.Screen
+        name="AddCategory"
+        component={AddCategoryScreen}
+        options={{
+          headerTitle: 'Tambah Kategori Baru',
+        }}
+      />
+
+      <Stack.Screen
+        name="EditCategory"
+        component={EditCategoryScreen}
+        options={{
+          headerTitle: 'Edit Kategori',
+        }}
+      />
+
+      <Stack.Screen
+        name="CategoryList"
+        component={CategoryListScreen}
+        options={{
+          headerTitle: 'Daftar Kategori',
+        }}
+      />
+
+      <Stack.Screen
         name="UserList"
         component={UserListScreen}
         options={{
-          headerTitle: 'User List',
+          headerTitle: 'Daftar Pengguna',
         }}
       />
 
@@ -114,7 +141,7 @@ const UserStackNavigation = () => {
         name="DestinationList"
         component={DestinationListScreen}
         options={{
-          headerTitle: 'Destination List',
+          headerTitle: 'Daftar Destinasi',
         }}
       />
     </Stack.Navigator>

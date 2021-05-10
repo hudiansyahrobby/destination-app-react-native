@@ -12,3 +12,7 @@ export { default as AdminDashboardScreen } from './AdminDashboardScreen';
 export { default as UserListScreen } from './UserListScreen';
 export { default as DestinationListScreen } from './DestinationListScreen';
 export { default as MyProfileScreen } from './MyProfileScreen';
+export { default as EditDestinationScreen } from './EditDestinationScreen';
+export { default as AddCategoryScreen } from './AddCategoryScreen';
+export { default as EditCategoryScreen } from './EditCategoryScreen';
+export { default as CategoryListScreen } from './CategoryListScreen';

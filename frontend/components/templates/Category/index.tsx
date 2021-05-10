@@ -2,9 +2,9 @@ import { useScrollToTop } from '@react-navigation/native';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { AdminDashboard as Admin } from '../../organisms';
+import { Category as CategoryForm } from '../../organisms/';
 
-const AdminDashboard = () => {
+const Category = () => {
   const ref = React.useRef(null);
 
   useScrollToTop(ref);
@@ -12,19 +12,19 @@ const AdminDashboard = () => {
   return (
     <ScrollView contentContainerStyle={styles.scrollView} ref={ref}>
       <View style={styles.container}>
-        <Admin />
+        <CategoryForm />
       </View>
     </ScrollView>
   );
 };
 
-export default AdminDashboard;
+export default Category;
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
     paddingHorizontal: 30,
-    paddingVertical: 40,
+    paddingTop: 60,
     minHeight: '100%',
   },
   scrollView: { flexGrow: 1 },

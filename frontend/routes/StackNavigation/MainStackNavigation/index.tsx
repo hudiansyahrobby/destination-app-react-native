@@ -1,10 +1,8 @@
-import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
-
-import { DetailScreen, HomeScreen } from '../../../screens';
-import { PRIMARY_COLOR } from '../../../constants/color';
-import HeaderRight from '../../../components/atom/HeaderRight';
 import { useNavigation } from '@react-navigation/core';
+import { createStackNavigator } from '@react-navigation/stack';
+import React from 'react';
+import { PRIMARY_COLOR } from '../../../constants/color';
+import { DetailScreen, HomeScreen } from '../../../screens';
 
 const Stack = createStackNavigator();
 
@@ -28,18 +26,7 @@ const MainStackNavigation = () => {
           headerTitle: 'Beranda',
         }}
       />
-      <Stack.Screen
-        name="Detail"
-        component={DetailScreen}
-        options={{
-          headerRight: () => (
-            <HeaderRight
-              text="Login"
-              onPress={() => navigation.navigate('Login')}
-            />
-          ),
-        }}
-      />
+      <Stack.Screen name="Detail" component={DetailScreen} />
     </Stack.Navigator>
   );
 };

@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     borderColor: PRIMARY_COLOR,
     borderWidth: 1,
     marginHorizontal: 10,
-    marginVertical: 15,
+    marginVertical: 10,
   },
   title: {
     fontWeight: '700',

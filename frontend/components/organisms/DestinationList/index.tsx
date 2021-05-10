@@ -19,7 +19,7 @@ const DestinationList = () => {
   if (isError) {
     return (
       <View style={styles.text}>
-        <Title size="sm">Loading..</Title>
+        <Title size="sm">Error..</Title>
       </View>
     );
   }
@@ -28,8 +28,8 @@ const DestinationList = () => {
     <View style={styles.container}>
       {(data.data as any).map((destination: IDestination) => {
         return (
-          <View style={styles.child}>
-            <DestinationCard destination={destination} key={destination.id} />
+          <View style={styles.child} key={destination.id}>
+            <DestinationCard destination={destination} />
           </View>
         );
       })}

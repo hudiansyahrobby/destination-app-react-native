@@ -1,7 +1,7 @@
 import { IDestination } from '../../types/DestinationType';
 import axios from '../axios';
 
-const addDestination = async (destination: IDestination) => {
+const addDestination = async (destination: FormData) => {
   await axios.post('/products', destination);
 };
 
@@ -19,8 +19,9 @@ const getDestination = async (id: string) => {
   return data.data;
 };
 
-const editDestination = async (id: string, destination: IDestination) => {
-  await axios.put(`/products/${id}`, destination);
+const editDestination = async (id: any, ...destination: any) => {
+  const { data } = await axios.put(`/products/${id}`, destination);
+  return data.data;
 };
 
 const deleteDestination = async (id: string) => {

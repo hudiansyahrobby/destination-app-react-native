@@ -5,7 +5,6 @@ export type IDestination = {
   province: string;
   description: string;
   categoryId: string;
-  categoryName: string;
   images: Array<string>;
   createdAt: Date;
   updatedAt: Date;

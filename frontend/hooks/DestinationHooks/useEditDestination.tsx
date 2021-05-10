@@ -1,9 +1,17 @@
-import { useMutation } from 'react-query';
+import { useNavigation } from '@react-navigation/core';
+import { QueryClient, useMutation } from 'react-query';
 import { editDestination } from '../../API/DestinationAPI';
-import { IDestination } from '../../types/DestinationType';
 
-const useEditDestination = (id: string, destination: IDestination) => {
-  return useMutation(() => editDestination(id, destination));
+const useEditDestination = () => {
+  const queryClient = new QueryClient();
+  const navigation = useNavigation();
+
+  return useMutation(editDestination, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('destination');
+      navigation.navigate('DestinationList');
+    },
+  });
 };
 
 export default useEditDestination;

@@ -6,6 +6,7 @@ import useUsers from '../../../hooks/UserHooks/useUsers';
 import { StyleSheet, View } from 'react-native';
 import { Title } from '../../atom/Typography';
 import { useSelector } from 'react-redux';
+import useCategories from '../../../hooks/CategoryHooks/useCategories';
 
 const AdminDashboard = () => {
   const {
@@ -22,7 +23,13 @@ const AdminDashboard = () => {
     isError: isUserError,
   } = useUsers();
 
-  if (isDestinationLoading || isUserLoading) {
+  const {
+    data: categories,
+    isLoading: isCategoryLoading,
+    isError: isCategoryError,
+  } = useCategories();
+
+  if (isDestinationLoading || isUserLoading || isCategoryLoading) {
     return (
       <View style={styles.text}>
         <Title size="sm">Loading...</Title>
@@ -30,7 +37,7 @@ const AdminDashboard = () => {
     );
   }
 
-  if (isDestinationError || isUserError) {
+  if (isDestinationError || isUserError || isCategoryError) {
     return (
       <View style={styles.text}>
         <Title size="sm">Error</Title>
@@ -39,6 +46,7 @@ const AdminDashboard = () => {
   }
   const totalDestination = destinations.meta.count;
   const totalUsers = users.meta.count;
+  const totalCategories = categories?.length;
 
   return (
     <>
@@ -48,6 +56,7 @@ const AdminDashboard = () => {
         goto="UserList"
         icon="person"
       />
+
       <ItemList
         title={`${totalDestination} Jumlah Destinasi`}
         goto="DestinationList"
@@ -55,9 +64,21 @@ const AdminDashboard = () => {
       />
 
       <ItemList
+        title={`${totalCategories} Jumlah Kategori`}
+        goto="CategoryList"
+        icon="apps"
+      />
+
+      <ItemList
         title="Tambah Destinasi Baru"
         goto="AddDestination"
         icon="rocket"
+      />
+
+      <ItemList
+        title="Tambah Kategori Baru"
+        goto="AddCategory"
+        icon="aperture"
       />
     </>
   );

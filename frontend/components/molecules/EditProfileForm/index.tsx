@@ -7,10 +7,9 @@ import {
   ImagePickerResponse,
 } from 'react-native-image-picker';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { GRAY_COLOR, PRIMARY_COLOR } from '../../../constants/color';
+import { GRAY_COLOR } from '../../../constants/color';
 import useEditMyProfile from '../../../hooks/UserHooks/useEditMyProfile';
 import useMyProfile from '../../../hooks/UserHooks/useMyProfile';
-import style from '../../../storybook/stories/CenterView/style';
 import { SimpleButton } from '../../atom/Button';
 import { TextInput } from '../../atom/Form';
 import { Title } from '../../atom/Typography';
