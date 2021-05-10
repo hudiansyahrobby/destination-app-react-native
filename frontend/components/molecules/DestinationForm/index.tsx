@@ -110,7 +110,6 @@ const DestinationForm = () => {
       />
 
       <TextInput
-        autoFocus
         label="Provinsi"
         placeholder="Provinsi"
         onChangeText={(value) => onInputChange('province', value)}
@@ -118,7 +117,6 @@ const DestinationForm = () => {
       />
 
       <TextInput
-        autoFocus
         label="Kota"
         placeholder="Kota"
         onChangeText={(value) => onInputChange('city', value)}

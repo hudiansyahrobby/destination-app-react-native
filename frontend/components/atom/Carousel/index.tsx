@@ -40,7 +40,7 @@ const CarouselCards = () => {
         renderItem={CarouselCardItem}
         sliderWidth={SLIDER_WIDTH}
         itemWidth={ITEM_WIDTH}
-        onSnapToItem={indexItem => setIndex(indexItem)}
+        onSnapToItem={(indexItem) => setIndex(indexItem)}
         useScrollView={true}
         loop={true}
       />

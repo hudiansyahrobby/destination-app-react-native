@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/core';
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Card, Text } from 'react-native-elements';
+import { capitalizeEachWord } from '../../../helpers/capitalizeEachWord';
 import { IDestination } from '../../../types/DestinationType';
 import Rating from '../../atom/Rating';
 
@@ -28,7 +29,7 @@ const DestinationCard: React.FC<DestinationCardProps> = ({ destination }) => {
             itemId: destination.id,
           })
         }>
-        {destination?.name}
+        {capitalizeEachWord(destination?.name)}
       </Card.Title>
       <Rating rating={5} />
       <Text style={styles.description}>
@@ -46,6 +47,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     borderRadius: 10,
     maxWidth: '100%',
+    height: 380,
   },
   title: {
     textAlign: 'left',
