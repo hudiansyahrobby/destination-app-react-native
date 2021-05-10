@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/core';
 import { useMutation } from 'react-query';
 import { useDispatch } from 'react-redux';

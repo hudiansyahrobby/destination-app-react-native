@@ -1,12 +1,12 @@
 import React from 'react';
+import { LogBox } from 'react-native';
 import { ThemeProvider } from 'react-native-elements';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { Provider } from 'react-redux';
+import { persistStore } from 'redux-persist';
+import { PersistGate } from 'redux-persist/integration/react';
 import { store } from './redux/stores';
 import Routes from './routes/index';
-import { Provider } from 'react-redux';
-import { LogBox } from 'react-native';
-import { PersistGate } from 'redux-persist/integration/react';
-import { persistStore } from 'redux-persist';
 
 LogBox.ignoreLogs(['Setting a timer']);
 
