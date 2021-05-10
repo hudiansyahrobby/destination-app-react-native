@@ -13,6 +13,8 @@ import { ICategory } from '../../../types/CategoryType';
 import { SimpleButton, UploadButton } from '../../atom/Button';
 import { Select, TextInput } from '../../atom/Form';
 import { Title } from '../../atom/Typography';
+import Spinner from 'react-native-spinkit';
+import Loading from '../../atom/Loading';
 
 const DestinationForm = () => {
   const [image, setImage] = React.useState<ImagePickerResponse>({});
@@ -76,11 +78,7 @@ const DestinationForm = () => {
   };
 
   if (isCategoriesLoading) {
-    return (
-      <View style={styles.text}>
-        <Title size="sm">Loading...</Title>
-      </View>
-    );
+    return <Loading />;
   }
 
   if (isCategoriesError) {

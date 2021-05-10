@@ -7,6 +7,7 @@ import useCategory from '../../../hooks/CategoryHooks/useCategory';
 import useEditCategory from '../../../hooks/CategoryHooks/useEditCategory';
 import { SimpleButton } from '../../atom/Button';
 import { TextInput } from '../../atom/Form';
+import Loading from '../../atom/Loading';
 import { Title } from '../../atom/Typography';
 
 const EditCategoryForm = () => {
@@ -49,11 +50,7 @@ const EditCategoryForm = () => {
   };
 
   if (isCategoryLoading) {
-    return (
-      <View style={styles.text}>
-        <Title size="sm">Loading...</Title>
-      </View>
-    );
+    return <Loading />;
   }
 
   if (isCategoryError) {

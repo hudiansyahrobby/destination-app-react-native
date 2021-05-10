@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import useUsers from '../../../hooks/UserHooks/useUsers';
+import Loading from '../../atom/Loading';
 import SearchItem from '../../atom/SearchItem';
 import { Title } from '../../atom/Typography';
 import { TitleWithSubtitle } from '../../molecules';
@@ -11,17 +12,13 @@ const UserList = () => {
   const users = data.data;
 
   if (isLoading) {
-    return (
-      <View style={styles.text}>
-        <Title size="sm">Loading...</Title>
-      </View>
-    );
+    return <Loading />;
   }
 
   if (isError) {
     return (
       <View style={styles.text}>
-        <Title size="sm">Loading..</Title>
+        <Title size="sm">Error..</Title>
       </View>
     );
   }

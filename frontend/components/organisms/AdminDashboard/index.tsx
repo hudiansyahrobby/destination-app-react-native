@@ -7,6 +7,9 @@ import { StyleSheet, View } from 'react-native';
 import { Title } from '../../atom/Typography';
 import { useSelector } from 'react-redux';
 import useCategories from '../../../hooks/CategoryHooks/useCategories';
+import Spinner from 'react-native-spinkit';
+import { PRIMARY_COLOR } from '../../../constants/color';
+import Loading from '../../atom/Loading';
 
 const AdminDashboard = () => {
   const {
@@ -30,19 +33,11 @@ const AdminDashboard = () => {
   } = useCategories();
 
   if (isDestinationLoading || isUserLoading || isCategoryLoading) {
-    return (
-      <View style={styles.text}>
-        <Title size="sm">Loading...</Title>
-      </View>
-    );
+    return <Loading />;
   }
 
   if (isDestinationError || isUserError || isCategoryError) {
-    return (
-      <View style={styles.text}>
-        <Title size="sm">Error</Title>
-      </View>
-    );
+    return <Title>Error</Title>;
   }
   const totalDestination = destinations.meta.count;
   const totalUsers = users.meta.count;

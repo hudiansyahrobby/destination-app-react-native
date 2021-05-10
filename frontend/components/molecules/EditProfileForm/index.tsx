@@ -12,6 +12,7 @@ import useEditMyProfile from '../../../hooks/UserHooks/useEditMyProfile';
 import useMyProfile from '../../../hooks/UserHooks/useMyProfile';
 import { SimpleButton } from '../../atom/Button';
 import { TextInput } from '../../atom/Form';
+import Loading from '../../atom/Loading';
 import { Title } from '../../atom/Typography';
 
 const EditProfileForm = () => {
@@ -78,11 +79,7 @@ const EditProfileForm = () => {
   };
 
   if (isMyProfileLoading) {
-    return (
-      <View style={styles.text}>
-        <Title size="sm">Loading...</Title>
-      </View>
-    );
+    return <Loading />;
   }
 
   if (isMyProfileError) {

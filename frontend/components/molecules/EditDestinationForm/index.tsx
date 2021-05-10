@@ -11,6 +11,7 @@ import useDestination from '../../../hooks/DestinationHooks/useDestination';
 import useEditDestination from '../../../hooks/DestinationHooks/useEditDestination';
 import { SimpleButton, UploadButton } from '../../atom/Button';
 import { TextInput } from '../../atom/Form';
+import Loading from '../../atom/Loading';
 import { Title } from '../../atom/Typography';
 
 const EditDestinationForm = () => {
@@ -85,11 +86,7 @@ const EditDestinationForm = () => {
   };
 
   if (isDestinationLoading) {
-    return (
-      <View style={styles.text}>
-        <Title size="sm">Loading...</Title>
-      </View>
-    );
+    return <Loading />;
   }
 
   if (isDestinationError) {

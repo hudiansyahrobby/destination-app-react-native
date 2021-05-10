@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import useCategories from '../../../hooks/CategoryHooks/useCategories';
 import { ICategory } from '../../../types/CategoryType';
+import Loading from '../../atom/Loading';
 import { Title } from '../../atom/Typography';
 import { CategoryList, TitleWithSubtitle } from '../../molecules';
 
@@ -11,17 +12,13 @@ const CategoryAdminList = () => {
   const categories: ICategory[] = data;
 
   if (isLoading) {
-    return (
-      <View style={styles.text}>
-        <Title size="sm">Loading...</Title>
-      </View>
-    );
+    return <Loading />;
   }
 
   if (isError) {
     return (
       <View style={styles.text}>
-        <Title size="sm">Loading...</Title>
+        <Title size="sm">Error</Title>
       </View>
     );
   }

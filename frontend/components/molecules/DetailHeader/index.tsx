@@ -4,6 +4,7 @@ import { Image } from 'react-native-elements';
 import useDestination from '../../../hooks/DestinationHooks/useDestination';
 import { IDestination } from '../../../types/DestinationType';
 import CarouselCards from '../../atom/Carousel';
+import Loading from '../../atom/Loading';
 import Rating from '../../atom/Rating';
 import { Title, TextWithIcon, Subtitle } from '../../atom/Typography';
 
@@ -16,11 +17,7 @@ const DetailHeader: React.FC<DetailHeaderProps> = ({ destinationId }) => {
   const destination: IDestination = data;
 
   if (isLoading) {
-    return (
-      <View style={styles.text}>
-        <Title size="sm">Loading...</Title>
-      </View>
-    );
+    return <Loading />;
   }
 
   if (isError) {

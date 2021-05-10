@@ -1,6 +1,9 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
+import Spinner from 'react-native-spinkit';
+import { PRIMARY_COLOR } from '../../../constants/color';
 import useMyProfile from '../../../hooks/UserHooks/useMyProfile';
+import Loading from '../../atom/Loading';
 import { Title } from '../../atom/Typography';
 import { SettingHeader } from '../../molecules';
 import SettingBody from '../../molecules/SettingBody';
@@ -9,17 +12,13 @@ const Setting = () => {
   const { isLoading, isError, data } = useMyProfile();
 
   if (isLoading) {
-    return (
-      <View style={styles.text}>
-        <Title size="sm">Loading...</Title>
-      </View>
-    );
+    return <Loading />;
   }
 
   if (isError) {
     return (
       <View style={styles.text}>
-        <Title size="sm">Loading...</Title>
+        <Title size="sm">Error...</Title>
       </View>
     );
   }
