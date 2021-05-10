@@ -2,7 +2,9 @@ import { IDestination } from '../../types/DestinationType';
 import axios from '../axios';
 
 const addDestination = async (destination: FormData) => {
-  await axios.post('/products', destination);
+  console.log('DEST', destination);
+  const { data } = await axios.post('/products', destination);
+  return data.data;
 };
 
 const addBulkDestinations = async (destinations: IDestination[]) => {

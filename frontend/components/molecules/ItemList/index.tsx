@@ -16,16 +16,18 @@ const ItemList: React.FC<ItemListProps> = ({ title, goto, icon }) => {
   const navigation = useNavigation();
 
   return (
-    <ListItem
-      Component={TouchableScale}
-      containerStyle={styles.container}
-      onPress={() => navigation.navigate(goto)}>
-      <Ionicons name={icon} size={40} color={PRIMARY_COLOR} />
-      <ListItem.Content>
-        <ListItem.Title style={styles.title}>{title}</ListItem.Title>
-      </ListItem.Content>
-      <ListItem.Chevron />
-    </ListItem>
+    <>
+      <ListItem
+        Component={TouchableScale}
+        containerStyle={styles.container}
+        onPress={() => navigation.navigate(goto)}>
+        <Ionicons name={icon} size={40} color={PRIMARY_COLOR} />
+        <ListItem.Content>
+          <ListItem.Title style={styles.title}>{title}</ListItem.Title>
+        </ListItem.Content>
+        <ListItem.Chevron />
+      </ListItem>
+    </>
   );
 };
 

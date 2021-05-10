@@ -1,90 +1,54 @@
+import { useRoute } from '@react-navigation/core';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import * as ImagePicker from 'react-native-image-picker';
-import {
-  ImageLibraryOptions,
-  ImagePickerResponse,
-} from 'react-native-image-picker';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { GRAY_COLOR, PRIMARY_COLOR } from '../../../constants/color';
-import useDestination from '../../../hooks/DestinationHooks/useDestination';
-import useEditDestination from '../../../hooks/DestinationHooks/useEditDestination';
-import { SimpleButton, UploadButton } from '../../atom/Button';
+import { GRAY_COLOR } from '../../../constants/color';
+import useCategory from '../../../hooks/CategoryHooks/useCategory';
+import useEditCategory from '../../../hooks/CategoryHooks/useEditCategory';
+import { SimpleButton } from '../../atom/Button';
 import { TextInput } from '../../atom/Form';
 import { Title } from '../../atom/Typography';
 
 const EditCategoryForm = () => {
-  const [image, setImage] = React.useState<ImagePickerResponse>({});
-  const [destination, setDestination] = React.useState({
-    name: '',
-    province: '',
-    city: '',
-    description: '',
-    categoryId: '',
-  });
+  const [category, setCategory] = React.useState('');
+
+  const { params } = useRoute();
+  const categoryId = (params as any).itemList;
+  console.log('CATEGORY ID', categoryId);
+  const {
+    data,
+    isLoading: isCategoryLoading,
+    isError: isCategoryError,
+  } = useCategory(categoryId);
 
   const {
     mutateAsync,
-    isLoading: isEditDestinationLoading,
-    isError: isEditDestinationError,
-  } = useEditDestination();
-  const {
-    data,
-    isLoading: isDestinationLoading,
-    isError: isDestinationError,
-  } = useDestination('5');
+    isLoading: isEditCategoryLoading,
+    isError: isEditCategoryError,
+  } = useEditCategory();
+
+  const categoryData = data;
+  console.log('category', category);
 
   React.useEffect(() => {
-    setDestination({
-      name: destination.name,
-      province: destination.province,
-      city: destination.city,
-      description: destination.description,
-      categoryId: destination.categoryId,
-    });
+    // console.log('USE EFFECT', categoryData);
+    setCategory(categoryData?.name);
   }, []);
 
   const onSubmit = async () => {
-    const { name, province, city, description, categoryId } = destination;
-
-    const data = new FormData();
-    data.append('name', name);
-    data.append('province', province);
-    data.append('city', city);
-    data.append('description', description);
-    data.append('categoryId', categoryId);
-    data.append('images', {
-      uri: image.uri,
-      name: image.fileName,
-      type: image.type,
-    });
-    await mutateAsync({ ...data, id: 'asdiuhadiahwi' });
-  };
-
-  const onInputChange = (inputName: string, inputValue: string) => {
-    setDestination({ ...destination, [inputName]: inputValue });
-  };
-
-  const launchImageLibrary = () => {
-    let options: ImageLibraryOptions = {
-      mediaType: 'photo',
+    const updatedCategory = {
+      id: categoryId,
+      name: category,
     };
-
-    ImagePicker.launchImageLibrary(options, (response) => {
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.errorCode === 'camera_unavailable') {
-        console.log('Camera not available');
-      } else if (response.errorCode === 'permission') {
-        console.log('Permission denied');
-      } else {
-        const source = response;
-        setImage(source);
-      }
-    });
+    console.log('UPDATeD CATEGORY', updatedCategory);
+    await mutateAsync(updatedCategory);
   };
 
-  if (isDestinationLoading) {
+  const onInputChange = (inputValue: string) => {
+    setCategory(inputValue);
+  };
+
+  if (isCategoryLoading) {
     return (
       <View style={styles.text}>
         <Title size="sm">Loading...</Title>
@@ -92,7 +56,7 @@ const EditCategoryForm = () => {
     );
   }
 
-  if (isDestinationError) {
+  if (isCategoryError) {
     return (
       <View style={styles.text}>
         <Title size="sm">Error..</Title>
@@ -104,47 +68,16 @@ const EditCategoryForm = () => {
     <View style={styles.wrapper}>
       <TextInput
         autoFocus
-        label="Nama Destinasi"
-        placeholder="Nama Destinasi"
+        label="Nama Kategori"
+        placeholder="Nama Kategori"
         defaultValue={data.name}
-        onChangeText={(value) => onInputChange('name', value)}
-        leftIcon={<Ionicons name="location" size={24} color={GRAY_COLOR} />}
-      />
-
-      <TextInput
-        autoFocus
-        label="Provinsi"
-        placeholder="Provinsi"
-        defaultValue={data.province}
-        onChangeText={(value) => onInputChange('province', value)}
-        leftIcon={<Ionicons name="globe" size={24} color={GRAY_COLOR} />}
-      />
-
-      <TextInput
-        autoFocus
-        label="Kota"
-        placeholder="Kota"
-        defaultValue={data.city}
-        onChangeText={(value) => onInputChange('city', value)}
-        leftIcon={<Ionicons name="business" size={24} color={GRAY_COLOR} />}
-      />
-
-      <TextInput
-        label="Deskripsi"
-        placeholder="Deskripsi"
-        defaultValue={data.description}
-        multiline
-        leftIcon={<Ionicons name="reader" size={24} color={GRAY_COLOR} />}
-      />
-
-      <UploadButton
-        onPress={launchImageLibrary}
-        icon={<Ionicons name="camera" size={90} color={PRIMARY_COLOR} />}
+        onChangeText={(value) => onInputChange(value)}
+        leftIcon={<Ionicons name="aperture" size={24} color={GRAY_COLOR} />}
       />
 
       <SimpleButton
-        title="Edit Destinasi"
-        loading={isEditDestinationLoading}
+        title="Edit Kategori"
+        loading={isEditCategoryLoading}
         onPress={onSubmit}
       />
     </View>

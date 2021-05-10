@@ -7,9 +7,12 @@ import {
 } from 'react-native-image-picker';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { GRAY_COLOR, PRIMARY_COLOR } from '../../../constants/color';
+import useCategories from '../../../hooks/CategoryHooks/useCategories';
 import useAddDestination from '../../../hooks/DestinationHooks/useAddDestination';
+import { ICategory } from '../../../types/CategoryType';
 import { SimpleButton, UploadButton } from '../../atom/Button';
-import { TextInput } from '../../atom/Form';
+import { Select, TextInput } from '../../atom/Form';
+import { Title } from '../../atom/Typography';
 
 const DestinationForm = () => {
   const [image, setImage] = React.useState<ImagePickerResponse>({});
@@ -21,8 +24,16 @@ const DestinationForm = () => {
     categoryId: '',
   });
 
+  console.log('CAT ID', destination.categoryId);
+
   console.log('IMAGE', image);
   const { mutateAsync, isLoading } = useAddDestination();
+
+  const {
+    data: categories,
+    isLoading: isCategoriesLoading,
+    isError: isCategoriesError,
+  } = useCategories();
 
   const onSubmit = async () => {
     const { name, province, city, description, categoryId } = destination;
@@ -64,6 +75,30 @@ const DestinationForm = () => {
     });
   };
 
+  if (isCategoriesLoading) {
+    return (
+      <View style={styles.text}>
+        <Title size="sm">Loading...</Title>
+      </View>
+    );
+  }
+
+  if (isCategoriesError) {
+    return (
+      <View style={styles.text}>
+        <Title size="sm">Error</Title>
+      </View>
+    );
+  }
+
+  const items = categories.map((category: ICategory) => {
+    return {
+      label: category.name,
+      value: category.id,
+      color: 'white',
+    };
+  });
+
   return (
     <View style={styles.wrapper}>
       <TextInput
@@ -93,8 +128,17 @@ const DestinationForm = () => {
       <TextInput
         label="Deskripsi"
         placeholder="Deskripsi"
+        onChangeText={(value) => onInputChange('description', value)}
         multiline
         leftIcon={<Ionicons name="reader" size={24} color={GRAY_COLOR} />}
+      />
+
+      <Select
+        label="Category"
+        Icon={() => <Ionicons name="aperture" size={24} color={GRAY_COLOR} />}
+        onValueChange={(value) => onInputChange('categoryId', value)}
+        value={destination.categoryId}
+        items={items}
       />
 
       <UploadButton
@@ -116,5 +160,9 @@ export default DestinationForm;
 const styles = StyleSheet.create({
   wrapper: {
     marginVertical: 30,
+  },
+  text: {
+    marginHorizontal: 20,
+    marginTop: 20,
   },
 });

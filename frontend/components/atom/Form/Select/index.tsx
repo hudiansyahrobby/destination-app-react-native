@@ -6,7 +6,7 @@ type SelectProps = PickerSelectProps & {
   label: string;
 };
 
-const Select: React.FC<SelectProps> = props => {
+const Select: React.FC<SelectProps> = (props) => {
   const { label, ...rest } = props;
   return (
     <>
@@ -32,14 +32,12 @@ const Select: React.FC<SelectProps> = props => {
           placeholder: {
             color: '#86939e',
           },
+          inputAndroid: {
+            color: 'black',
+          },
         }}
+        useNativeAndroidPickerStyle={true}
         {...rest}
-        //   onValueChange={value => console.log(value)}
-        //   items={[
-        //     { label: 'Football', value: 'football' },
-        //     { label: 'Baseball', value: 'baseball' },
-        //     { label: 'Hockey', value: 'hockey' },
-        //   ]}
       />
     </>
   );

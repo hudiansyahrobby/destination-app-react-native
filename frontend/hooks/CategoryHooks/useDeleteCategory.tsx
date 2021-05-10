@@ -1,8 +1,13 @@
-import { useMutation } from 'react-query';
+import { QueryClient, useMutation } from 'react-query';
 import { deleteCategoryById } from '../../API/categoryAPI';
 
-const useDeleteCategory = (id: string) => {
-  return useMutation(() => deleteCategoryById(id));
+const useDeleteCategory = () => {
+  const queryClient = new QueryClient();
+  return useMutation(deleteCategoryById, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('categories');
+    },
+  });
 };
 
 export default useDeleteCategory;

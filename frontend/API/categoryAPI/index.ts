@@ -13,11 +13,15 @@ const getAllCategories = async () => {
 
 const getCategoryById = async (id: string) => {
   const { data } = await axios.get(`/categories/${id}`);
+  console.log('DATA CATEGORY', data);
   return data.data;
 };
 
-const updateCategoryById = async (id: string, category: ICategory) => {
-  const { data } = await axios.put(`/categories/${id}`, category);
+const updateCategoryById = async (category: any) => {
+  console.log('CAT', category);
+  const { data } = await axios.put(`/categories/${category.id}`, {
+    name: category.name,
+  });
   return data.data;
 };
 

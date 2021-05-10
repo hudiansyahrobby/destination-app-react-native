@@ -15,15 +15,15 @@ const App = () => {
   let persistor = persistStore(store);
 
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
           <ThemeProvider>
             <Routes />
           </ThemeProvider>
-        </QueryClientProvider>
-      </PersistGate>
-    </Provider>
+        </PersistGate>
+      </Provider>
+    </QueryClientProvider>
   );
 };
 
