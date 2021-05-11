@@ -21,6 +21,7 @@ const getMyProfile = async () => {
 };
 
 const updateMyProfile = async (updatedProfile: any) => {
+  console.log('HAHA', updatedProfile);
   const { data } = await axios.put('/user-profile/me', updatedProfile);
   return data.data;
 };

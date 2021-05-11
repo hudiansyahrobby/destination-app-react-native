@@ -38,6 +38,7 @@ const MyProfile = () => {
         name={user.displayName}
         country={user.country}
         email={user.email}
+        image={user.photoURL}
       />
       <DividerLine />
       <View style={styles.about}>

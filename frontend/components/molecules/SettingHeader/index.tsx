@@ -11,13 +11,12 @@ interface SettingHeaderProps {
 }
 
 const SettingHeader: React.FC<SettingHeaderProps> = ({ user }) => {
+  console.log('DISPLA ', user?.displayName[0]);
   return (
     <View style={styles.container}>
       <Avatar
         title={user?.displayName[0]?.toUpperCase()}
         size={100}
-        placeholderStyle={styles.imagePlaceholder}
-        avatarStyle={styles.avatar}
         rounded
         source={{ uri: user.photoURL }}
       />
@@ -45,10 +44,4 @@ const styles = StyleSheet.create({
   name: {
     marginLeft: 20,
   },
-  avatar: {
-    borderWidth: 6,
-    borderColor: '#D1D5DB',
-    borderRadius: 100,
-  },
-  imagePlaceholder: { backgroundColor: '#6366F1' },
 });

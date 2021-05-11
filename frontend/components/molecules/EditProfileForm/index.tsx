@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Avatar } from 'react-native-elements';
-import * as ImagePicker from 'react-native-image-picker';
-import {
-  ImageLibraryOptions,
-  ImagePickerResponse,
-} from 'react-native-image-picker';
+// import * as ImagePicker from 'react-native-image-picker';
+// import {
+//   ImageLibraryOptions,
+//   ImagePickerResponse,
+// } from 'react-native-image-picker';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { GRAY_COLOR } from '../../../constants/color';
 import useEditMyProfile from '../../../hooks/UserHooks/useEditMyProfile';
@@ -14,9 +14,13 @@ import { SimpleButton } from '../../atom/Button';
 import { TextInput } from '../../atom/Form';
 import Loading from '../../atom/Loading';
 import { Title } from '../../atom/Typography';
+import ImagePicker, { ImageOrVideo } from 'react-native-image-crop-picker';
+import BottomMenu from '../../atom/BottomMenu';
 
 const EditProfileForm = () => {
-  const [image, setImage] = useState<ImagePickerResponse>({});
+  const [avatar, setAvatar] = useState<ImageOrVideo>();
+  const [isVisible, setIsVisible] = React.useState(false);
+
   const [profile, setProfile] = useState({
     displayName: '',
     country: '',
@@ -41,22 +45,43 @@ const EditProfileForm = () => {
   }, []);
 
   const launchImageLibrary = () => {
-    let options: ImageLibraryOptions = {
-      mediaType: 'photo',
-    };
-
-    ImagePicker.launchImageLibrary(options, (response) => {
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.errorCode === 'camera_unavailable') {
-        console.log('Camera not available');
-      } else if (response.errorCode === 'permission') {
-        console.log('Permission denied');
-      } else {
-        const source = response;
-        setImage(source);
-      }
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then((image) => {
+      console.log(image);
+      setAvatar(image);
+      setIsVisible(false);
     });
+  };
+
+  const launchImageCamera = () => {
+    ImagePicker.openCamera({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then((image) => {
+      console.log(image);
+      setAvatar(image);
+      setIsVisible(false);
+    });
+  };
+
+  const listMenu = () => {
+    const menu = [
+      {
+        title: 'Pilih Gambar Dari Galeri',
+        onPress: () => launchImageLibrary(),
+      },
+      { title: 'Ambil Gambar', onPress: () => launchImageCamera() },
+      {
+        title: 'Batal',
+        onPress: () => setIsVisible(false),
+      },
+    ];
+
+    return menu;
   };
 
   const onInputChange = (inputName: string, inputValue: string) => {
@@ -71,10 +96,11 @@ const EditProfileForm = () => {
     data.append('about', about);
     data.append('country', country);
     data.append('images', {
-      uri: image.uri,
-      name: image.fileName,
-      type: image.type,
+      uri: avatar?.path,
+      name: `image-${Date.now()}.jpg`,
+      type: avatar?.mime,
     });
+    console.log('DATA', data);
     mutateAsync(data);
   };
 
@@ -95,21 +121,17 @@ const EditProfileForm = () => {
       <View style={styles.image}>
         <Avatar
           size="xlarge"
-          title={user.displayName[0].toUpperCase()}
           rounded
-          avatarStyle={styles.avatar}
-          placeholderStyle={styles.imagePlaceholder}
           source={{
-            uri:
-              'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
+            uri: avatar ? avatar.path : user?.photoURL,
           }}
-          onPress={() => launchImageLibrary()}>
+          onPress={() => setIsVisible(true)}>
           <Avatar.Accessory
             name="camera"
             type="ionicon"
             style={styles.icon}
             size={40}
-            onPress={() => launchImageLibrary()}
+            onPress={() => setIsVisible(true)}
           />
         </Avatar>
       </View>
@@ -145,6 +167,8 @@ const EditProfileForm = () => {
         loading={isMyEditProfileLoading}
         onPress={onSubmit}
       />
+
+      <BottomMenu menus={listMenu()} isVisible={isVisible} />
     </View>
   );
 };

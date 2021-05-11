@@ -20,12 +20,12 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
   return (
     <>
       <Avatar
+        title={name[0].toUpperCase()}
         source={{
           uri:
             image ||
             'https://st.depositphotos.com/2101611/3925/v/600/depositphotos_39258143-stock-illustration-businessman-avatar-profile-picture.jpg',
         }}
-        title={name[0].toUpperCase()}
         size="xlarge"
         rounded
       />
