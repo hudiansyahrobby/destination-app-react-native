@@ -1,16 +1,19 @@
+import { Formik } from 'formik';
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Avatar } from 'react-native-elements';
+import ImagePicker, { ImageOrVideo } from 'react-native-image-crop-picker';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { GRAY_COLOR } from '../../../constants/color';
 import useEditMyProfile from '../../../hooks/UserHooks/useEditMyProfile';
 import useMyProfile from '../../../hooks/UserHooks/useMyProfile';
+import profileValidationSchema from '../../../validations/profileValidation';
+import BottomMenu from '../../atom/BottomMenu';
 import { SimpleButton } from '../../atom/Button';
 import { TextInput } from '../../atom/Form';
+import ErrorText from '../../atom/Form/ErrorText';
 import Loading from '../../atom/Loading';
 import { Title } from '../../atom/Typography';
-import ImagePicker, { ImageOrVideo } from 'react-native-image-crop-picker';
-import BottomMenu from '../../atom/BottomMenu';
 
 const EditProfileForm = () => {
   const [avatar, setAvatar] = useState<ImageOrVideo>();
@@ -21,7 +24,7 @@ const EditProfileForm = () => {
     country: '',
     about: '',
   });
-
+  console.log(profile);
   const {
     data: myProfileData,
     isError: isMyProfileError,
@@ -77,26 +80,6 @@ const EditProfileForm = () => {
     return menu;
   };
 
-  const onInputChange = (inputName: string, inputValue: string) => {
-    setProfile({ ...profile, [inputName]: inputValue });
-  };
-
-  const onSubmit = () => {
-    const { about, country, displayName } = profile;
-
-    const data = new FormData();
-    data.append('displayName', displayName);
-    data.append('about', about);
-    data.append('country', country);
-    data.append('images', {
-      uri: avatar?.path,
-      name: `image-${Date.now()}.jpg`,
-      type: avatar?.mime,
-    });
-    console.log('DATA', data);
-    mutateAsync(data);
-  };
-
   if (isMyProfileLoading) {
     return <Loading />;
   }
@@ -108,7 +91,6 @@ const EditProfileForm = () => {
       </View>
     );
   }
-
   return (
     <View style={styles.wrapper}>
       <View style={styles.image}>
@@ -133,37 +115,84 @@ const EditProfileForm = () => {
         </Avatar>
       </View>
 
-      <TextInput
-        autoFocus
-        label="Nama"
-        placeholder="Nama"
-        defaultValue={user.displayName}
-        onChangeText={(value) => onInputChange('displayName', value)}
-        leftIcon={<Ionicons name="person" size={24} color={GRAY_COLOR} />}
-      />
+      <Formik
+        initialValues={profile}
+        enableReinitialize={true}
+        onSubmit={async (values) => {
+          const { about, country, displayName } = values;
 
-      <TextInput
-        label="Negara"
-        placeholder="Negara"
-        defaultValue={user.country}
-        onChangeText={(value) => onInputChange('country', value)}
-        leftIcon={<Ionicons name="globe" size={24} color={GRAY_COLOR} />}
-      />
+          const data = new FormData();
+          data.append('displayName', displayName);
+          data.append('about', about);
+          data.append('country', country);
+          data.append('images', {
+            uri: avatar?.path,
+            name: `image-${Date.now()}.jpg`,
+            type: avatar?.mime,
+          });
+          await mutateAsync(data);
+        }}
+        validationSchema={profileValidationSchema}>
+        {({
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          values,
+          touched,
+          errors,
+        }) => (
+          <>
+            <View style={styles.container}>
+              <TextInput
+                label="Nama"
+                onChangeText={handleChange('displayName')}
+                onBlur={handleBlur('displayName')}
+                value={values.displayName}
+                placeholder="Nama"
+                leftIcon={
+                  <Ionicons name="person" size={24} color={GRAY_COLOR} />
+                }
+              />
+              {console.log('EROR', errors.displayName)}
+              {errors.displayName && touched.displayName && (
+                <ErrorText message={errors.displayName} />
+              )}
 
-      <TextInput
-        label="Tentang Saya"
-        placeholder="Tentang Saya"
-        onChangeText={(value) => onInputChange('about', value)}
-        multiline
-        defaultValue={user.about}
-        leftIcon={<Ionicons name="reader" size={24} color={GRAY_COLOR} />}
-      />
+              <TextInput
+                label="Negara"
+                onChangeText={handleChange('country')}
+                onBlur={handleBlur('country')}
+                value={values.country}
+                placeholder="Negara"
+                leftIcon={
+                  <Ionicons name="globe" size={24} color={GRAY_COLOR} />
+                }
+              />
+              {errors.country && touched.country && (
+                <ErrorText message={errors.country} />
+              )}
 
-      <SimpleButton
-        title="Edit Profile"
-        loading={isMyEditProfileLoading}
-        onPress={onSubmit}
-      />
+              <TextInput
+                label="Tentang Saya"
+                onChangeText={handleChange('about')}
+                onBlur={handleBlur('about')}
+                value={values.about}
+                placeholder="Tentang Saya"
+                leftIcon={<Ionicons name="book" size={24} color={GRAY_COLOR} />}
+              />
+              {errors.about && touched.about && (
+                <ErrorText message={errors.about} />
+              )}
+            </View>
+
+            <SimpleButton
+              title="Edit Profile"
+              loading={isMyEditProfileLoading}
+              onPress={handleSubmit}
+            />
+          </>
+        )}
+      </Formik>
 
       <BottomMenu menus={listMenu()} isVisible={isVisible} />
     </View>
@@ -175,6 +204,9 @@ export default EditProfileForm;
 const styles = StyleSheet.create({
   wrapper: {
     marginVertical: 30,
+  },
+  container: {
+    marginBottom: 10,
   },
   image: {
     alignItems: 'center',
