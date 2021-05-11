@@ -18,7 +18,6 @@ const CategoryList: React.FC<CategoryListProps> = ({ categories }) => {
   const { isLoading, isError, mutateAsync } = useDeleteCategory();
 
   const onEdit = (categoryId: string) => {
-    console.log('categoryId', categoryId);
     setIsVisible(false);
     navigation.navigate('EditCategory', {
       itemList: categoryId,
@@ -74,10 +73,7 @@ const CategoryList: React.FC<CategoryListProps> = ({ categories }) => {
             </ListItem.Content>
             <ListItem.Chevron />
           </ListItem>
-          <BottomMenu
-            menus={listMenu(category.id as string)}
-            isVisible={isVisible}
-          />
+          <BottomMenu menus={listMenu()} isVisible={isVisible} />
         </>
       ))}
     </View>

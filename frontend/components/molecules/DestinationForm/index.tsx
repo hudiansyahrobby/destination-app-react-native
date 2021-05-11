@@ -12,9 +12,8 @@ import useAddDestination from '../../../hooks/DestinationHooks/useAddDestination
 import { ICategory } from '../../../types/CategoryType';
 import { SimpleButton, UploadButton } from '../../atom/Button';
 import { Select, TextInput } from '../../atom/Form';
-import { Title } from '../../atom/Typography';
-import Spinner from 'react-native-spinkit';
 import Loading from '../../atom/Loading';
+import { Title } from '../../atom/Typography';
 
 const DestinationForm = () => {
   const [image, setImage] = React.useState<ImagePickerResponse>({});
@@ -26,9 +25,6 @@ const DestinationForm = () => {
     categoryId: '',
   });
 
-  console.log('CAT ID', destination.categoryId);
-
-  console.log('IMAGE', image);
   const { mutateAsync, isLoading } = useAddDestination();
 
   const {

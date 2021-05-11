@@ -2,7 +2,6 @@ import { IDestination } from '../../types/DestinationType';
 import axios from '../axios';
 
 const addDestination = async (destination: FormData) => {
-  console.log('DEST', destination);
   const { data } = await axios.post('/products', destination);
   return data.data;
 };
@@ -21,7 +20,19 @@ const getDestination = async (id: string) => {
   return data.data;
 };
 
-const editDestination = async (id: any, ...destination: any) => {
+const editDestination = async ({ destination, id }: any) => {
+  // console.log('DSAD', destination);
+  // const { name, city, province, description, categoryId, images } = destination;
+  // const updatedDestination = {
+  //   name,
+  //   city,
+  //   province,
+  //   description,
+  //   categoryId,
+  //   images,
+  // };
+
+  // console.log(updatedDestination);
   const { data } = await axios.put(`/products/${id}`, destination);
   return data.data;
 };

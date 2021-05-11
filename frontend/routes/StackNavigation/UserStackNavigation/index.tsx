@@ -14,6 +14,7 @@ import {
   AddCategoryScreen,
   EditCategoryScreen,
   CategoryListScreen,
+  EditDestinationScreen,
 } from '../../../screens';
 import { PRIMARY_COLOR } from '../../../constants/color';
 import HeaderRight from '../../../components/atom/HeaderRight';
@@ -99,7 +100,7 @@ const UserStackNavigation = () => {
 
       <Stack.Screen
         name="EditDestination"
-        component={AddDestinationScreen}
+        component={EditDestinationScreen}
         options={{
           headerTitle: 'Edit Destinasi',
         }}

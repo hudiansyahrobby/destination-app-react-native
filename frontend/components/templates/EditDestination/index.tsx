@@ -2,7 +2,7 @@ import { useScrollToTop } from '@react-navigation/native';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Destination as DestinationForm } from '../../organisms/';
+import { EditDestination as EditDestinationForm } from '../../organisms/';
 
 const EditDestination = () => {
   const ref = React.useRef(null);
@@ -12,7 +12,7 @@ const EditDestination = () => {
   return (
     <ScrollView contentContainerStyle={styles.scrollView} ref={ref}>
       <View style={styles.container}>
-        <DestinationForm />
+        <EditDestinationForm />
       </View>
     </ScrollView>
   );

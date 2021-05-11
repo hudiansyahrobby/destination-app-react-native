@@ -8,9 +8,7 @@ const fetchClient = () => {
 
   instance.interceptors.request.use(function (config) {
     const { user } = store.getState().user;
-    console.log('USERKU', user);
     const token = (user as any).token;
-    console.log('TOKEN', token);
     config.headers.Authorization = token ? `Bearer ${token}` : null;
     return config;
   });

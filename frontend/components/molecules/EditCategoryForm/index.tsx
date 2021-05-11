@@ -15,7 +15,7 @@ const EditCategoryForm = () => {
 
   const { params } = useRoute();
   const categoryId = (params as any).itemList;
-  console.log('CATEGORY ID', categoryId);
+
   const {
     data,
     isLoading: isCategoryLoading,
@@ -29,10 +29,8 @@ const EditCategoryForm = () => {
   } = useEditCategory();
 
   const categoryData = data;
-  console.log('category', category);
 
   React.useEffect(() => {
-    // console.log('USE EFFECT', categoryData);
     setCategory(categoryData?.name);
   }, []);
 
@@ -41,7 +39,6 @@ const EditCategoryForm = () => {
       id: categoryId,
       name: category,
     };
-    console.log('UPDATeD CATEGORY', updatedCategory);
     await mutateAsync(updatedCategory);
   };
 

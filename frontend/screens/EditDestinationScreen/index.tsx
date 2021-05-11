@@ -1,13 +1,13 @@
 import { useScrollToTop } from '@react-navigation/native';
 import React from 'react';
-import { Destination } from '../../components/templates';
+import { EditDestination } from '../../components/templates';
 
 const EditDestinationScreen = () => {
   const ref = React.useRef(null);
 
   useScrollToTop(ref);
 
-  return <Destination />;
+  return <EditDestination />;
 };
 
 export default EditDestinationScreen;

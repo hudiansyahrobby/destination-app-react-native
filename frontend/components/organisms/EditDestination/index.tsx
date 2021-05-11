@@ -1,5 +1,5 @@
 import React from 'react';
-import { DestinationForm } from '../../molecules';
+import { EditDestinationForm } from '../../molecules';
 import { Title } from '../../atom/Typography';
 import { StyleSheet } from 'react-native';
 
@@ -7,7 +7,7 @@ const EditDestination = () => {
   return (
     <>
       <Title h1Style={styles.title}>Edit Destinasi</Title>
-      <DestinationForm />
+      <EditDestinationForm />
     </>
   );
 };

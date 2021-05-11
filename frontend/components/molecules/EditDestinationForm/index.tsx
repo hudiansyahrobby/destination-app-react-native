@@ -1,3 +1,4 @@
+import { useRoute } from '@react-navigation/core';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import * as ImagePicker from 'react-native-image-picker';
@@ -7,10 +8,12 @@ import {
 } from 'react-native-image-picker';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { GRAY_COLOR, PRIMARY_COLOR } from '../../../constants/color';
+import useCategories from '../../../hooks/CategoryHooks/useCategories';
 import useDestination from '../../../hooks/DestinationHooks/useDestination';
 import useEditDestination from '../../../hooks/DestinationHooks/useEditDestination';
+import { ICategory } from '../../../types/CategoryType';
 import { SimpleButton, UploadButton } from '../../atom/Button';
-import { TextInput } from '../../atom/Form';
+import { Select, TextInput } from '../../atom/Form';
 import Loading from '../../atom/Loading';
 import { Title } from '../../atom/Typography';
 
@@ -24,26 +27,51 @@ const EditDestinationForm = () => {
     categoryId: '',
   });
 
+  const { params } = useRoute();
+  const destinationId = (params as any).itemList;
+
+  console.log('ID PRAMAS', destinationId);
   const {
     mutateAsync,
     isLoading: isEditDestinationLoading,
     isError: isEditDestinationError,
   } = useEditDestination();
+
   const {
-    data,
+    data: destinationData,
     isLoading: isDestinationLoading,
     isError: isDestinationError,
-  } = useDestination('5');
+  } = useDestination(destinationId);
+
+  const {
+    data: categories,
+    isLoading: isCategoriesLoading,
+    isError: isCategoriesError,
+  } = useCategories();
+
+  const items = categories.map((category: ICategory) => {
+    return {
+      label: category.name,
+      value: category.id,
+      color: 'white',
+    };
+  });
 
   React.useEffect(() => {
     setDestination({
-      name: destination.name,
-      province: destination.province,
-      city: destination.city,
-      description: destination.description,
-      categoryId: destination.categoryId,
+      name: destinationData?.name,
+      province: destinationData?.province,
+      city: destinationData?.city,
+      description: destinationData?.description,
+      categoryId: destinationData?.categoryId,
     });
-  }, []);
+  }, [
+    destinationData?.categoryId,
+    destinationData?.city,
+    destinationData?.description,
+    destinationData?.name,
+    destinationData?.province,
+  ]);
 
   const onSubmit = async () => {
     const { name, province, city, description, categoryId } = destination;
@@ -59,7 +87,8 @@ const EditDestinationForm = () => {
       name: image.fileName,
       type: image.type,
     });
-    await mutateAsync({ ...data, id: 'asdiuhadiahwi' });
+
+    await mutateAsync({ destination: data, id: destinationId });
   };
 
   const onInputChange = (inputName: string, inputValue: string) => {
@@ -85,11 +114,11 @@ const EditDestinationForm = () => {
     });
   };
 
-  if (isDestinationLoading) {
+  if (isDestinationLoading || isCategoriesLoading) {
     return <Loading />;
   }
 
-  if (isDestinationError) {
+  if (isDestinationError || isCategoriesError) {
     return (
       <View style={styles.text}>
         <Title size="sm">Error..</Title>
@@ -103,25 +132,23 @@ const EditDestinationForm = () => {
         autoFocus
         label="Nama Destinasi"
         placeholder="Nama Destinasi"
-        defaultValue={data.name}
+        defaultValue={destinationData.name}
         onChangeText={(value) => onInputChange('name', value)}
         leftIcon={<Ionicons name="location" size={24} color={GRAY_COLOR} />}
       />
 
       <TextInput
-        autoFocus
         label="Provinsi"
         placeholder="Provinsi"
-        defaultValue={data.province}
+        defaultValue={destinationData.province}
         onChangeText={(value) => onInputChange('province', value)}
         leftIcon={<Ionicons name="globe" size={24} color={GRAY_COLOR} />}
       />
 
       <TextInput
-        autoFocus
         label="Kota"
         placeholder="Kota"
-        defaultValue={data.city}
+        defaultValue={destinationData.city}
         onChangeText={(value) => onInputChange('city', value)}
         leftIcon={<Ionicons name="business" size={24} color={GRAY_COLOR} />}
       />
@@ -129,9 +156,18 @@ const EditDestinationForm = () => {
       <TextInput
         label="Deskripsi"
         placeholder="Deskripsi"
-        defaultValue={data.description}
+        defaultValue={destinationData.description}
+        onChangeText={(value) => onInputChange('description', value)}
         multiline
         leftIcon={<Ionicons name="reader" size={24} color={GRAY_COLOR} />}
+      />
+
+      <Select
+        label="Category"
+        Icon={() => <Ionicons name="aperture" size={24} color={GRAY_COLOR} />}
+        onValueChange={(value) => onInputChange('categoryId', value)}
+        value={destination.categoryId}
+        items={items}
       />
 
       <UploadButton

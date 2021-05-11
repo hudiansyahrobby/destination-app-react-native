@@ -8,8 +8,8 @@ const useEditDestination = () => {
 
   return useMutation(editDestination, {
     onSuccess: () => {
-      queryClient.invalidateQueries('destination');
       navigation.navigate('DestinationList');
+      queryClient.invalidateQueries('destinations');
     },
   });
 };

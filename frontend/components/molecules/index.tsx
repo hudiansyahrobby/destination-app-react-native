@@ -14,3 +14,4 @@ export { default as EditProfileForm } from './EditProfileForm';
 export { default as CategoryForm } from './CategoryForm';
 export { default as EditCategoryForm } from './EditCategoryForm';
 export { default as CategoryList } from './CategoryList';
+export { default as EditDestinationForm } from './EditDestinationForm';
