@@ -7,6 +7,8 @@ import { SimpleButton } from '../../atom/Button';
 import { StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import useLogin from '../../../hooks/AuthHooks/useLogin';
+import { showMessage } from 'react-native-flash-message';
+import { capitalizeEachWord } from '../../../helpers/capitalizeEachWord';
 
 const LoginForm = () => {
   const [login, setLogin] = React.useState({
@@ -27,10 +29,19 @@ const LoginForm = () => {
   const navigation = useNavigation();
 
   const loginError: any = error;
-  console.log(loginError);
+  const appError = loginError?.response?.data?.message;
+
+  React.useEffect(() => {
+    if (isError) {
+      showMessage({
+        message: capitalizeEachWord(appError),
+        type: 'danger',
+      });
+    }
+  }, [isError, appError]);
+
   return (
     <>
-      {isError && <Text>Error</Text>}
       <TextInput
         label="Email Address"
         keyboardType="email-address"

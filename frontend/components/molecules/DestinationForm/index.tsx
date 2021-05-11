@@ -13,7 +13,6 @@ import { ICategory } from '../../../types/CategoryType';
 import { SimpleButton, UploadButton } from '../../atom/Button';
 import { Select, TextInput } from '../../atom/Form';
 import Loading from '../../atom/Loading';
-import { Title } from '../../atom/Typography';
 
 const DestinationForm = () => {
   const [image, setImage] = React.useState<ImagePickerResponse>({});
@@ -25,12 +24,18 @@ const DestinationForm = () => {
     categoryId: '',
   });
 
-  const { mutateAsync, isLoading } = useAddDestination();
+  const {
+    mutateAsync,
+    isLoading: isAddDestinationLoading,
+    isError: isAddDestinationError,
+    error: addDestinationError,
+  } = useAddDestination();
 
   const {
     data: categories,
     isLoading: isCategoriesLoading,
     isError: isCategoriesError,
+    error: categoriesError,
   } = useCategories();
 
   const onSubmit = async () => {
@@ -75,14 +80,6 @@ const DestinationForm = () => {
 
   if (isCategoriesLoading) {
     return <Loading />;
-  }
-
-  if (isCategoriesError) {
-    return (
-      <View style={styles.text}>
-        <Title size="sm">Error</Title>
-      </View>
-    );
   }
 
   const items = categories.map((category: ICategory) => {
@@ -140,7 +137,7 @@ const DestinationForm = () => {
 
       <SimpleButton
         title="Tambah Destinasi"
-        loading={isLoading}
+        loading={isAddDestinationLoading}
         onPress={onSubmit}
       />
     </View>

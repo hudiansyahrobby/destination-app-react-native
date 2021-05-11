@@ -8,6 +8,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { store } from './redux/stores';
 import Routes from './routes/index';
 import SplashScreen from 'react-native-splash-screen';
+import FlashMessage from 'react-native-flash-message';
 
 LogBox.ignoreLogs(['Setting a timer']);
 
@@ -28,6 +29,7 @@ const App = () => {
           </ThemeProvider>
         </PersistGate>
       </Provider>
+      <FlashMessage position="top" />
     </QueryClientProvider>
   );
 };

@@ -35,7 +35,7 @@ const EditDestinationForm = () => {
     mutateAsync,
     isLoading: isEditDestinationLoading,
     isError: isEditDestinationError,
-  } = useEditDestination();
+  } = useEditDestination(destinationId);
 
   const {
     data: destinationData,

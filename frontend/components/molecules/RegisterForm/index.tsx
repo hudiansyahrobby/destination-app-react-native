@@ -5,6 +5,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { SimpleButton } from '../../atom/Button';
 import useSignup from '../../../hooks/AuthHooks/useSignup';
 import { Text } from 'react-native-elements';
+import { showMessage } from 'react-native-flash-message';
+import { capitalizeEachWord } from '../../../helpers/capitalizeEachWord';
 
 const RegisterForm = () => {
   const [register, setRegister] = useState({
@@ -25,10 +27,19 @@ const RegisterForm = () => {
   };
 
   const signupError: any = error;
-  console.log(signupError);
+  const appError = signupError?.response?.data?.message;
+
+  React.useEffect(() => {
+    if (isError) {
+      showMessage({
+        message: capitalizeEachWord(appError),
+        type: 'danger',
+      });
+    }
+  }, [isError, appError]);
+
   return (
     <>
-      {isError && <Text>Error</Text>}
       <TextInput
         label="Nama"
         value={register.displayName}

@@ -6,6 +6,8 @@ import { capitalizeEachWord } from '../../../helpers/capitalizeEachWord';
 import useDeleteCategory from '../../../hooks/CategoryHooks/useDeleteCategory';
 import { ICategory } from '../../../types/CategoryType';
 import BottomMenu from '../../atom/BottomMenu';
+import { showMessage } from 'react-native-flash-message';
+import Loading from '../../atom/Loading';
 
 interface CategoryListProps {
   categories: ICategory[];
@@ -15,7 +17,7 @@ const CategoryList: React.FC<CategoryListProps> = ({ categories }) => {
   const navigation = useNavigation();
   const [id, setId] = React.useState('');
   const [isVisible, setIsVisible] = React.useState(false);
-  const { isLoading, isError, mutateAsync } = useDeleteCategory();
+  const { isLoading, isError, error, mutateAsync } = useDeleteCategory();
 
   const onEdit = (categoryId: string) => {
     setIsVisible(false);
@@ -41,6 +43,22 @@ const CategoryList: React.FC<CategoryListProps> = ({ categories }) => {
 
     return menu;
   };
+
+  const newError: any = error;
+  const appError = newError?.response?.data?.message;
+
+  React.useEffect(() => {
+    if (isError) {
+      showMessage({
+        message: capitalizeEachWord(appError),
+        type: 'danger',
+      });
+    }
+  }, [isError, appError]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <View style={styles.container}>

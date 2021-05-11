@@ -1,4 +1,8 @@
 export const capitalizeEachWord = (phrase: string) => {
+  if (phrase === undefined) {
+    return phrase;
+  }
+
   return phrase
     .toLowerCase()
     .split(' ')
