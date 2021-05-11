@@ -1,21 +1,24 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import * as ImagePicker from 'react-native-image-picker';
-import {
-  ImageLibraryOptions,
-  ImagePickerResponse,
-} from 'react-native-image-picker';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { Image } from 'react-native-elements';
+import ImagePicker, { ImageOrVideo } from 'react-native-image-crop-picker';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { GRAY_COLOR, PRIMARY_COLOR } from '../../../constants/color';
 import useCategories from '../../../hooks/CategoryHooks/useCategories';
 import useAddDestination from '../../../hooks/DestinationHooks/useAddDestination';
 import { ICategory } from '../../../types/CategoryType';
+import BottomMenu from '../../atom/BottomMenu';
 import { SimpleButton, UploadButton } from '../../atom/Button';
 import { Select, TextInput } from '../../atom/Form';
+import HorizontalScroll from '../../atom/HorizontalScroll';
 import Loading from '../../atom/Loading';
+import { Dimensions } from 'react-native';
+
+const win = Dimensions.get('window');
 
 const DestinationForm = () => {
-  const [image, setImage] = React.useState<ImagePickerResponse>({});
+  const [images, setImages] = React.useState<ImageOrVideo[]>();
+  const [isVisible, setIsVisible] = React.useState(false);
   const [destination, setDestination] = React.useState({
     name: '',
     province: '',
@@ -24,6 +27,7 @@ const DestinationForm = () => {
     categoryId: '',
   });
 
+  console.log('IMAGESKU', images);
   const {
     mutateAsync,
     isLoading: isAddDestinationLoading,
@@ -38,6 +42,46 @@ const DestinationForm = () => {
     error: categoriesError,
   } = useCategories();
 
+  const launchImageLibrary = () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true,
+      multiple: true,
+    }).then((image) => {
+      setImages(image);
+      setIsVisible(false);
+    });
+  };
+
+  const launchImageCamera = () => {
+    ImagePicker.openCamera({
+      width: 300,
+      height: 400,
+      cropping: true,
+      multiple: true,
+    }).then((image) => {
+      setImages(image);
+      setIsVisible(false);
+    });
+  };
+
+  const listMenu = () => {
+    const menu = [
+      {
+        title: 'Pilih Gambar Dari Galeri',
+        onPress: () => launchImageLibrary(),
+      },
+      { title: 'Ambil Gambar', onPress: () => launchImageCamera() },
+      {
+        title: 'Batal',
+        onPress: () => setIsVisible(false),
+      },
+    ];
+
+    return menu;
+  };
+
   const onSubmit = async () => {
     const { name, province, city, description, categoryId } = destination;
 
@@ -47,35 +91,19 @@ const DestinationForm = () => {
     data.append('city', city);
     data.append('description', description);
     data.append('categoryId', categoryId);
-    data.append('images', {
-      uri: image.uri,
-      name: image.fileName,
-      type: image.type,
+    images?.map((image) => {
+      data.append('images', {
+        uri: image?.path,
+        name: `destination-${Date.now()}-${image.size}-${image.height}.jpg`,
+        type: image?.mime,
+      });
     });
+
     await mutateAsync(data);
   };
 
   const onInputChange = (inputName: string, inputValue: string) => {
     setDestination({ ...destination, [inputName]: inputValue });
-  };
-
-  const launchImageLibrary = () => {
-    let options: ImageLibraryOptions = {
-      mediaType: 'photo',
-    };
-
-    ImagePicker.launchImageLibrary(options, (response) => {
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.errorCode === 'camera_unavailable') {
-        console.log('Camera not available');
-      } else if (response.errorCode === 'permission') {
-        console.log('Permission denied');
-      } else {
-        const source = response;
-        setImage(source);
-      }
-    });
   };
 
   if (isCategoriesLoading) {
@@ -130,16 +158,35 @@ const DestinationForm = () => {
         items={items}
       />
 
-      <UploadButton
-        onPress={launchImageLibrary}
-        icon={<Ionicons name="camera" size={90} color={PRIMARY_COLOR} />}
-      />
+      {images && (
+        <HorizontalScroll>
+          {images.map((image) => {
+            return (
+              <Image
+                source={{ uri: image.path }}
+                style={styles.preview}
+                PlaceholderContent={<ActivityIndicator />}
+              />
+            );
+          })}
+        </HorizontalScroll>
+      )}
 
-      <SimpleButton
-        title="Tambah Destinasi"
-        loading={isAddDestinationLoading}
-        onPress={onSubmit}
-      />
+      <View style={styles.buttonContainer}>
+        <UploadButton
+          onPress={() => setIsVisible(true)}
+          icon={<Ionicons name="camera" size={20} color={PRIMARY_COLOR} />}
+          title={!images ? 'Upload Gambar' : 'Ubah Gambar'}
+        />
+
+        <SimpleButton
+          title="Tambah Destinasi"
+          loading={isAddDestinationLoading}
+          onPress={onSubmit}
+        />
+      </View>
+
+      <BottomMenu menus={listMenu()} isVisible={isVisible} />
     </View>
   );
 };
@@ -153,5 +200,9 @@ const styles = StyleSheet.create({
   text: {
     marginHorizontal: 20,
     marginTop: 20,
+  },
+  preview: { width: win.width - 70, height: 230 },
+  buttonContainer: {
+    marginHorizontal: 15,
   },
 });

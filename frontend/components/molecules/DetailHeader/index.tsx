@@ -32,7 +32,7 @@ const DetailHeader: React.FC<DetailHeaderProps> = ({ destination }) => {
         Tentang destinasi
       </Title>
       <Subtitle size="sm">{destination?.description}</Subtitle>
-      <CarouselCards />
+      <CarouselCards images={destination.images} />
     </View>
   );
 };

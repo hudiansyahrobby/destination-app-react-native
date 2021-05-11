@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Avatar } from 'react-native-elements';
-// import * as ImagePicker from 'react-native-image-picker';
-// import {
-//   ImageLibraryOptions,
-//   ImagePickerResponse,
-// } from 'react-native-image-picker';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { GRAY_COLOR } from '../../../constants/color';
 import useEditMyProfile from '../../../hooks/UserHooks/useEditMyProfile';

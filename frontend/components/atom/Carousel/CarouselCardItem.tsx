@@ -27,8 +27,11 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   image: {
+    justifyContent: 'center',
+    alignItems: 'center',
     width: ITEM_WIDTH,
     height: 300,
+    resizeMode: 'cover',
   },
 });
 

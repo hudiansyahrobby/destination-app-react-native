@@ -23,8 +23,8 @@ export default Destination;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
-    paddingHorizontal: 30,
-    paddingTop: 60,
+    paddingHorizontal: 20,
+    paddingTop: 30,
     minHeight: '100%',
   },
   scrollView: { flexGrow: 1 },

@@ -58,6 +58,7 @@ const Lists: React.FC<ListsProps> = ({ destinations }) => {
             onPress={() =>
               navigation.navigate('Detail', {
                 itemId: destination.id,
+                headerTitle: destination.name,
               })
             }
             onLongPress={() => {

@@ -2,6 +2,7 @@ import { IDestination } from '../../types/DestinationType';
 import axios from '../axios';
 
 const addDestination = async (destination: FormData) => {
+  console.log('ADD DEST', destination);
   const { data } = await axios.post('/products', destination);
   return data.data;
 };
