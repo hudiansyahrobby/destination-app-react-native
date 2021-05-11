@@ -71,11 +71,17 @@ const DestinationForm = () => {
       {
         title: 'Pilih Gambar Dari Galeri',
         onPress: () => launchImageLibrary(),
+        icon: 'images',
       },
-      { title: 'Ambil Gambar', onPress: () => launchImageCamera() },
+      {
+        title: 'Ambil Gambar',
+        onPress: () => launchImageCamera(),
+        icon: 'ios-camera',
+      },
       {
         title: 'Batal',
         onPress: () => setIsVisible(false),
+        icon: 'close-sharp',
       },
     ];
 

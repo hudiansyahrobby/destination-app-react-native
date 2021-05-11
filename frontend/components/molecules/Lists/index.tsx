@@ -33,11 +33,12 @@ const Lists: React.FC<ListsProps> = ({ destinations }) => {
 
   const listMenu = () => {
     const menu = [
-      { title: 'Edit', onPress: () => onEdit(id) },
-      { title: 'Hapus', onPress: () => onDelete(id) },
+      { title: 'Edit', onPress: () => onEdit(id), icon: 'pencil' },
+      { title: 'Hapus', onPress: () => onDelete(id), icon: 'trash' },
       {
         title: 'Batal',
         onPress: () => setIsVisible(false),
+        icon: 'close-sharp',
       },
     ];
 
