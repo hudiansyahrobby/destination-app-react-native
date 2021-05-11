@@ -45,7 +45,6 @@ const EditProfileForm = () => {
       height: 400,
       cropping: true,
     }).then((image) => {
-      console.log(image);
       setAvatar(image);
       setIsVisible(false);
     });
@@ -57,7 +56,6 @@ const EditProfileForm = () => {
       height: 400,
       cropping: true,
     }).then((image) => {
-      console.log(image);
       setAvatar(image);
       setIsVisible(false);
     });
@@ -118,7 +116,11 @@ const EditProfileForm = () => {
           size="xlarge"
           rounded
           source={{
-            uri: avatar ? avatar.path : user?.photoURL,
+            uri: avatar
+              ? avatar.path
+              : user?.photoURL
+              ? user?.photoURL
+              : 'https://st.depositphotos.com/2101611/3925/v/600/depositphotos_39258143-stock-illustration-businessman-avatar-profile-picture.jpg',
           }}
           onPress={() => setIsVisible(true)}>
           <Avatar.Accessory

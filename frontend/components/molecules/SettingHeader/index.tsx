@@ -11,14 +11,17 @@ interface SettingHeaderProps {
 }
 
 const SettingHeader: React.FC<SettingHeaderProps> = ({ user }) => {
-  console.log('DISPLA ', user?.displayName[0]);
   return (
     <View style={styles.container}>
       <Avatar
         title={user?.displayName[0]?.toUpperCase()}
         size={100}
         rounded
-        source={{ uri: user.photoURL }}
+        source={{
+          uri:
+            user.photoURL ||
+            'https://st.depositphotos.com/2101611/3925/v/600/depositphotos_39258143-stock-illustration-businessman-avatar-profile-picture.jpg',
+        }}
       />
       <View style={styles.name}>
         <Title size="md" style={{ color: PRIMARY_COLOR }}>
