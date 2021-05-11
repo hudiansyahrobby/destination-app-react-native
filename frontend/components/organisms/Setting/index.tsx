@@ -1,7 +1,5 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import Spinner from 'react-native-spinkit';
-import { PRIMARY_COLOR } from '../../../constants/color';
 import useMyProfile from '../../../hooks/UserHooks/useMyProfile';
 import Loading from '../../atom/Loading';
 import { Title } from '../../atom/Typography';

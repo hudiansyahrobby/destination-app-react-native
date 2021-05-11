@@ -1,40 +1,24 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Image } from 'react-native-elements';
-import useDestination from '../../../hooks/DestinationHooks/useDestination';
 import { IDestination } from '../../../types/DestinationType';
 import CarouselCards from '../../atom/Carousel';
-import Loading from '../../atom/Loading';
 import Rating from '../../atom/Rating';
-import { Title, TextWithIcon, Subtitle } from '../../atom/Typography';
+import { Subtitle, TextWithIcon, Title } from '../../atom/Typography';
 
 interface DetailHeaderProps {
-  destinationId: string;
+  destination: IDestination;
 }
 
-const DetailHeader: React.FC<DetailHeaderProps> = ({ destinationId }) => {
-  const { isLoading, data, isError } = useDestination(destinationId);
-  const destination: IDestination = data;
-
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  if (isError) {
-    return (
-      <View style={styles.text}>
-        <Title size="sm">Error</Title>
-      </View>
-    );
-  }
-
+const DetailHeader: React.FC<DetailHeaderProps> = ({ destination }) => {
   return (
     <View>
       <Image
         style={styles.image}
         source={{
           uri:
-            'https://pix10.agoda.net/hotelImages/301716/-1/fe9724d8fb4da3dd4590353bd771a276.jpg?s=1024x768',
+            (destination.images[0] as any)?.imageUrl ||
+            'https://ami-sni.com/wp-content/themes/consultix/images/no-image-found-360x250.png',
         }}
       />
 
@@ -60,9 +44,5 @@ const styles = StyleSheet.create({
   title: {
     marginTop: 20,
     marginBottom: 13,
-  },
-  text: {
-    marginHorizontal: 20,
-    marginTop: 20,
   },
 });

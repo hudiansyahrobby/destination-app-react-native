@@ -6,6 +6,7 @@ import useDeleteCategory from '../../../hooks/CategoryHooks/useDeleteCategory';
 import useDeleteDestination from '../../../hooks/DestinationHooks/useDeleteDestination';
 import { IDestination } from '../../../types/DestinationType';
 import BottomMenu from '../../atom/BottomMenu';
+import Loading from '../../atom/Loading';
 
 interface ListsProps {
   destinations: IDestination[];
@@ -43,6 +44,9 @@ const Lists: React.FC<ListsProps> = ({ destinations }) => {
     return menu;
   };
 
+  if (isLoading) {
+    return <Loading />;
+  }
   return (
     <View style={styles.container}>
       {destinations?.map((destination) => (
@@ -63,14 +67,15 @@ const Lists: React.FC<ListsProps> = ({ destinations }) => {
             <Avatar
               source={{
                 uri:
-                  'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
+                  (destination?.images[0] as any)?.imageUrl ||
+                  'https://ami-sni.com/wp-content/themes/consultix/images/no-image-found-360x250.png',
               }}
               rounded
             />
             <ListItem.Content>
               <ListItem.Title>{destination.name}</ListItem.Title>
               <ListItem.Subtitle>
-                {destination.province} - {destination.city}
+                {destination.city} - {destination.province}
               </ListItem.Subtitle>
             </ListItem.Content>
             <ListItem.Chevron />

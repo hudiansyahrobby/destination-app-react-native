@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { GRAY_COLOR } from '../../../constants/color';
-import { TextInput } from '../../atom/Form';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import { SimpleButton } from '../../atom/Button';
-import useSignup from '../../../hooks/AuthHooks/useSignup';
-import { Text } from 'react-native-elements';
 import { showMessage } from 'react-native-flash-message';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { GRAY_COLOR } from '../../../constants/color';
 import { capitalizeEachWord } from '../../../helpers/capitalizeEachWord';
+import useSignup from '../../../hooks/AuthHooks/useSignup';
+import { SimpleButton } from '../../atom/Button';
+import { TextInput } from '../../atom/Form';
 
 const RegisterForm = () => {
   const [register, setRegister] = useState({

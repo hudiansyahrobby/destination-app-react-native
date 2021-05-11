@@ -1,7 +1,8 @@
 import { useNavigation } from '@react-navigation/core';
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { ActivityIndicator, StyleSheet } from 'react-native';
 import { Card, Text } from 'react-native-elements';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { capitalizeEachWord } from '../../../helpers/capitalizeEachWord';
 import { IDestination } from '../../../types/DestinationType';
 import Rating from '../../atom/Rating';
@@ -14,28 +15,32 @@ const DestinationCard: React.FC<DestinationCardProps> = ({ destination }) => {
   const navigation = useNavigation();
 
   return (
-    <Card containerStyle={styles.card} key={destination.id}>
-      <Card.Image
-        style={styles.image}
-        source={{
-          uri:
-            'https://pix10.agoda.net/hotelImages/301716/-1/fe9724d8fb4da3dd4590353bd771a276.jpg?s=1024x768',
-        }}
-      />
-      <Card.Title
-        style={styles.title}
-        onPress={() =>
-          navigation.navigate('Detail', {
-            itemId: destination.id,
-          })
-        }>
-        {capitalizeEachWord(destination?.name)}
-      </Card.Title>
-      <Rating rating={5} />
-      <Text style={styles.description}>
-        {destination?.description?.substring(0, 149)}
-      </Text>
-    </Card>
+    <TouchableWithoutFeedback
+      onPress={() =>
+        navigation.navigate('Detail', {
+          itemId: destination.id,
+          headerTitle: destination.name,
+        })
+      }>
+      <Card containerStyle={styles.card} key={destination.id}>
+        <Card.Image
+          style={styles.image}
+          source={{
+            uri:
+              (destination.images[0] as any)?.imageUrl ||
+              'https://ami-sni.com/wp-content/themes/consultix/images/no-image-found-360x250.png',
+          }}
+          PlaceholderContent={<ActivityIndicator />}
+        />
+        <Card.Title style={styles.title}>
+          {capitalizeEachWord(destination?.name)}
+        </Card.Title>
+        <Rating rating={5} />
+        <Text style={styles.description}>
+          {destination?.description?.substring(0, 149)}
+        </Text>
+      </Card>
+    </TouchableWithoutFeedback>
   );
 };
 

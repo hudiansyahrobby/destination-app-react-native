@@ -10,15 +10,7 @@ type AvatarProps = ProfilePictureProps & {
 };
 
 const Avatar: React.FC<AvatarProps> = (props) => {
-  return (
-    <ProfilePicture
-      {...props}
-      containerStyle={styles.container}
-      source={{
-        uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-      }}
-    />
-  );
+  return <ProfilePicture {...props} containerStyle={styles.container} />;
 };
 
 export default Avatar;

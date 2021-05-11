@@ -8,17 +8,26 @@ interface ProfileCardProps {
   country?: string;
   name: string;
   email: string;
+  image?: string;
 }
 
-const ProfileCard: React.FC<ProfileCardProps> = ({ name, country, email }) => {
+const ProfileCard: React.FC<ProfileCardProps> = ({
+  name,
+  country,
+  email,
+  image,
+}) => {
   return (
     <>
       <Avatar
+        source={{
+          uri:
+            image ||
+            'https://st.depositphotos.com/2101611/3925/v/600/depositphotos_39258143-stock-illustration-businessman-avatar-profile-picture.jpg',
+        }}
         title={name[0].toUpperCase()}
         size="xlarge"
-        placeholderStyle={styles.imagePlaceholder}
         rounded
-        avatarStyle={styles.avatar}
       />
       <Title position="center" style={styles.title}>
         {capitalizeEachWord(name)}
@@ -36,10 +45,4 @@ export default ProfileCard;
 
 const styles = StyleSheet.create({
   title: { marginTop: 10 },
-  avatar: {
-    borderWidth: 7,
-    borderColor: '#D1D5DB',
-    borderRadius: 100,
-  },
-  imagePlaceholder: { backgroundColor: '#6366F1' },
 });

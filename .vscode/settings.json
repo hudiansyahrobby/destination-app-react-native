@@ -4,4 +4,11 @@
         "**/.vscode/**",
         "**/.node_modules/**"
     ],
+    "search.exclude": {
+        "**/android/**": true,
+        "**/ios/**": true
+    },
+    "files.watcherExclude": {
+        "**/android/**": true
+    },
 }

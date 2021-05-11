@@ -5,11 +5,13 @@ import { GRAY_COLOR } from '../../../constants/color';
 import useAddCategory from '../../../hooks/CategoryHooks/useAddCategory';
 import { SimpleButton } from '../../atom/Button';
 import { TextInput } from '../../atom/Form';
+import { capitalizeEachWord } from '../../../helpers/capitalizeEachWord';
+import { showMessage } from 'react-native-flash-message';
 
 const CategoryForm = () => {
   const [name, setName] = React.useState<string>('');
 
-  const { mutateAsync, isLoading } = useAddCategory();
+  const { mutateAsync, isLoading, isError, error } = useAddCategory();
 
   const onSubmit = async () => {
     await mutateAsync({ name });
@@ -18,6 +20,18 @@ const CategoryForm = () => {
   const onInputChange = (inputValue: string) => {
     setName(inputValue);
   };
+
+  const addCategoryError: any = error;
+  const appError = addCategoryError?.response?.data?.message;
+
+  React.useEffect(() => {
+    if (isError) {
+      showMessage({
+        message: capitalizeEachWord(appError),
+        type: 'danger',
+      });
+    }
+  }, [isError, appError]);
 
   return (
     <View style={styles.wrapper}>

@@ -1,11 +1,13 @@
-import { useRoute } from '@react-navigation/core';
 import React from 'react';
 import { DetailHeader } from '../../molecules';
+import { IDestination } from '../../../types/DestinationType';
 
-const DestinationDetail = () => {
-  const { params } = useRoute();
-  const destinationId = (params as any)?.itemId;
-  return <DetailHeader destinationId={destinationId} />;
+type DestinationDetailProps = {
+  destination: IDestination;
+};
+
+const DestinationDetail: React.FC<DestinationDetailProps> = (props) => {
+  return <DetailHeader {...props} />;
 };
 
 export default DestinationDetail;

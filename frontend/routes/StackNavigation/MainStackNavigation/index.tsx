@@ -1,4 +1,3 @@
-import { useNavigation } from '@react-navigation/core';
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { PRIMARY_COLOR } from '../../../constants/color';
@@ -15,8 +14,6 @@ const screenOptionStyle = {
 };
 
 const MainStackNavigation = () => {
-  const navigation = useNavigation();
-
   return (
     <Stack.Navigator screenOptions={screenOptionStyle} initialRouteName="Home">
       <Stack.Screen
@@ -26,7 +23,13 @@ const MainStackNavigation = () => {
           headerTitle: 'Beranda',
         }}
       />
-      <Stack.Screen name="Detail" component={DetailScreen} />
+      <Stack.Screen
+        name="Detail"
+        component={DetailScreen}
+        options={{
+          headerTitle: 'Detail',
+        }}
+      />
     </Stack.Navigator>
   );
 };

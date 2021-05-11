@@ -1,4 +1,4 @@
-import { useRoute } from '@react-navigation/core';
+import { useNavigation, useRoute } from '@react-navigation/core';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import useUser from '../../../hooks/UserHooks/useUser';
@@ -11,8 +11,13 @@ import { ProfileCard } from '../../molecules';
 
 const Profile = () => {
   const { params } = useRoute();
+  const navigation = useNavigation();
 
   const userId = (params as any)?.itemId;
+  const headerTitle = (params as any)?.headerTitle;
+  navigation.setOptions({
+    headerTitle: `Profil ${headerTitle}`,
+  });
   const { data, isError, isLoading } = useUser(userId);
 
   const user: IUserProfile = data;
@@ -35,6 +40,7 @@ const Profile = () => {
         name={user.displayName}
         country={user.country}
         email={user.email}
+        image={user?.photoURL}
       />
       <DividerLine />
       <View style={styles.about}>

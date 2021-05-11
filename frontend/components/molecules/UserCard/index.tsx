@@ -2,10 +2,10 @@ import { useNavigation } from '@react-navigation/core';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Avatar, ListItem } from 'react-native-elements';
-import { IUser } from '../../../types/UserType';
+import { IUserProfile } from '../../../types/UserType';
 
 interface UserCardProps {
-  users: IUser[];
+  users: IUserProfile[];
 }
 
 const UserCard: React.FC<UserCardProps> = ({ users }) => {
@@ -21,12 +21,14 @@ const UserCard: React.FC<UserCardProps> = ({ users }) => {
           onPress={() =>
             navigation.navigate('Profile', {
               itemId: user.uid,
+              headerTitle: user.displayName,
             })
           }>
           <Avatar
             source={{
               uri:
-                'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
+                user?.photoURL ||
+                'https://st.depositphotos.com/2101611/3925/v/600/depositphotos_39258143-stock-illustration-businessman-avatar-profile-picture.jpg',
             }}
             rounded
           />
