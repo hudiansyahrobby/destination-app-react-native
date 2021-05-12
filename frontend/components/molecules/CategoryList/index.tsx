@@ -8,6 +8,7 @@ import { ICategory } from '../../../types/CategoryType';
 import BottomMenu from '../../atom/BottomMenu';
 import { showMessage } from 'react-native-flash-message';
 import Loading from '../../atom/Loading';
+import { PRIMARY_COLOR } from '../../../constants/color';
 
 interface CategoryListProps {
   categories: ICategory[];
@@ -31,10 +32,21 @@ const CategoryList: React.FC<CategoryListProps> = ({ categories }) => {
     await mutateAsync(categoryId);
   };
 
+  const onShowDetail = (categoryId: string) => {
+    navigation.navigate('Detail', {
+      itemId: categoryId,
+    });
+  };
+
   const listMenu = () => {
     const menu = [
-      { title: 'Edit', onPress: () => onEdit(id), icon: 'pencil' },
-      { title: 'Hapus', onPress: () => onDelete(id), icon: 'trash' },
+      {
+        title: 'Lihat Destinasi Berdasarkan Kategori',
+        onPress: () => onShowDetail(id),
+        icon: 'aperture',
+      },
+      { title: 'Edit Kategori', onPress: () => onEdit(id), icon: 'pencil' },
+      { title: 'Hapus Kategori', onPress: () => onDelete(id), icon: 'trash' },
       {
         title: 'Batal',
         onPress: () => setIsVisible(false),
@@ -64,26 +76,21 @@ const CategoryList: React.FC<CategoryListProps> = ({ categories }) => {
   return (
     <View style={styles.container}>
       {categories?.map((category) => (
-        <>
+        <React.Fragment key={category.id}>
           <ListItem
-            key={category.id}
             bottomDivider
             topDivider
-            onPress={() =>
-              navigation.navigate('Detail', {
-                itemId: category.id,
-              })
-            }
-            onLongPress={() => {
+            onPress={() => {
               setId(category.id as string);
               setIsVisible(true);
             }}>
             <Avatar
-              source={{
-                uri:
-                  'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
+              size={45}
+              icon={{
+                name: 'aperture',
+                color: PRIMARY_COLOR,
+                type: 'ionicon',
               }}
-              rounded
             />
             <ListItem.Content>
               <ListItem.Title>
@@ -93,7 +100,7 @@ const CategoryList: React.FC<CategoryListProps> = ({ categories }) => {
             <ListItem.Chevron />
           </ListItem>
           <BottomMenu menus={listMenu()} isVisible={isVisible} />
-        </>
+        </React.Fragment>
       ))}
     </View>
   );

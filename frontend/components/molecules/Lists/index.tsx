@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/core';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Avatar, ListItem } from 'react-native-elements';
+import { capitalizeEachWord } from '../../../helpers/capitalizeEachWord';
 import useDeleteCategory from '../../../hooks/CategoryHooks/useDeleteCategory';
 import useDeleteDestination from '../../../hooks/DestinationHooks/useDeleteDestination';
 import { IDestination } from '../../../types/DestinationType';
@@ -31,10 +32,22 @@ const Lists: React.FC<ListsProps> = ({ destinations }) => {
     await mutateAsync(destinationId);
   };
 
+  const onShowDetail = (destinationId: string) => {
+    setIsVisible(false);
+    navigation.navigate('Detail', {
+      itemId: destinationId,
+    });
+  };
+
   const listMenu = () => {
     const menu = [
-      { title: 'Edit', onPress: () => onEdit(id), icon: 'pencil' },
-      { title: 'Hapus', onPress: () => onDelete(id), icon: 'trash' },
+      {
+        title: 'Lihat Detail Destinasi',
+        onPress: () => onShowDetail(id),
+        icon: 'aperture',
+      },
+      { title: 'Edit Destinasi', onPress: () => onEdit(id), icon: 'pencil' },
+      { title: 'Hapus Destinasi', onPress: () => onDelete(id), icon: 'trash' },
       {
         title: 'Batal',
         onPress: () => setIsVisible(false),
@@ -56,13 +69,7 @@ const Lists: React.FC<ListsProps> = ({ destinations }) => {
             key={destination.id}
             bottomDivider
             topDivider
-            onPress={() =>
-              navigation.navigate('Detail', {
-                itemId: destination.id,
-                headerTitle: destination.name,
-              })
-            }
-            onLongPress={() => {
+            onPress={() => {
               setId(destination.id as string);
               setIsVisible(true);
             }}>
@@ -75,9 +82,12 @@ const Lists: React.FC<ListsProps> = ({ destinations }) => {
               rounded
             />
             <ListItem.Content>
-              <ListItem.Title>{destination.name}</ListItem.Title>
+              <ListItem.Title>
+                {capitalizeEachWord(destination.name)}
+              </ListItem.Title>
               <ListItem.Subtitle>
-                {destination.city} - {destination.province}
+                {capitalizeEachWord(destination.city)} -{' '}
+                {capitalizeEachWord(destination.province)}
               </ListItem.Subtitle>
             </ListItem.Content>
             <ListItem.Chevron />

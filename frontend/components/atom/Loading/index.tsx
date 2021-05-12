@@ -5,11 +5,12 @@ import { PRIMARY_COLOR } from '../../../constants/color';
 
 const Loading = () => {
   return (
-    <View style={styles.spinner}>
+    <View style={styles.container}>
       <Spinner
         isVisible={true}
         size={150}
         type="Circle"
+        style={styles.spinner}
         color={PRIMARY_COLOR}
       />
     </View>
@@ -19,10 +20,13 @@ const Loading = () => {
 export default Loading;
 
 const styles = StyleSheet.create({
-  spinner: {
+  container: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    top: 0,
     justifyContent: 'center',
-    alignItems: 'center',
-    display: 'flex',
-    height: '100%',
   },
+  spinner: { alignSelf: 'center' },
 });

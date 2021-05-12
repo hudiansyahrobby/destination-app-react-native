@@ -83,7 +83,7 @@ const LoginForm = () => {
             Lupa Password ?
           </Text>
           <SimpleButton
-            title="Buat Akun"
+            title="Masuk Akun"
             onPress={handleSubmit}
             loading={isLoading}
           />

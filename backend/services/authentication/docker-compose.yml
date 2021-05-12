@@ -1,0 +1,10 @@
+version: "3.7"
+services:
+  authentication:
+    build:
+      context: ./
+    volumes:
+      - .:/usr/src/app
+    image: authentication
+    ports:
+      - "8087:8087"

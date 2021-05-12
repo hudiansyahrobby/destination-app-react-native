@@ -7,6 +7,11 @@ const useEditDestination = (destinationId: string) => {
   const navigation = useNavigation();
 
   return useMutation(editDestination, {
+    onError: (error, variables, context) => {
+      console.log('ERROR', error);
+      console.log('VAR', variables);
+      console.log('CONT', context);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries('destinations');
       queryClient.invalidateQueries(['destination', destinationId]);

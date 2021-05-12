@@ -22,19 +22,8 @@ const getDestination = async (id: string) => {
 };
 
 const editDestination = async ({ destination, id }: any) => {
-  // console.log('DSAD', destination);
-  // const { name, city, province, description, categoryId, images } = destination;
-  // const updatedDestination = {
-  //   name,
-  //   city,
-  //   province,
-  //   description,
-  //   categoryId,
-  //   images,
-  // };
-
-  // console.log(updatedDestination);
   const { data } = await axios.put(`/products/${id}`, destination);
+  console.log(data.data);
   return data.data;
 };
 

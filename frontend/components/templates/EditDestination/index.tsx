@@ -23,7 +23,7 @@ export default EditDestination;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
-    paddingHorizontal: 30,
+    paddingHorizontal: 20,
     paddingTop: 60,
     minHeight: '100%',
   },

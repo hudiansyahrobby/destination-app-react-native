@@ -1,26 +1,32 @@
 import { useRoute } from '@react-navigation/core';
+import { Formik } from 'formik';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { GRAY_COLOR } from '../../../constants/color';
 import useCategory from '../../../hooks/CategoryHooks/useCategory';
 import useEditCategory from '../../../hooks/CategoryHooks/useEditCategory';
+import categoryValidationSchema from '../../../validations/categoryValidation';
 import { SimpleButton } from '../../atom/Button';
 import { TextInput } from '../../atom/Form';
+import ErrorText from '../../atom/Form/ErrorText';
 import Loading from '../../atom/Loading';
 import { Title } from '../../atom/Typography';
 
 const EditCategoryForm = () => {
-  const [category, setCategory] = React.useState('');
+  const [category, setCategory] = React.useState({ name: '' });
 
   const { params } = useRoute();
   const categoryId = (params as any).itemList;
-
+  console.log('CAT', category);
   const {
     data,
     isLoading: isCategoryLoading,
     isError: isCategoryError,
   } = useCategory(categoryId);
+
+  const categoryData = data;
+  console.log('CAT DATA', categoryData);
 
   const {
     mutateAsync,
@@ -28,23 +34,12 @@ const EditCategoryForm = () => {
     isError: isEditCategoryError,
   } = useEditCategory();
 
-  const categoryData = data;
-
   React.useEffect(() => {
-    setCategory(categoryData?.name);
-  }, []);
-
-  const onSubmit = async () => {
-    const updatedCategory = {
-      id: categoryId,
-      name: category,
-    };
-    await mutateAsync(updatedCategory);
-  };
-
-  const onInputChange = (inputValue: string) => {
-    setCategory(inputValue);
-  };
+    console.log('SET CAT');
+    setCategory({
+      name: categoryData?.name,
+    });
+  }, [categoryData?.name]);
 
   if (isCategoryLoading) {
     return <Loading />;
@@ -59,22 +54,49 @@ const EditCategoryForm = () => {
   }
 
   return (
-    <View style={styles.wrapper}>
-      <TextInput
-        autoFocus
-        label="Nama Kategori"
-        placeholder="Nama Kategori"
-        defaultValue={data.name}
-        onChangeText={(value) => onInputChange(value)}
-        leftIcon={<Ionicons name="aperture" size={24} color={GRAY_COLOR} />}
-      />
-
-      <SimpleButton
-        title="Edit Kategori"
-        loading={isEditCategoryLoading}
-        onPress={onSubmit}
-      />
-    </View>
+    <Formik
+      initialValues={category}
+      enableReinitialize={true}
+      onSubmit={async (values) => {
+        const updatedCategory = {
+          id: categoryId,
+          name: values.name,
+        };
+        await mutateAsync(updatedCategory);
+      }}
+      validationSchema={categoryValidationSchema}>
+      {({
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        values,
+        touched,
+        errors,
+      }) => (
+        <>
+          <View style={styles.wrapper}>
+            <TextInput
+              label="Nama Kategori"
+              onChangeText={handleChange('name')}
+              onBlur={handleBlur('name')}
+              value={values.name}
+              placeholder="Nama Kategori"
+              leftIcon={
+                <Ionicons name="aperture" size={24} color={GRAY_COLOR} />
+              }
+            />
+            {errors.name && touched.name && <ErrorText message={errors.name} />}
+            <View style={styles.button}>
+              <SimpleButton
+                title="Edit Kategori"
+                onPress={handleSubmit}
+                loading={isEditCategoryLoading}
+              />
+            </View>
+          </View>
+        </>
+      )}
+    </Formik>
   );
 };
 
@@ -87,5 +109,8 @@ const styles = StyleSheet.create({
   text: {
     marginHorizontal: 20,
     marginTop: 20,
+  },
+  button: {
+    marginTop: 10,
   },
 });

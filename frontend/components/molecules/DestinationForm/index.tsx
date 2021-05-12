@@ -1,33 +1,29 @@
+import { Formik } from 'formik';
 import React from 'react';
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, Dimensions, StyleSheet, View } from 'react-native';
 import { Image } from 'react-native-elements';
 import ImagePicker, { ImageOrVideo } from 'react-native-image-crop-picker';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { GRAY_COLOR, PRIMARY_COLOR } from '../../../constants/color';
+import { capitalizeEachWord } from '../../../helpers/capitalizeEachWord';
 import useCategories from '../../../hooks/CategoryHooks/useCategories';
 import useAddDestination from '../../../hooks/DestinationHooks/useAddDestination';
 import { ICategory } from '../../../types/CategoryType';
+import { IDestination } from '../../../types/DestinationType';
+import destinationValidationSchema from '../../../validations/categoryValidation';
 import BottomMenu from '../../atom/BottomMenu';
 import { SimpleButton, UploadButton } from '../../atom/Button';
 import { Select, TextInput } from '../../atom/Form';
+import ErrorText from '../../atom/Form/ErrorText';
 import HorizontalScroll from '../../atom/HorizontalScroll';
 import Loading from '../../atom/Loading';
-import { Dimensions } from 'react-native';
 
 const win = Dimensions.get('window');
 
 const DestinationForm = () => {
   const [images, setImages] = React.useState<ImageOrVideo[]>();
   const [isVisible, setIsVisible] = React.useState(false);
-  const [destination, setDestination] = React.useState({
-    name: '',
-    province: '',
-    city: '',
-    description: '',
-    categoryId: '',
-  });
 
-  console.log('IMAGESKU', images);
   const {
     mutateAsync,
     isLoading: isAddDestinationLoading,
@@ -88,7 +84,7 @@ const DestinationForm = () => {
     return menu;
   };
 
-  const onSubmit = async () => {
+  const onSubmit = async (destination: Partial<IDestination>) => {
     const { name, province, city, description, categoryId } = destination;
 
     const data = new FormData();
@@ -108,92 +104,140 @@ const DestinationForm = () => {
     await mutateAsync(data);
   };
 
-  const onInputChange = (inputName: string, inputValue: string) => {
-    setDestination({ ...destination, [inputName]: inputValue });
-  };
-
   if (isCategoriesLoading) {
     return <Loading />;
   }
 
   const items = categories.map((category: ICategory) => {
     return {
-      label: category.name,
+      label: capitalizeEachWord(category.name),
       value: category.id,
       color: 'white',
     };
   });
 
   return (
-    <View style={styles.wrapper}>
-      <TextInput
-        autoFocus
-        label="Nama Destinasi"
-        placeholder="Nama Destinasi"
-        onChangeText={(value) => onInputChange('name', value)}
-        leftIcon={<Ionicons name="location" size={24} color={GRAY_COLOR} />}
-      />
+    <Formik
+      initialValues={{
+        name: '',
+        province: '',
+        city: '',
+        description: '',
+        categoryId: '',
+      }}
+      onSubmit={async (values) => {
+        onSubmit(values);
+      }}
+      validationSchema={destinationValidationSchema}>
+      {({
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        values,
+        touched,
+        errors,
+      }) => (
+        <>
+          <View style={styles.wrapper}>
+            <TextInput
+              autoFocus
+              label="Nama Destinasi"
+              onChangeText={handleChange('name')}
+              onBlur={handleBlur('name')}
+              value={values.name}
+              placeholder="Nama Destinasi"
+              leftIcon={
+                <Ionicons name="location" size={24} color={GRAY_COLOR} />
+              }
+            />
+            {errors.name && touched.name && <ErrorText message={errors.name} />}
 
-      <TextInput
-        label="Provinsi"
-        placeholder="Provinsi"
-        onChangeText={(value) => onInputChange('province', value)}
-        leftIcon={<Ionicons name="globe" size={24} color={GRAY_COLOR} />}
-      />
+            <TextInput
+              label="Provinsi"
+              onChangeText={handleChange('province')}
+              onBlur={handleBlur('province')}
+              value={values.province}
+              placeholder="Provinsi"
+              leftIcon={<Ionicons name="globe" size={24} color={GRAY_COLOR} />}
+            />
+            {errors.province && touched.province && (
+              <ErrorText message={errors.province} />
+            )}
 
-      <TextInput
-        label="Kota"
-        placeholder="Kota"
-        onChangeText={(value) => onInputChange('city', value)}
-        leftIcon={<Ionicons name="business" size={24} color={GRAY_COLOR} />}
-      />
+            <TextInput
+              label="Kota"
+              onChangeText={handleChange('city')}
+              onBlur={handleBlur('city')}
+              value={values.city}
+              placeholder="Kota"
+              leftIcon={
+                <Ionicons name="business" size={24} color={GRAY_COLOR} />
+              }
+            />
+            {errors.city && touched.city && <ErrorText message={errors.city} />}
 
-      <TextInput
-        label="Deskripsi"
-        placeholder="Deskripsi"
-        onChangeText={(value) => onInputChange('description', value)}
-        multiline
-        leftIcon={<Ionicons name="reader" size={24} color={GRAY_COLOR} />}
-      />
+            <TextInput
+              label="Deskripsi"
+              onChangeText={handleChange('description')}
+              onBlur={handleBlur('description')}
+              value={values.description}
+              multiline
+              placeholder="Deskripsi"
+              leftIcon={<Ionicons name="reader" size={24} color={GRAY_COLOR} />}
+            />
+            {errors.description && touched.description && (
+              <ErrorText message={errors.description} />
+            )}
 
-      <Select
-        label="Category"
-        Icon={() => <Ionicons name="aperture" size={24} color={GRAY_COLOR} />}
-        onValueChange={(value) => onInputChange('categoryId', value)}
-        value={destination.categoryId}
-        items={items}
-      />
+            <Select
+              label="Category"
+              Icon={() => (
+                <Ionicons name="aperture" size={24} color={GRAY_COLOR} />
+              )}
+              onValueChange={handleChange('categoryId')}
+              value={values.categoryId}
+              items={items}
+            />
+            {errors.categoryId && touched.categoryId && (
+              <ErrorText message={errors.categoryId} />
+            )}
 
-      {images && (
-        <HorizontalScroll>
-          {images.map((image) => {
-            return (
-              <Image
-                source={{ uri: image.path }}
-                style={styles.preview}
-                PlaceholderContent={<ActivityIndicator />}
+            {images && (
+              <HorizontalScroll>
+                {images.map((image) => {
+                  return (
+                    <Image
+                      key={image.path}
+                      source={{ uri: image.path }}
+                      style={styles.preview}
+                      PlaceholderContent={<ActivityIndicator />}
+                    />
+                  );
+                })}
+              </HorizontalScroll>
+            )}
+
+            <View style={styles.buttonContainer}>
+              <UploadButton
+                onPress={() => setIsVisible(true)}
+                icon={
+                  <Ionicons name="camera" size={20} color={PRIMARY_COLOR} />
+                }
+                title={!images ? 'Upload Gambar' : 'Ubah Gambar'}
               />
-            );
-          })}
-        </HorizontalScroll>
+
+              <SimpleButton
+                title="Tambah Destinasi"
+                loading={isAddDestinationLoading}
+                onPress={handleSubmit}
+              />
+
+              <BottomMenu menus={listMenu()} isVisible={isVisible} />
+            </View>
+          </View>
+        </>
       )}
-
-      <View style={styles.buttonContainer}>
-        <UploadButton
-          onPress={() => setIsVisible(true)}
-          icon={<Ionicons name="camera" size={20} color={PRIMARY_COLOR} />}
-          title={!images ? 'Upload Gambar' : 'Ubah Gambar'}
-        />
-
-        <SimpleButton
-          title="Tambah Destinasi"
-          loading={isAddDestinationLoading}
-          onPress={onSubmit}
-        />
-      </View>
-
-      <BottomMenu menus={listMenu()} isVisible={isVisible} />
-    </View>
+    </Formik>
   );
 };
 

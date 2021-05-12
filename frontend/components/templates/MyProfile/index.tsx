@@ -5,6 +5,7 @@ import useUser from '../../../hooks/UserHooks/useUser';
 import { IUserProfile } from '../../../types/UserType';
 import DividerLine from '../../atom/Divider/DividerLine';
 import HorizontalScroll from '../../atom/HorizontalScroll';
+import Loading from '../../atom/Loading';
 import { Subtitle, Title } from '../../atom/Typography';
 import { ProfileCard } from '../../molecules';
 
@@ -17,11 +18,7 @@ const MyProfile = () => {
   const user: IUserProfile = data;
 
   if (isLoading) {
-    return (
-      <View style={styles.text}>
-        <Title size="sm">Loading...</Title>
-      </View>
-    );
+    return <Loading />;
   }
 
   if (isError) {
