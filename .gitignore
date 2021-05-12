@@ -3,4 +3,9 @@ node_modules
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-public
+
+# exclude everything
+public/*
+
+# exception to the rule
+!public/.gitkeep 
