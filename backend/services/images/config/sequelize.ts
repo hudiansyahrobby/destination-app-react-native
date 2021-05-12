@@ -11,6 +11,8 @@ if (process.env.NODE_ENV === 'development') {
         database: process.env.POSTGRES_DATABASE_DEV,
         username: process.env.POSTGRES_USERNAME_DEV,
         password: process.env.POSTGRES_PASSWORD_DEV,
+        logging: false,
+
     };
 } else if (process.env.NODE_ENV === 'test') {
     sequelizeConfig = {

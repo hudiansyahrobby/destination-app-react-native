@@ -11,6 +11,7 @@ if (process.env.NODE_ENV === 'development') {
         database: process.env.POSTGRES_DATABASE_DEV,
         username: process.env.POSTGRES_USERNAME_DEV,
         password: process.env.POSTGRES_PASSWORD_DEV,
+        logging: false,
     };
 } else if (process.env.NODE_ENV === 'test') {
     sequelizeConfig = {
@@ -33,6 +34,7 @@ const sequelize = new Sequelize({
     dialect: 'postgres',
     port: 5432,
     host: 'categories_db',
+
     models: [path.join(__dirname, '..', 'models', '**')],
     // query: {
     //     raw: true,

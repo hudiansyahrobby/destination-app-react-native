@@ -1,33 +1,22 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import useUsers from '../../../hooks/UserHooks/useUsers';
-import Loading from '../../atom/Loading';
 import SearchItem from '../../atom/SearchItem';
-import { Title } from '../../atom/Typography';
 import { TitleWithSubtitle } from '../../molecules';
 import UserCard from '../../molecules/UserCard';
 
-const UserList = () => {
-  const { data, isLoading, isError } = useUsers();
-  const users = data.data;
-
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  if (isError) {
-    return (
-      <View style={styles.text}>
-        <Title size="sm">Error..</Title>
-      </View>
-    );
-  }
-
+interface UserListProps {
+  userList: any;
+}
+const UserList: React.FC<UserListProps> = ({ userList }) => {
   return (
     <>
       <TitleWithSubtitle title="Daftar Pengguna" subtitle="Cari Pengguna" />
       <SearchItem />
-      <UserCard users={users} />
+      <View style={styles.container}>
+        {userList?.map((users: any) => (
+          <UserCard users={users?.data} />
+        ))}
+      </View>
     </>
   );
 };
@@ -35,6 +24,10 @@ const UserList = () => {
 export default UserList;
 
 const styles = StyleSheet.create({
+  container: {
+    marginTop: 30,
+    marginBottom: 15,
+  },
   text: {
     marginHorizontal: 20,
     marginTop: 20,

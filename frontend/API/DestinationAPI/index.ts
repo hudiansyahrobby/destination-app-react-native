@@ -11,8 +11,8 @@ const addBulkDestinations = async (destinations: IDestination[]) => {
   await axios.post('/products/create-bulk', destinations);
 };
 
-const getAllDestinations = async () => {
-  const { data } = await axios.get('/products');
+const getAllDestinations = async ({ pageParam = 0 }) => {
+  const { data } = await axios.get(`/products?page=${pageParam}`);
   return data;
 };
 

@@ -1,34 +1,25 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import useDestinations from '../../../hooks/DestinationHooks/useDestinations';
 import { IDestination } from '../../../types/DestinationType';
-import Loading from '../../atom/Loading';
-import { Title } from '../../atom/Typography';
 import { DestinationCard } from '../../molecules/';
 
-const DestinationList = () => {
-  const { data, isLoading, isError } = useDestinations();
+interface DestinationListProps {
+  destinationList: any;
+}
 
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  if (isError) {
-    return (
-      <View style={styles.text}>
-        <Title size="sm">Error..</Title>
-      </View>
-    );
-  }
-
+const DestinationList: React.FC<DestinationListProps> = ({
+  destinationList,
+}) => {
   return (
     <View style={styles.container}>
-      {(data.data as any).map((destination: IDestination) => {
-        return (
-          <View style={styles.child} key={destination.id}>
-            <DestinationCard destination={destination} />
-          </View>
-        );
+      {destinationList?.map((destinations: any) => {
+        return destinations?.data?.map((destination: IDestination) => {
+          return (
+            <View style={styles.child} key={destination.id}>
+              <DestinationCard destination={destination} />
+            </View>
+          );
+        });
       })}
     </View>
   );
@@ -45,9 +36,5 @@ const styles = StyleSheet.create({
   },
   child: {
     width: '50%',
-  },
-  text: {
-    marginHorizontal: 20,
-    marginTop: 20,
   },
 });

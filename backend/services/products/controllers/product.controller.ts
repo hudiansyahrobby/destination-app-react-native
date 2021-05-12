@@ -45,7 +45,7 @@ export const createBulk = catchAsync(async (req: Request, res: Response) => {
 
 export const getProducts = catchAsync(async (req: Request, res: Response) => {
     const { page, size, search, sort } = req.query;
-
+    console.log('PAGE NYA', page);
     const _page = parseInt(page as string);
     const _size = parseInt(size as string);
 
@@ -55,6 +55,7 @@ export const getProducts = catchAsync(async (req: Request, res: Response) => {
         _size,
         sort as string,
     );
+    console.log(_page + 1);
     return res.status(200).json({
         message: 'OK',
         data: results,
@@ -62,7 +63,8 @@ export const getProducts = catchAsync(async (req: Request, res: Response) => {
         meta: {
             count: totalItems,
             load: results.length,
-            page: totalPages,
+            totalPages,
+            currentPage: _page + 1,
             offset: limit,
         },
     });

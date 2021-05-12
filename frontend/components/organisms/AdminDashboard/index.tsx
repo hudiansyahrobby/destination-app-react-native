@@ -39,8 +39,8 @@ const AdminDashboard = () => {
   if (isDestinationError || isUserError || isCategoryError) {
     return <Title>Error</Title>;
   }
-  const totalDestination = destinations.meta.count;
-  const totalUsers = users.meta.count;
+  const totalDestination = destinations?.pages[0]?.meta.count;
+  const totalUsers = users?.pages[0]?.meta.count;
   const totalCategories = categories?.length;
 
   return (

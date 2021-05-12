@@ -62,7 +62,7 @@ const Lists: React.FC<ListsProps> = ({ destinations }) => {
     return <Loading />;
   }
   return (
-    <View style={styles.container}>
+    <View>
       {destinations?.map((destination) => (
         <React.Fragment key={destination.id}>
           <ListItem
@@ -100,7 +100,3 @@ const Lists: React.FC<ListsProps> = ({ destinations }) => {
 };
 
 export default Lists;
-
-const styles = StyleSheet.create({
-  container: { marginVertical: 20 },
-});

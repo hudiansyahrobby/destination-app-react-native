@@ -10,6 +10,7 @@ interface UserCardProps {
 
 const UserCard: React.FC<UserCardProps> = ({ users }) => {
   const navigation = useNavigation();
+  console.log('USERS', users);
 
   return (
     <View style={styles.container}>
