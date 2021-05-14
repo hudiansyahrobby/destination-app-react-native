@@ -1,35 +1,34 @@
 import { useNavigation } from '@react-navigation/core';
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import { Avatar, ListItem } from 'react-native-elements';
+import { UseMutateAsyncFunction } from 'react-query';
 import { capitalizeEachWord } from '../../../helpers/capitalizeEachWord';
-import useDeleteCategory from '../../../hooks/CategoryHooks/useDeleteCategory';
-import useDeleteDestination from '../../../hooks/DestinationHooks/useDeleteDestination';
 import { IDestination } from '../../../types/DestinationType';
 import BottomMenu from '../../atom/BottomMenu';
-import Loading from '../../atom/Loading';
+import NoData from '../../atom/Typography/NoData';
 
 interface ListsProps {
   destinations: IDestination[];
+  onDelete: UseMutateAsyncFunction<void, unknown, string, unknown>;
 }
 
-const Lists: React.FC<ListsProps> = ({ destinations }) => {
+const Lists: React.FC<ListsProps> = ({ destinations, onDelete }) => {
   const navigation = useNavigation();
 
   const [id, setId] = React.useState('');
   const [isVisible, setIsVisible] = React.useState(false);
-  const { isLoading, isError, mutateAsync } = useDeleteDestination();
 
-  const onEdit = (destinationId: string) => {
+  const onEditDestination = (destinationId: string) => {
     setIsVisible(false);
     navigation.navigate('EditDestination', {
       itemList: destinationId,
     });
   };
 
-  const onDelete = async (destinationId: string) => {
+  const onDeleteDestination = async (destinationId: string) => {
     setIsVisible(false);
-    await mutateAsync(destinationId);
+    await onDelete(destinationId);
   };
 
   const onShowDetail = (destinationId: string) => {
@@ -46,8 +45,16 @@ const Lists: React.FC<ListsProps> = ({ destinations }) => {
         onPress: () => onShowDetail(id),
         icon: 'aperture',
       },
-      { title: 'Edit Destinasi', onPress: () => onEdit(id), icon: 'pencil' },
-      { title: 'Hapus Destinasi', onPress: () => onDelete(id), icon: 'trash' },
+      {
+        title: 'Edit Destinasi',
+        onPress: () => onEditDestination(id),
+        icon: 'pencil',
+      },
+      {
+        title: 'Hapus Destinasi',
+        onPress: () => onDeleteDestination(id),
+        icon: 'trash',
+      },
       {
         title: 'Batal',
         onPress: () => setIsVisible(false),
@@ -58,43 +65,44 @@ const Lists: React.FC<ListsProps> = ({ destinations }) => {
     return menu;
   };
 
-  if (isLoading) {
-    return <Loading />;
-  }
   return (
     <View>
-      {destinations?.map((destination) => (
-        <React.Fragment key={destination.id}>
-          <ListItem
-            key={destination.id}
-            bottomDivider
-            topDivider
-            onPress={() => {
-              setId(destination.id as string);
-              setIsVisible(true);
-            }}>
-            <Avatar
-              source={{
-                uri:
-                  (destination?.images[0] as any)?.imageUrl ||
-                  'https://ami-sni.com/wp-content/themes/consultix/images/no-image-found-360x250.png',
-              }}
-              rounded
-            />
-            <ListItem.Content>
-              <ListItem.Title>
-                {capitalizeEachWord(destination.name)}
-              </ListItem.Title>
-              <ListItem.Subtitle>
-                {capitalizeEachWord(destination.city)} -{' '}
-                {capitalizeEachWord(destination.province)}
-              </ListItem.Subtitle>
-            </ListItem.Content>
-            <ListItem.Chevron />
-          </ListItem>
-          <BottomMenu menus={listMenu()} isVisible={isVisible} />
-        </React.Fragment>
-      ))}
+      {destinations.length !== 0 ? (
+        destinations?.map((destination) => (
+          <React.Fragment key={destination.id}>
+            <ListItem
+              key={destination.id}
+              bottomDivider
+              topDivider
+              onPress={() => {
+                setId(destination.id as string);
+                setIsVisible(true);
+              }}>
+              <Avatar
+                source={{
+                  uri:
+                    (destination?.images[0] as any)?.imageUrl ||
+                    'https://ami-sni.com/wp-content/themes/consultix/images/no-image-found-360x250.png',
+                }}
+                rounded
+              />
+              <ListItem.Content>
+                <ListItem.Title>
+                  {capitalizeEachWord(destination.name)}
+                </ListItem.Title>
+                <ListItem.Subtitle>
+                  {capitalizeEachWord(destination.city)} -{' '}
+                  {capitalizeEachWord(destination.province)}
+                </ListItem.Subtitle>
+              </ListItem.Content>
+              <ListItem.Chevron />
+            </ListItem>
+            <BottomMenu menus={listMenu()} isVisible={isVisible} />
+          </React.Fragment>
+        ))
+      ) : (
+        <NoData>Destinasi Tidak Ada</NoData>
+      )}
     </View>
   );
 };

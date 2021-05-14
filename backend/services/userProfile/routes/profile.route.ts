@@ -5,7 +5,6 @@ import {
     getAllProfile,
     getMyProfile,
     getProfileById,
-    searchUser,
     updateProfile,
 } from '../controllers/profile.controller';
 import uploadFiles from '../helpers/initMulter';
@@ -26,7 +25,5 @@ router.get('/user-profile/:profileId', getProfileById);
 router.put('/user-profile/me', uploadFiles, isValid(profileValidation.profile, 'body'), updateProfile);
 
 router.delete('/user-profile/me', deleteProfile);
-
-router.get('/user-profile/search/:keyword', searchUser);
 
 export default router;

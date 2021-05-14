@@ -1,15 +1,15 @@
 import * as yup from 'yup';
 
-const destinationValidationSchema = yup.object().shape({
-  name: yup.string().trim().required('Nama Destinasi Harus Diisi'),
-  province: yup.string().trim().required('Provinsi Harus Diisi'),
-  city: yup.string().trim().required('Kota Harus Diisi'),
-  description: yup
+const categoryValidationSchema = yup.object().shape({
+  id: yup.string().trim().required('Kategori ID Harus Diisi'),
+  name: yup
     .string()
     .trim()
-    .max(5000, 'Deskripsi Tidak Boleh Lebih Dari 5000 Karakter')
-    .required('Dekripsi Harus Diisi'),
-  categoryId: yup.string().trim().required('Kategori Harus Diisi'),
+    .matches(
+      /^[a-zA-Z ]*$/,
+      'Nama Kategori Hanya Boleh Mengandung Huruf Atau Spasi'
+    )
+    .required('Nama Kategori Harus Diisi'),
 });
 
-export default destinationValidationSchema;
+export default categoryValidationSchema;

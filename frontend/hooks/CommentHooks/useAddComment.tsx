@@ -1,8 +1,15 @@
-import { useMutation } from 'react-query';
+import { QueryClient, useMutation } from 'react-query';
 import { addComment } from '../../API/CommentAPI';
 
 const useAddComment = () => {
-  return useMutation(() => addComment('5'));
+  const queryClient = new QueryClient();
+
+  return useMutation(addComment, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('comments');
+      queryClient.invalidateQueries('destinations');
+    },
+  });
 };
 
 export default useAddComment;

@@ -9,6 +9,7 @@ import { store } from './redux/stores';
 import Routes from './routes/index';
 import SplashScreen from 'react-native-splash-screen';
 import FlashMessage from 'react-native-flash-message';
+import { MenuProvider } from 'react-native-popup-menu';
 
 LogBox.ignoreLogs(['Setting a timer']);
 
@@ -24,9 +25,11 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <ThemeProvider>
-            <Routes />
-          </ThemeProvider>
+          <MenuProvider>
+            <ThemeProvider>
+              <Routes />
+            </ThemeProvider>
+          </MenuProvider>
         </PersistGate>
       </Provider>
       <FlashMessage position="top" />

@@ -81,6 +81,8 @@ paths:
       description: "Revoke Refresh Token"
       tags:
         - "Authentication"
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:

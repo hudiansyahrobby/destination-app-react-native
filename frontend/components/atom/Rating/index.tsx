@@ -3,15 +3,18 @@ import { StyleSheet, View, ViewStyle } from 'react-native';
 import { AirbnbRating, AirbnbRatingProps } from 'react-native-elements';
 
 type RatingProps = AirbnbRatingProps & {
-  rating: number;
   position?: 'left' | 'center';
   otherStyle?: ViewStyle;
+  onRating?: (value: number) => void;
 };
 
-const Rating: React.FC<RatingProps> = (
-  { rating = 5, size = 17, position = 'left', otherStyle },
-  props
-) => {
+const Rating: React.FC<RatingProps> = ({
+  size = 17,
+  position = 'left',
+  otherStyle,
+  onRating,
+  ...props
+}) => {
   const containerStyle = {
     ...styles.starContainer,
     ...styles[position],
@@ -21,10 +24,10 @@ const Rating: React.FC<RatingProps> = (
     <View style={containerStyle}>
       <AirbnbRating
         count={5}
-        defaultRating={rating}
         size={size}
         showRating={false}
         {...props}
+        onFinishRating={onRating}
       />
     </View>
   );

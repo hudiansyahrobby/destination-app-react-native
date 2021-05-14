@@ -1,12 +1,9 @@
-import admin from 'firebase-admin';
-import { IUser } from '../interfaces/user.interface';
-import firebase from 'firebase';
-import User from '../models/user.model';
 import axios from 'axios';
-import { Op } from 'sequelize';
-import { getPagination } from '../helpers/getPagination';
-import { getPaginationData } from '../helpers/getPaginationData';
+import firebase from 'firebase';
+import admin from 'firebase-admin';
 import AppError from '../errorHandler/AppError';
+import { IUser } from '../interfaces/user.interface';
+import User from '../models/user.model';
 
 export const saveUserOnDB = async (newUser: IUser) => {
     return User.create(newUser);
@@ -15,7 +12,6 @@ export const saveUserOnDB = async (newUser: IUser) => {
 export const registerUser = async (newUser: IUser) => {
     const user = await admin.auth().createUser(newUser);
 
-    // const registeredUser = await saveUserOnDB(userData);
     await createUserProfile({ uid: user.uid });
 
     return user;
@@ -48,8 +44,10 @@ export const loginUser = async (email: string, password: string) => {
     return loggedInUser;
 };
 
-export const refreshToken = (uid: string) => {
-    return admin.auth().revokeRefreshTokens(uid);
+export const refreshToken = async (uid: string) => {
+    const a = await firebase.auth().currentUser?.getIdTokenResult(true);
+    console.log('AAA', firebase.auth().currentUser);
+    return a;
 };
 
 export const loginWithFacebook = async (token: string) => {
@@ -79,44 +77,6 @@ export const getUserByUID = async (uid: string) => {
 
 export const createUserProfile = async (uid: { uid: string }) => {
     return axios.post('http://apigateway:8080/api/v1/user-profile', uid);
-};
-
-export const searchUser = async (keyword: string, page: number, size: number) => {
-    const { limit, offset } = getPagination(page, size);
-
-    const users = await User.findAndCountAll({
-        where: {
-            [Op.or]: [
-                {
-                    displayName: {
-                        [Op.iLike]: `%${keyword}%`,
-                    },
-                },
-                {
-                    email: keyword,
-                },
-            ],
-        },
-        limit,
-        offset,
-        raw: true,
-    });
-
-    const _users = getPaginationData(users, page, limit);
-    return _users;
-};
-
-export const getUsers = async (page: number, size: number) => {
-    const { limit, offset } = getPagination(page, size);
-
-    const users = await User.findAndCountAll({
-        limit,
-        offset,
-        raw: true,
-    });
-
-    const _users = getPaginationData(users, page, limit);
-    return _users;
 };
 
 export const checkAuthUser = async (bearerToken: string | undefined) => {

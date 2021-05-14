@@ -10,7 +10,7 @@ import useCategories from '../../../hooks/CategoryHooks/useCategories';
 import useAddDestination from '../../../hooks/DestinationHooks/useAddDestination';
 import { ICategory } from '../../../types/CategoryType';
 import { IDestination } from '../../../types/DestinationType';
-import destinationValidationSchema from '../../../validations/categoryValidation';
+import destinationValidationSchema from '../../../validations/destinationValidation';
 import BottomMenu from '../../atom/BottomMenu';
 import { SimpleButton, UploadButton } from '../../atom/Button';
 import { Select, TextInput } from '../../atom/Form';

@@ -2,6 +2,7 @@ import { IUser } from '../../types/UserType';
 import axios from '../axios';
 
 const signup = async (registerData: IUser) => {
+  console.log('REG', registerData);
   await axios.post('/auth/firebase-register', registerData);
 };
 

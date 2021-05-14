@@ -1,8 +1,14 @@
-import { useMutation } from 'react-query';
+import { QueryClient, useMutation } from 'react-query';
 import { deleteComment } from '../../API/CommentAPI';
 
 const useDeleteComment = () => {
-  return useMutation(() => deleteComment('5'));
+  const queryClient = new QueryClient();
+  return useMutation(deleteComment, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('comments');
+      queryClient.invalidateQueries('destinations');
+    },
+  });
 };
 
 export default useDeleteComment;

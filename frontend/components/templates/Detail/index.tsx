@@ -6,7 +6,9 @@ import {
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import useComments from '../../../hooks/CommentHooks/useComments';
 import useDestination from '../../../hooks/DestinationHooks/useDestination';
+import { IComment } from '../../../types/CommentType';
 import { IDestination } from '../../../types/DestinationType';
 import Loading from '../../atom/Loading';
 import { Title } from '../../atom/Typography';
@@ -22,19 +24,26 @@ const Detail = () => {
   const destinationId = (params as any)?.itemId;
   const destinationName = (params as any)?.headerTitle;
 
-  const { isLoading, data, isError } = useDestination(destinationId);
-
   navigation.setOptions({
     headerTitle: destinationName,
   });
 
-  const destination: IDestination = data;
+  const {
+    isLoading: isDestinationLoading,
+    data: destination,
+    isError: isDestinationError,
+  } = useDestination(destinationId);
+  const {
+    isLoading: isCommentLoading,
+    data: comments,
+    isError: isCommentError,
+  } = useComments(destinationId);
 
-  if (isLoading) {
+  if (isDestinationLoading || isCommentLoading) {
     return <Loading />;
   }
 
-  if (isError) {
+  if (isDestinationError || isCommentError) {
     return (
       <View style={styles.text}>
         <Title size="sm">Error</Title>
@@ -46,7 +55,10 @@ const Detail = () => {
     <ScrollView contentContainerStyle={styles.scrollView} ref={ref}>
       <View style={styles.container}>
         <DestinationDetail destination={destination} />
-        <CommentDetail />
+        <CommentDetail
+          destinationId={destinationId}
+          comments={comments as Required<IComment>[]}
+        />
       </View>
     </ScrollView>
   );

@@ -9,8 +9,6 @@ import {
     revokeRefreshToken,
     checkAuth,
     getUser,
-    findUser,
-    getAllUser,
     updateUser,
 } from '../controllers/auth.controller';
 import isValid from '../middlewares/isValid';
@@ -32,12 +30,8 @@ router.post('/auth/logout', logout);
 
 router.post('/auth/check-auth', checkAuth);
 
-router.get('/auth/users', getAllUser);
-
 router.put('/auth/users', updateUser);
 
 router.get('/auth/users/:uid', getUser);
-
-router.post('/auth/users/search/:keyword', findUser);
 
 export default router;

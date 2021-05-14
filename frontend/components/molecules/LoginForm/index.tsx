@@ -11,6 +11,7 @@ import loginValidationSchema from '../../../validations/loginValidation';
 import { SimpleButton } from '../../atom/Button';
 import { TextInput } from '../../atom/Form';
 import ErrorText from '../../atom/Form/ErrorText';
+import PasswordInput from '../../atom/Form/PasswordInput';
 
 const LoginForm = () => {
   const { isError, error, isLoading, mutateAsync } = useLogin();
@@ -35,6 +36,7 @@ const LoginForm = () => {
         password: '',
       }}
       onSubmit={async (values) => {
+        console.log('VALUES', values);
         await mutateAsync(values);
       }}
       validationSchema={loginValidationSchema}>
@@ -61,17 +63,12 @@ const LoginForm = () => {
               <ErrorText message={errors.email} />
             )}
 
-            <TextInput
+            <PasswordInput
               label="Password"
               onChangeText={handleChange('password')}
               onBlur={handleBlur('password')}
               value={values.password}
               placeholder="Password"
-              secureTextEntry
-              leftIcon={
-                <Ionicons name="lock-closed" size={24} color={GRAY_COLOR} />
-              }
-              rightIcon={<Ionicons name="eye" size={24} color={GRAY_COLOR} />}
             />
             {errors.password && touched.password && (
               <ErrorText message={errors.password} />

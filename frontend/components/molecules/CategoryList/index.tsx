@@ -9,6 +9,7 @@ import BottomMenu from '../../atom/BottomMenu';
 import { showMessage } from 'react-native-flash-message';
 import Loading from '../../atom/Loading';
 import { PRIMARY_COLOR } from '../../../constants/color';
+import NoData from '../../atom/Typography/NoData';
 
 interface CategoryListProps {
   categories: ICategory[];
@@ -75,33 +76,37 @@ const CategoryList: React.FC<CategoryListProps> = ({ categories }) => {
 
   return (
     <View style={styles.container}>
-      {categories?.map((category) => (
-        <React.Fragment key={category.id}>
-          <ListItem
-            bottomDivider
-            topDivider
-            onPress={() => {
-              setId(category.id as string);
-              setIsVisible(true);
-            }}>
-            <Avatar
-              size={45}
-              icon={{
-                name: 'aperture',
-                color: PRIMARY_COLOR,
-                type: 'ionicon',
-              }}
-            />
-            <ListItem.Content>
-              <ListItem.Title>
-                {capitalizeEachWord(category.name)}
-              </ListItem.Title>
-            </ListItem.Content>
-            <ListItem.Chevron />
-          </ListItem>
-          <BottomMenu menus={listMenu()} isVisible={isVisible} />
-        </React.Fragment>
-      ))}
+      {categories.length !== 0 ? (
+        categories?.map((category) => (
+          <React.Fragment key={category.id}>
+            <ListItem
+              bottomDivider
+              topDivider
+              onPress={() => {
+                setId(category.id as string);
+                setIsVisible(true);
+              }}>
+              <Avatar
+                size={45}
+                icon={{
+                  name: 'aperture',
+                  color: PRIMARY_COLOR,
+                  type: 'ionicon',
+                }}
+              />
+              <ListItem.Content>
+                <ListItem.Title>
+                  {capitalizeEachWord(category.name)}
+                </ListItem.Title>
+              </ListItem.Content>
+              <ListItem.Chevron />
+            </ListItem>
+            <BottomMenu menus={listMenu()} isVisible={isVisible} />
+          </React.Fragment>
+        ))
+      ) : (
+        <NoData>Tidak Ada Kategori</NoData>
+      )}
     </View>
   );
 };

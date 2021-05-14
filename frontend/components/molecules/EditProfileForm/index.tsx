@@ -24,7 +24,7 @@ const EditProfileForm = () => {
     country: '',
     about: '',
   });
-  console.log(profile);
+
   const {
     data: myProfileData,
     isError: isMyProfileError,
@@ -159,7 +159,7 @@ const EditProfileForm = () => {
                   <Ionicons name="person" size={24} color={GRAY_COLOR} />
                 }
               />
-              {console.log('EROR', errors.displayName)}
+
               {errors.displayName && touched.displayName && (
                 <ErrorText message={errors.displayName} />
               )}

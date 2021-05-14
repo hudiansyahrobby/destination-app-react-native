@@ -10,12 +10,18 @@ import FormData from 'form-data';
 import fs from 'fs';
 import path from 'path';
 import AppError from '../errorHandler/AppError';
+import Comment from '../models/comment.model';
 
 config();
 
 export const getProductbyId = async (productId: string) => {
     const product = await Product.findOne({
         where: { id: productId },
+        include: [
+            {
+                model: Comment,
+            },
+        ],
     });
 
     if (!product) {
@@ -87,6 +93,7 @@ export const getAllProducts = async (search: string, page: number, size: number,
     const products = await Product.findAndCountAll({
         where: searchCondition,
         limit,
+        distinct: true,
         offset,
         order: [orderBy as any],
         raw: true,
@@ -157,7 +164,6 @@ export const updateProductById = async (
         throw new AppError(`Product with id ${productId} not found`, 404, 'not-found');
     }
 
-    console.log('iMAGESAYA', images);
     const [_, _updatedProduct] = await Product.update(updatedProduct, {
         where: { id: productId },
         returning: true,
@@ -165,12 +171,11 @@ export const updateProductById = async (
     const category = await getCategoryById(_updatedProduct[0].categoryId);
 
     if (images.length !== 0) {
-        console.log('AHAHAHA');
         await deleteImageByProductId(productId, token);
         const _images = await uploadProductImage(images, productId, token);
         _updatedProduct[0].setDataValue('images', _images.data.data);
     }
-    console.log('ASDDAJ');
+
     _updatedProduct[0].setDataValue('categoryName', category.data.data.name);
 
     return _updatedProduct[0];

@@ -1,7 +1,5 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import SearchItem from '../../atom/SearchItem';
-import { TitleWithSubtitle } from '../../molecules';
 import UserCard from '../../molecules/UserCard';
 
 interface UserListProps {
@@ -10,11 +8,9 @@ interface UserListProps {
 const UserList: React.FC<UserListProps> = ({ userList }) => {
   return (
     <>
-      <TitleWithSubtitle title="Daftar Pengguna" subtitle="Cari Pengguna" />
-      <SearchItem />
       <View style={styles.container}>
-        {userList?.map((users: any) => (
-          <UserCard users={users?.data} />
+        {userList?.map((users: any, index: number) => (
+          <UserCard users={users?.data} key={index} />
         ))}
       </View>
     </>
@@ -25,7 +21,7 @@ export default UserList;
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 30,
+    marginTop: 0,
     marginBottom: 15,
   },
   text: {

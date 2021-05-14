@@ -2,7 +2,6 @@ import { IDestination } from '../../types/DestinationType';
 import axios from '../axios';
 
 const addDestination = async (destination: FormData) => {
-  console.log('ADD DEST', destination);
   const { data } = await axios.post('/products', destination);
   return data.data;
 };
@@ -11,9 +10,16 @@ const addBulkDestinations = async (destinations: IDestination[]) => {
   await axios.post('/products/create-bulk', destinations);
 };
 
-const getAllDestinations = async ({ pageParam = 0 }) => {
-  const { data } = await axios.get(`/products?page=${pageParam}`);
-  return data;
+const getAllDestinations = async (pageParam: string, search?: string) => {
+  if (search) {
+    const { data } = await axios.get(
+      `/products?page=${pageParam}&search=${search}`
+    );
+    return data;
+  } else {
+    const { data } = await axios.get(`/products?page=${pageParam}`);
+    return data;
+  }
 };
 
 const getDestination = async (id: string) => {
@@ -23,7 +29,6 @@ const getDestination = async (id: string) => {
 
 const editDestination = async ({ destination, id }: any) => {
   const { data } = await axios.put(`/products/${id}`, destination);
-  console.log(data.data);
   return data.data;
 };
 

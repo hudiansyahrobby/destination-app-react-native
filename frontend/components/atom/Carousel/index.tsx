@@ -10,7 +10,6 @@ interface CarouselCardsProps {
 const CarouselCards: React.FC<CarouselCardsProps> = ({ images }) => {
   const [index, setIndex] = React.useState(0);
   const isCarousel = React.useRef(null);
-  console.log('IMAGES', images);
   const data = images.map((image) => {
     return {
       imgUrl: (image as any).imageUrl,
@@ -36,6 +35,7 @@ const CarouselCards: React.FC<CarouselCardsProps> = ({ images }) => {
         dotsLength={data.length}
         activeDotIndex={index}
         dotStyle={styles.dot}
+        carouselRef={undefined}
         inactiveDotOpacity={0.4}
         inactiveDotScale={0.6}
         tappableDots={true}

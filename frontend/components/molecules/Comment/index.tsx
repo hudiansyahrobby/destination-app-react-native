@@ -1,28 +1,43 @@
 import React from 'react';
-import { View } from 'react-native';
-import Rating from '../../atom/Rating';
+import { StyleSheet, View } from 'react-native';
+import { IComment } from '../../../types/CommentType';
 import { Title } from '../../atom/Typography';
-import { StyleSheet } from 'react-native';
-import { BottomSheet, Input } from 'react-native-elements';
+import NoData from '../../atom/Typography/NoData';
+import AddCommentForm from '../AddCommentForm';
+import CommentCard from '../CommentCard';
 
-const Comment = () => {
+interface CommentProps {
+  destinationId: string;
+  comments: Required<IComment>[];
+}
+
+const Comment: React.FC<CommentProps> = ({ destinationId, comments }) => {
+  const [show, setShow] = React.useState<boolean>(false);
+
   return (
-    <View>
-      <Title size="sm">Beri Penilaian</Title>
-      <Rating
-        rating={5}
-        size={35}
-        otherStyle={styles.rating}
-        position="center"
+    <View style={styles.container}>
+      <View style={styles.title}>
+        <Title size="sm">Komentar</Title>
+        <Title size="sm" onPress={() => setShow(!show)}>
+          Tambah Komentar
+        </Title>
+      </View>
+
+      {comments?.length !== 0 ? (
+        comments?.map((comment) => (
+          <View style={styles.comments}>
+            <CommentCard comment={comment} />
+          </View>
+        ))
+      ) : (
+        <NoData size="sm">Tidak Ada Komentar</NoData>
+      )}
+
+      <AddCommentForm
+        show={show}
+        setShow={setShow}
+        destinationId={destinationId}
       />
-      <BottomSheet
-        isVisible={false}
-        modalProps={{ animationType: 'slide' }}
-        containerStyle={styles.bottomSheetContainer}>
-        <View style={styles.inputContainer}>
-          <Input label="Beri komentar" multiline autoFocus />
-        </View>
-      </BottomSheet>
     </View>
   );
 };
@@ -30,15 +45,16 @@ const Comment = () => {
 export default Comment;
 
 const styles = StyleSheet.create({
-  rating: {
+  container: {
+    marginVertical: 20,
+  },
+  title: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
     marginBottom: 20,
-    marginTop: 20,
   },
-  inputContainer: {
-    backgroundColor: 'white',
-    height: 400,
-    paddingHorizontal: 20,
-    paddingVertical: 30,
+  comments: {
+    marginVertical: 5,
   },
-  bottomSheetContainer: { backgroundColor: 'rgba(0.5, 0.25, 0, 0.2)' },
 });

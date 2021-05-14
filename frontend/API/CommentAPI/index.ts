@@ -1,15 +1,29 @@
+import { IComment } from '../../types/CommentType';
 import axios from '../axios';
 
-const addComment = async (destinationId: string) => {
-  await axios.post(`/destinations/${destinationId}/comments/`);
+const addComment = async (comment: IComment) => {
+  const { data } = await axios.post('/products/comments/', comment);
+  return data.data;
 };
 
-const editComment = async (destinationId: string, commentId: string) => {
-  await axios.put(`/destinations/${destinationId}/comments/${commentId}`);
+const getComments = async (destinationId: string) => {
+  const { data } = await axios.get(`/products/${destinationId}/comments`);
+  return data.data;
+};
+
+const getComment = async (commentId: string) => {
+  const { data } = await axios.get(`/products/comments/${commentId}`);
+  return data.data;
+};
+
+const editComment = async ({ updatedComment, id }: any) => {
+  const { data } = await axios.put(`/products/comments/${id}`, updatedComment);
+  return data.data;
 };
 
 const deleteComment = async (commentId: string) => {
-  await axios.delete(`/destinations/comments/${commentId}`);
+  const { data } = await axios.delete(`/products/comments/${commentId}`);
+  return data.data;
 };
 
-export { addComment, editComment, deleteComment };
+export { addComment, getComments, getComment, editComment, deleteComment };

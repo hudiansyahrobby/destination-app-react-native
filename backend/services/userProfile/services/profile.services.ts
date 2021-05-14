@@ -31,7 +31,6 @@ export const updateUserProfile = async (updatedProfile: UserProfile, image: any,
 
     const uploadedImage = await uploadProductImage(image, uid, token);
     const photoURL = uploadedImage.data.data[0].imageUrl;
-    console.log('UPLOADED IMAGE', photoURL);
     const updatedUserData = await updateUserData(uid, updatedProfile.displayName as string, photoURL);
     const profile = _updatedUserProfile[0].toJSON();
 
@@ -141,32 +140,6 @@ export const checkAuth = async (token: string | undefined) => {
     return uid;
 };
 
-export const findUserData = async (keyword: string) => {
-    const user = await axios.post(`http://authentication:8087/api/v1/auth/user/search/${keyword}`);
-    return user.data.data;
-};
-
-export const searchUserProfile = async (keyword: string) => {
-    const users: IUser[] = await findUserData(keyword);
-
-    const allUserProfiles: Promise<AxiosResponse<any>>[] = [];
-
-    users.map((user) => allUserProfiles.push(getUserProfile(user.uid)));
-
-    const allUserProfilePromises = Promise.all(allUserProfiles);
-    const profiles = await allUserProfilePromises;
-
-    const _allUserProfiles = users.map((user, index) => {
-        let _user: UserData = user;
-        const profile = { ..._user, ...profiles[index] };
-        return profile;
-    });
-
-    let _userProfileData: UserData[] = users;
-    _userProfileData = _allUserProfiles;
-    return _userProfileData;
-};
-
 export const getUserData = async (uid: string) => {
     const user = await axios.get(`http://authentication:8087/api/v1/auth/users/${uid}`);
     return user.data.data;
@@ -191,7 +164,6 @@ export const uploadProductImage = (images: Express.Multer.File, productId: strin
         };
     }
 
-    console.log('IMAGES', images);
     const form = new FormData();
     form.append('product_id', productId);
     form.append('images', fs.createReadStream(path.join(__dirname, '..', 'public', images.filename)));

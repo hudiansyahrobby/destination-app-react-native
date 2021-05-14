@@ -4,14 +4,12 @@ import { IUser } from '../interfaces/user.interface';
 import {
     checkAuthUser,
     getUserByUID,
-    getUsers,
     loginUser,
     loginWithFacebook,
     loginWithGoogle,
     logoutUser,
     refreshToken,
     registerUser,
-    searchUser,
     updateUserData,
 } from '../services/auth.services';
 
@@ -75,49 +73,6 @@ export const getUser = catchAsync(async (req: Request, res: Response, next: Next
         message: 'OK',
         status: 200,
         data: user,
-    });
-});
-
-export const getAllUser = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const { page, size } = req.query;
-
-    const _page = parseInt(page as string);
-    const _size = parseInt(size as string);
-
-    const { results, totalItems, totalPages, limit } = await getUsers(_page, _size);
-
-    return res.status(200).json({
-        message: 'OK',
-        data: results,
-        status: 200,
-        meta: {
-            count: totalItems,
-            load: results.length,
-            page: totalPages,
-            offset: limit,
-        },
-    });
-});
-
-export const findUser = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const { keyword } = req.params;
-    const { page, size } = req.query;
-
-    const _page = parseInt(page as string);
-    const _size = parseInt(size as string);
-
-    const { results, totalItems, totalPages, limit } = await searchUser(keyword, _page, _size);
-
-    return res.status(200).json({
-        message: 'OK',
-        data: results,
-        status: 200,
-        meta: {
-            count: totalItems,
-            load: results.length,
-            page: totalPages,
-            offset: limit,
-        },
     });
 });
 

@@ -1,18 +1,19 @@
-import express, { NextFunction, Request, Response } from 'express';
-import cors from 'cors';
 import compression from 'compression';
-import helmet from 'helmet';
-import swaggerUi from 'swagger-ui-express';
-import swaggerJSDoc from 'swagger-jsdoc';
-import initDB from './helpers/initDB';
+import cors from 'cors';
 import { config } from 'dotenv';
+import express, { NextFunction, Request, Response } from 'express';
+import helmet from 'helmet';
 import path from 'path';
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
+import AppError from './errorHandler/AppError';
+import { sendErrorDev, sendErrorProd } from './errorHandler/errorResponse';
+import initDB from './helpers/initDB';
+import { logger } from './helpers/logger';
 
 // ROUTES
 import productRoute from './routes/product.route';
-import { sendErrorDev, sendErrorProd } from './errorHandler/errorResponse';
-import AppError from './errorHandler/AppError';
-import { logger } from './helpers/logger';
+import commentRoute from './routes/comment.route';
 
 config();
 const app = express();
@@ -34,6 +35,7 @@ app.use(compression());
 app.use(helmet());
 
 app.use('/api/v1', productRoute);
+app.use('/api/v1', commentRoute);
 
 // Swagger Documentatios
 

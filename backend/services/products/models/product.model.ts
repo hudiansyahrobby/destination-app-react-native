@@ -1,4 +1,5 @@
-import { Model, Table, Column, DataType, PrimaryKey, Default } from 'sequelize-typescript';
+import { Model, Table, Column, DataType, PrimaryKey, Default, HasMany } from 'sequelize-typescript';
+import Comment from './comment.model';
 
 @Table({
     tableName: 'products',
@@ -23,4 +24,7 @@ export default class Product extends Model {
 
     @Column(DataType.UUIDV4)
     categoryId: any;
+
+    @HasMany(() => Comment, 'productId')
+    comments: Comment;
 }

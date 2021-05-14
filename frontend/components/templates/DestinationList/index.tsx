@@ -4,13 +4,18 @@ import { NativeScrollEvent, StyleSheet, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
 import { PRIMARY_COLOR } from '../../../constants/color';
+import useDeleteDestination from '../../../hooks/DestinationHooks/useDeleteDestination';
 import useDestinations from '../../../hooks/DestinationHooks/useDestinations';
 import Loading from '../../atom/Loading';
+import SearchItem from '../../atom/SearchItem';
 import { Title } from '../../atom/Typography';
+import { TitleWithSubtitle } from '../../molecules';
 import { DestinationAdminList } from '../../organisms/';
 
 const DestinationList = () => {
   const ref = React.useRef(null);
+  const [search, setSearch] = React.useState<string>('');
+  const [destination, setDestination] = React.useState<string>('');
 
   useScrollToTop(ref);
 
@@ -19,18 +24,27 @@ const DestinationList = () => {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    isError,
-    isLoading,
-  } = useDestinations();
+    isError: isDestinationError,
+    error,
+    isLoading: isDestinationLoading,
+  } = useDestinations(destination);
 
-  if (isLoading) {
+  const {
+    isLoading: isDeleteDestinationLoading,
+    isError: isDeleteDestinationError,
+    mutateAsync: deleteDestination,
+  } = useDeleteDestination();
+
+  if (isDestinationLoading || isDeleteDestinationLoading) {
     return <Loading />;
   }
 
-  if (isError) {
+  if (isDestinationError || isDeleteDestinationError) {
+    const customError: any = error;
+    const appError = customError?.response?.data?.message;
     return (
       <View style={styles.text}>
-        <Title size="sm">Error..</Title>
+        <Title size="sm">{appError}</Title>
       </View>
     );
   }
@@ -47,6 +61,14 @@ const DestinationList = () => {
     );
   };
 
+  const updateSearch = (value: string) => {
+    setSearch(value);
+  };
+
+  const onSearch = () => {
+    setDestination(search);
+  };
+
   return (
     <ScrollView
       contentContainerStyle={styles.scrollView}
@@ -60,7 +82,17 @@ const DestinationList = () => {
       }}
       scrollEventThrottle={400}>
       <View style={styles.container}>
-        <DestinationAdminList destinationList={data?.pages} />
+        <TitleWithSubtitle title="Daftar Destinasi" subtitle="Cari Destinasi" />
+        <SearchItem
+          placeholder="Cari Destinasi"
+          value={search}
+          onChangeText={updateSearch}
+          onSubmit={onSearch}
+        />
+        <DestinationAdminList
+          destinationList={data?.pages}
+          onDelete={deleteDestination}
+        />
         <Button
           containerStyle={styles.button}
           title="Tidak Ada Data Lagi Untuk Dimuat"

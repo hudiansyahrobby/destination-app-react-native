@@ -25,7 +25,7 @@ const DetailHeader: React.FC<DetailHeaderProps> = ({ destination }) => {
       <Title size="md" style={styles.title}>
         {destination?.name}
       </Title>
-      <Rating rating={5} size={22} />
+      <Rating size={22} isDisabled />
       <TextWithIcon icon="globe" text={destination?.province} />
       <TextWithIcon icon="business" text={destination?.city} />
       <Title size="sm" style={styles.title}>

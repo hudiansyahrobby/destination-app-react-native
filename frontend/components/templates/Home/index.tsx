@@ -1,6 +1,6 @@
 import { useScrollToTop } from '@react-navigation/native';
 import React from 'react';
-import { NativeScrollEvent, StyleSheet, Text, View } from 'react-native';
+import { NativeScrollEvent, StyleSheet, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
 import { PRIMARY_COLOR } from '../../../constants/color';
@@ -20,7 +20,7 @@ const Home = () => {
     isFetchingNextPage,
     isError,
     isLoading,
-  } = useDestinations();
+  } = useDestinations('');
 
   if (isLoading) {
     return <Loading />;

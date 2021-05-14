@@ -1,15 +1,13 @@
 import React from 'react';
-import WelcomeCard from '../../molecules/WelcomeCard';
-import ItemList from '../../molecules/ItemList';
-import useDestinations from '../../../hooks/DestinationHooks/useDestinations';
-import useUsers from '../../../hooks/UserHooks/useUsers';
-import { StyleSheet, View } from 'react-native';
-import { Title } from '../../atom/Typography';
+import { StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
 import useCategories from '../../../hooks/CategoryHooks/useCategories';
-import Spinner from 'react-native-spinkit';
-import { PRIMARY_COLOR } from '../../../constants/color';
+import useDestinations from '../../../hooks/DestinationHooks/useDestinations';
+import useUsers from '../../../hooks/UserHooks/useUsers';
 import Loading from '../../atom/Loading';
+import { Title } from '../../atom/Typography';
+import ItemList from '../../molecules/ItemList';
+import WelcomeCard from '../../molecules/WelcomeCard';
 
 const AdminDashboard = () => {
   const {

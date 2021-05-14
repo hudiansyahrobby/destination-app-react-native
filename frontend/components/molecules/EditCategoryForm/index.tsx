@@ -14,11 +14,11 @@ import Loading from '../../atom/Loading';
 import { Title } from '../../atom/Typography';
 
 const EditCategoryForm = () => {
-  const [category, setCategory] = React.useState({ name: '' });
+  const [category, setCategory] = React.useState({ id: '', name: '' });
 
   const { params } = useRoute();
   const categoryId = (params as any).itemList;
-  console.log('CAT', category);
+
   const {
     data,
     isLoading: isCategoryLoading,
@@ -26,7 +26,6 @@ const EditCategoryForm = () => {
   } = useCategory(categoryId);
 
   const categoryData = data;
-  console.log('CAT DATA', categoryData);
 
   const {
     mutateAsync,
@@ -35,11 +34,11 @@ const EditCategoryForm = () => {
   } = useEditCategory();
 
   React.useEffect(() => {
-    console.log('SET CAT');
     setCategory({
+      id: categoryData?.id,
       name: categoryData?.name,
     });
-  }, [categoryData?.name]);
+  }, [categoryData?.id, categoryData?.name]);
 
   if (isCategoryLoading) {
     return <Loading />;

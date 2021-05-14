@@ -8,13 +8,12 @@ const user = {
             'any.required': `uid is a required field`,
         }),
         displayName: Joi.string()
+            .trim()
             .pattern(/^[a-zA-Z ]*$/)
-            .required()
             .messages({
-                'string.base': `displayName should be a type of string`,
+                'string.base': `display name should be a type of string`,
+                'string.empty': `display name cannot be an empty field`,
                 'string.pattern.base': `display name should only contain alphapet or space`,
-                'any.required': `display name is a required field`,
-                'string.empty': `displayName cannot be an empty field`,
             }),
         about: Joi.string().min(25).max(1500).messages({
             'string.base': `about should be a type of string`,

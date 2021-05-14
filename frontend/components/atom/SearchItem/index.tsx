@@ -1,20 +1,33 @@
 import React from 'react';
-import { SearchBar } from 'react-native-elements';
 import { StyleSheet } from 'react-native';
+import { SearchBar } from 'react-native-elements';
 import { GRAY_COLOR } from '../../../constants/color';
 
-interface SearchItemProps {}
+interface SearchItemProps {
+  placeholder: string;
+  value: string;
+  onChangeText: () => void;
+  onSubmit: () => void;
+}
 
-const SearchItem: React.FC<SearchItemProps> = ({}) => {
+const SearchItem: React.FC<SearchItemProps> = ({
+  placeholder,
+  value,
+  onChangeText,
+  onSubmit,
+}) => {
   return (
-    <SearchBar
-      placeholder="Type Here..."
-      onChangeText={() => {}}
-      value=""
-      containerStyle={styles.container}
-      inputContainerStyle={styles.input}
-      lightTheme={true}
-    />
+    <>
+      <SearchBar
+        placeholder={placeholder}
+        onChangeText={onChangeText}
+        onSubmitEditing={onSubmit}
+        value={value}
+        containerStyle={styles.container}
+        inputContainerStyle={styles.input}
+        lightTheme={true}
+      />
+    </>
   );
 };
 

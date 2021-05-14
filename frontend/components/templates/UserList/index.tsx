@@ -6,7 +6,9 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { PRIMARY_COLOR } from '../../../constants/color';
 import useUsers from '../../../hooks/UserHooks/useUsers';
 import Loading from '../../atom/Loading';
+import SearchItem from '../../atom/SearchItem';
 import { Title } from '../../atom/Typography';
+import { TitleWithSubtitle } from '../../molecules';
 import { UserList as UserListProfile } from '../../organisms/';
 
 const UserList = () => {
@@ -60,6 +62,7 @@ const UserList = () => {
       }}
       scrollEventThrottle={400}>
       <View style={styles.container}>
+        <TitleWithSubtitle title="Daftar Pengguna" subtitle="Cari Pengguna" />
         <UserListProfile userList={data?.pages} />
         <Button
           containerStyle={styles.button}

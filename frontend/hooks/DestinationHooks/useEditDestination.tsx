@@ -9,8 +9,6 @@ const useEditDestination = (destinationId: string) => {
   return useMutation(editDestination, {
     onError: (error, variables, context) => {
       console.log('ERROR', error);
-      console.log('VAR', variables);
-      console.log('CONT', context);
     },
     onSuccess: () => {
       queryClient.invalidateQueries('destinations');

@@ -33,7 +33,7 @@ const DestinationCard: React.FC<DestinationCardProps> = ({ destination }) => {
         }>
         {capitalizeEachWord(destination?.name)}
       </Card.Title>
-      <Rating rating={5} />
+      <Rating defaultRating={5} isDisabled={true} />
       <Text style={styles.description}>
         {destination?.description?.substring(0, 149)}
       </Text>

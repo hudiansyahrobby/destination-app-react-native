@@ -17,7 +17,7 @@ interface BottomMenuProps {
 const BottomMenu: React.FC<BottomMenuProps> = ({ menus, isVisible }) => {
   return (
     <BottomSheet
-      modalProps={{}}
+      modalProps={{ animationType: 'slide' }}
       isVisible={isVisible}
       containerStyle={styles.container}>
       {menus.map((menu, index) => (

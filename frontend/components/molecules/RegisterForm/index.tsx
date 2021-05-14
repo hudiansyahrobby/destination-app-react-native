@@ -10,6 +10,7 @@ import signUpValidationSchema from '../../../validations/signupValidation';
 import { SimpleButton } from '../../atom/Button';
 import { TextInput } from '../../atom/Form';
 import ErrorText from '../../atom/Form/ErrorText';
+import PasswordInput from '../../atom/Form/PasswordInput';
 
 const RegisterForm = () => {
   const { error, isError, isLoading, mutateAsync } = useSignup();
@@ -35,7 +36,7 @@ const RegisterForm = () => {
         passwordConfirmation: '',
       }}
       onSubmit={async (values) => {
-        console.log(values);
+        console.log('VAL', values);
         await mutateAsync(values);
       }}
       validationSchema={signUpValidationSchema}>
@@ -74,33 +75,24 @@ const RegisterForm = () => {
               <ErrorText message={errors.email} />
             )}
 
-            <TextInput
+            <PasswordInput
               label="Password"
               onChangeText={handleChange('password')}
               onBlur={handleBlur('password')}
               value={values.password}
               placeholder="Password"
-              secureTextEntry
-              leftIcon={
-                <Ionicons name="lock-closed" size={24} color={GRAY_COLOR} />
-              }
-              rightIcon={<Ionicons name="eye" size={24} color={GRAY_COLOR} />}
             />
+
             {errors.password && touched.password && (
               <ErrorText message={errors.password} />
             )}
 
-            <TextInput
+            <PasswordInput
               label="Konfirmasi Password"
               onChangeText={handleChange('passwordConfirmation')}
               onBlur={handleBlur('passwordConfirmation')}
               value={values.passwordConfirmation}
               placeholder="Konfirmasi Password"
-              secureTextEntry
-              leftIcon={
-                <Ionicons name="lock-closed" size={24} color={GRAY_COLOR} />
-              }
-              rightIcon={<Ionicons name="eye" size={24} color={GRAY_COLOR} />}
             />
             {errors.passwordConfirmation && touched.passwordConfirmation && (
               <ErrorText message={errors.passwordConfirmation} />

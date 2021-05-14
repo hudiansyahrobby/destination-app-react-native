@@ -12,7 +12,7 @@ import useDestination from '../../../hooks/DestinationHooks/useDestination';
 import useEditDestination from '../../../hooks/DestinationHooks/useEditDestination';
 import { ICategory } from '../../../types/CategoryType';
 import { IDestination } from '../../../types/DestinationType';
-import destinationValidationSchema from '../../../validations/categoryValidation';
+import destinationValidationSchema from '../../../validations/destinationValidation';
 import BottomMenu from '../../atom/BottomMenu';
 import { SimpleButton, UploadButton } from '../../atom/Button';
 import { Select, TextInput } from '../../atom/Form';
@@ -37,7 +37,6 @@ const EditDestinationForm = () => {
   const { params } = useRoute();
   const destinationId = (params as any).itemList;
 
-  console.log('ID PRAMAS', destinationId);
   const {
     mutateAsync,
     isLoading: isEditDestinationLoading,
@@ -167,7 +166,6 @@ const EditDestinationForm = () => {
       initialValues={destination}
       enableReinitialize
       onSubmit={async (values) => {
-        console.log(values);
         onSubmit(values);
       }}
       validationSchema={destinationValidationSchema}>

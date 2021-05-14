@@ -1,22 +1,26 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import SearchItem from '../../atom/SearchItem';
-import { TitleWithSubtitle } from '../../molecules';
+import { UseMutateAsyncFunction } from 'react-query';
 import Lists from '../../molecules/Lists';
 
 interface DestinationAdminListProps {
   destinationList: any;
+  onDelete: UseMutateAsyncFunction<void, unknown, string, unknown>;
 }
+
 const DestinationAdminList: React.FC<DestinationAdminListProps> = ({
   destinationList,
+  onDelete,
 }) => {
   return (
     <>
-      <TitleWithSubtitle title="Daftar Destinasi" subtitle="Cari Destinasi" />
-      <SearchItem />
       <View style={styles.container}>
-        {destinationList?.map((destinations: any) => (
-          <Lists destinations={destinations?.data} />
+        {destinationList?.map((destinations: any, index: number) => (
+          <Lists
+            destinations={destinations?.data}
+            onDelete={onDelete}
+            key={index}
+          />
         ))}
       </View>
     </>
