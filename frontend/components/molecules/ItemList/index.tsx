@@ -14,7 +14,6 @@ interface ItemListProps {
 
 const ItemList: React.FC<ItemListProps> = ({ title, goto, icon }) => {
   const navigation = useNavigation();
-
   return (
     <>
       <ListItem

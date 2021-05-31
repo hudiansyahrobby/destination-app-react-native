@@ -1,24 +1,15 @@
-import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-
-import {
-  ProfileScreen,
-  FavoriteScreen,
-  SettingScreen,
-  EditProfileScreen,
-  AdminDashboardScreen,
-  UserListScreen,
-  DestinationListScreen,
-  MyProfileScreen,
-  AddDestinationScreen,
-  AddCategoryScreen,
-  EditCategoryScreen,
-  CategoryListScreen,
-  EditDestinationScreen,
-} from '../../../screens';
-import { PRIMARY_COLOR } from '../../../constants/color';
+import React from 'react';
 import HeaderRight from '../../../components/atom/HeaderRight';
+import { PRIMARY_COLOR } from '../../../constants/color';
 import useLogout from '../../../hooks/AuthHooks/useLogout';
+import {
+  EditProfileScreen,
+  FavoriteScreen,
+  MyProfileScreen,
+  ProfileScreen,
+  SettingScreen,
+} from '../../../screens';
 
 const Stack = createStackNavigator();
 
@@ -79,70 +70,6 @@ const UserStackNavigation = () => {
         component={FavoriteScreen}
         options={{
           headerTitle: 'Destinasi Favorit',
-        }}
-      />
-
-      <Stack.Screen
-        name="AdminDashboard"
-        component={AdminDashboardScreen}
-        options={{
-          headerTitle: 'Admin Dashboard',
-        }}
-      />
-
-      <Stack.Screen
-        name="AddDestination"
-        component={AddDestinationScreen}
-        options={{
-          headerTitle: 'Tambah Destinasi Baru',
-        }}
-      />
-
-      <Stack.Screen
-        name="EditDestination"
-        component={EditDestinationScreen}
-        options={{
-          headerTitle: 'Edit Destinasi',
-        }}
-      />
-
-      <Stack.Screen
-        name="AddCategory"
-        component={AddCategoryScreen}
-        options={{
-          headerTitle: 'Tambah Kategori Baru',
-        }}
-      />
-
-      <Stack.Screen
-        name="EditCategory"
-        component={EditCategoryScreen}
-        options={{
-          headerTitle: 'Edit Kategori',
-        }}
-      />
-
-      <Stack.Screen
-        name="CategoryList"
-        component={CategoryListScreen}
-        options={{
-          headerTitle: 'Daftar Kategori',
-        }}
-      />
-
-      <Stack.Screen
-        name="UserList"
-        component={UserListScreen}
-        options={{
-          headerTitle: 'Daftar Pengguna',
-        }}
-      />
-
-      <Stack.Screen
-        name="DestinationList"
-        component={DestinationListScreen}
-        options={{
-          headerTitle: 'Daftar Destinasi',
         }}
       />
     </Stack.Navigator>

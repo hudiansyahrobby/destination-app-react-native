@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
+import { capitalizeEachWord } from '../../../helpers/capitalizeEachWord';
 import Avatar from '../../atom/Avatar';
 import Rating from '../../atom/Rating';
 import { Title } from '../../atom/Typography';
@@ -26,7 +27,7 @@ const CommentHeader: React.FC<CommentHeaderProps> = ({
         }}
       />
       <View style={styles.body}>
-        <Title size="sm">{displayName}</Title>
+        <Title size="sm">{capitalizeEachWord(displayName)}</Title>
         <Rating
           size={15}
           isDisabled

@@ -175,6 +175,7 @@ const EditDestinationForm = () => {
         handleSubmit,
         values,
         touched,
+        isValid,
         errors,
       }) => (
         <>
@@ -270,6 +271,7 @@ const EditDestinationForm = () => {
                 title="Edit Destinasi"
                 loading={isEditDestinationLoading}
                 onPress={handleSubmit}
+                disabled={!isValid}
               />
 
               <BottomMenu menus={listMenu()} isVisible={isVisible} />

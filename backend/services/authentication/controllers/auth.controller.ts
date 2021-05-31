@@ -3,6 +3,7 @@ import { catchAsync } from '../errorHandler/catchAsync';
 import { IUser } from '../interfaces/user.interface';
 import {
     checkAuthUser,
+    checkIsAdmin,
     getUserByUID,
     loginUser,
     loginWithFacebook,
@@ -16,6 +17,8 @@ import {
 export const registerFirebase = catchAsync(async (req: Request, res: Response) => {
     const newUser: IUser = {
         ...req.body,
+        photoURL:
+            'https://st.depositphotos.com/2101611/3925/v/600/depositphotos_39258143-stock-illustration-businessman-avatar-profile-picture.jpg',
     };
 
     const userData = await registerUser(newUser);
@@ -25,7 +28,6 @@ export const registerFirebase = catchAsync(async (req: Request, res: Response) =
 export const loginFirebase = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
     const loggedInUser = await loginUser(email, password);
-
     return res.status(200).json({ data: { user: loggedInUser }, message: 'User login successfully', status: 200 });
 });
 
@@ -58,6 +60,16 @@ export const logout = catchAsync(async (req: Request, res: Response, next: NextF
 export const checkAuth = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const bearerToken = req.headers.authorization;
     const user = await checkAuthUser(bearerToken);
+    return res.status(200).json({
+        message: 'Token is valid',
+        status: 200,
+        data: user,
+    });
+});
+
+export const checkAdminAuth = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const bearerToken = req.headers.authorization;
+    const user = await checkIsAdmin(bearerToken);
     return res.status(200).json({
         message: 'Token is valid',
         status: 200,

@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 
 const categoryValidationSchema = yup.object().shape({
-  id: yup.string().trim().required('Kategori ID Harus Diisi'),
+  id: yup.string().trim(),
   name: yup
     .string()
     .trim()

@@ -12,7 +12,6 @@ interface CommentCardProps {
 
 const CommentCard: React.FC<CommentCardProps> = ({ comment }) => {
   const { user } = useSelector((state: any) => state.user);
-  console.log('COMMNET', comment);
   return (
     <View style={styles.container}>
       <View style={styles.header}>

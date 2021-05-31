@@ -7,16 +7,18 @@ import { SettingHeader } from '../../molecules';
 import SettingBody from '../../molecules/SettingBody';
 
 const Setting = () => {
-  const { isLoading, isError, data } = useMyProfile();
+  const { isLoading, isError, data, error } = useMyProfile();
 
   if (isLoading) {
     return <Loading />;
   }
 
+  const profileError: any = error;
+  const appError = profileError?.response?.data?.message;
   if (isError) {
     return (
       <View style={styles.text}>
-        <Title size="sm">Error...</Title>
+        <Title size="sm">{appError}</Title>
       </View>
     );
   }

@@ -31,6 +31,8 @@ export const loginUser = async (email: string, password: string) => {
         const userJSON: any = user.toJSON();
 
         const { uid, displayName, email, photoURL } = userJSON;
+        const { data } = await getUserProfileByUID(uid);
+        const isAdmin = data.data.isAdmin;
 
         loggedInUser = {
             uid,
@@ -38,6 +40,7 @@ export const loginUser = async (email: string, password: string) => {
             email,
             token,
             photoURL,
+            isAdmin,
         };
     }
 
@@ -79,6 +82,10 @@ export const createUserProfile = async (uid: { uid: string }) => {
     return axios.post('http://apigateway:8080/api/v1/user-profile', uid);
 };
 
+export const getUserProfileByUID = async (uid: string) => {
+    return axios.get(`http://apigateway:8080/api/v1//user-profile/${uid}`);
+};
+
 export const checkAuthUser = async (bearerToken: string | undefined) => {
     if (!bearerToken) {
         throw new AppError('Access denied, Token does not exist on headers', 403, 'forbidden');
@@ -91,6 +98,30 @@ export const checkAuthUser = async (bearerToken: string | undefined) => {
 
     const user = await verifyToken(accessToken);
     return user;
+};
+
+export const checkIsAdmin = async (bearerToken: string | undefined) => {
+    if (!bearerToken) {
+        throw new AppError('Access denied, Token does not exist on headers', 403, 'forbidden');
+    }
+
+    const accessToken: string = bearerToken.split(' ')[1];
+    if (!accessToken) {
+        throw new AppError('Access denied, Token does not well formatted', 403, 'forbidden');
+    }
+
+    const user = await verifyToken(accessToken);
+    const { data } = await getUserProfileByUID(user.uid);
+    const isAdmin = data.data.isAdmin;
+
+    if (!isAdmin) {
+        throw new AppError("Access Denied, You're not Admin", 403, 'forbidden');
+    }
+
+    return {
+        ...user,
+        isAdmin,
+    };
 };
 
 export const updateUserData = async (uid: string, displayName: string, photoURL: string) => {

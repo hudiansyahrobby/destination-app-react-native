@@ -13,19 +13,10 @@ import ErrorText from '../../atom/Form/ErrorText';
 import PasswordInput from '../../atom/Form/PasswordInput';
 
 const RegisterForm = () => {
-  const { error, isError, isLoading, mutateAsync } = useSignup();
+  const { error, isLoading, mutateAsync } = useSignup();
 
   const signupError: any = error;
   const appError = signupError?.response?.data?.message;
-
-  React.useEffect(() => {
-    if (isError) {
-      showMessage({
-        message: capitalizeEachWord(appError),
-        type: 'danger',
-      });
-    }
-  }, [isError, appError]);
 
   return (
     <Formik
@@ -36,8 +27,20 @@ const RegisterForm = () => {
         passwordConfirmation: '',
       }}
       onSubmit={async (values) => {
-        console.log('VAL', values);
-        await mutateAsync(values);
+        await mutateAsync(values, {
+          onSuccess: () => {
+            showMessage({
+              message: 'Berhasil Membuat Akun',
+              type: 'success',
+            });
+          },
+          onError: () => {
+            showMessage({
+              message: capitalizeEachWord(appError),
+              type: 'danger',
+            });
+          },
+        });
       }}
       validationSchema={signUpValidationSchema}>
       {({

@@ -114,6 +114,20 @@ paths:
       responses:
         '200':
           description: User authenticated
+        '403':
+          description: Forbidden
+  /auth/check-admin:
+    post:
+      tags:
+        - Authentication
+      summary: Check If The Authenticated User Is Admin
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: User Is Admin
+        '403':
+          description: Forbidden 
   /auth/users:
     get:
       summary: Get All Users

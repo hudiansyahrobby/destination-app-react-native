@@ -32,6 +32,7 @@ const CategoryForm = () => {
         name: '',
       }}
       onSubmit={async (values) => {
+        console.log('VALUES', values);
         await mutateAsync(values);
       }}
       validationSchema={categoryValidationSchema}>

@@ -36,7 +36,7 @@ const AddCommentForm: React.FC<AddCommentFormProps> = ({
 
   const addCommentError: any = error;
   const appError = addCommentError?.response?.data?.message;
-  console.log('EROR', appError);
+
   return (
     <BottomSheet
       isVisible={show}
@@ -107,6 +107,7 @@ const AddCommentForm: React.FC<AddCommentFormProps> = ({
                     <TextInput
                       autoFocus
                       label="Isi Komentar"
+                      multiline
                       onChangeText={handleChange('content')}
                       onBlur={handleBlur('content')}
                       value={values.content}

@@ -1,6 +1,7 @@
 import { useNavigation, useRoute } from '@react-navigation/core';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
+import { capitalizeEachWord } from '../../../helpers/capitalizeEachWord';
 import useUser from '../../../hooks/UserHooks/useUser';
 import { IUserProfile } from '../../../types/UserType';
 import DividerLine from '../../atom/Divider/DividerLine';
@@ -12,12 +13,16 @@ import { ProfileCard } from '../../molecules';
 const Profile = () => {
   const { params } = useRoute();
   const navigation = useNavigation();
-
+  console.log('PARAMS', params);
   const userId = (params as any)?.itemId;
-  const headerTitle = (params as any)?.headerTitle;
-  navigation.setOptions({
-    headerTitle: `Profil ${headerTitle}`,
-  });
+  const headerTitle = capitalizeEachWord((params as any)?.headerTitle);
+
+  React.useEffect(() => {
+    navigation.setOptions({
+      headerTitle: `Profil ${headerTitle}`,
+    });
+  }, [headerTitle]);
+
   const { data, isError, isLoading } = useUser(userId);
 
   const user: IUserProfile = data;

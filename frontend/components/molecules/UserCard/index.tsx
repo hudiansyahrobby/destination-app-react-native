@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/core';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Avatar, ListItem } from 'react-native-elements';
+import { capitalizeEachWord } from '../../../helpers/capitalizeEachWord';
 import { IUserProfile } from '../../../types/UserType';
 import NoData from '../../atom/Typography/NoData';
 
@@ -20,12 +21,15 @@ const UserCard: React.FC<UserCardProps> = ({ users }) => {
             key={index}
             bottomDivider
             topDivider
-            onPress={() =>
-              navigation.navigate('Profile', {
-                itemId: user.uid,
-                headerTitle: user.displayName,
-              })
-            }>
+            onPress={() => {
+              return navigation.navigate('Settings', {
+                params: {
+                  itemId: user.uid,
+                  headerTitle: user.displayName,
+                },
+                screen: 'Profile',
+              });
+            }}>
             <Avatar
               source={{
                 uri:
@@ -35,7 +39,9 @@ const UserCard: React.FC<UserCardProps> = ({ users }) => {
               rounded
             />
             <ListItem.Content>
-              <ListItem.Title>{user.displayName}</ListItem.Title>
+              <ListItem.Title>
+                {capitalizeEachWord(user.displayName)}
+              </ListItem.Title>
               <ListItem.Subtitle>{user.email}</ListItem.Subtitle>
             </ListItem.Content>
             <ListItem.Chevron />

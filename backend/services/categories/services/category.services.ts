@@ -5,7 +5,7 @@ import axios from 'axios';
 import AppError from '../errorHandler/AppError';
 
 export const createCategory = async (name: string, token: string | undefined) => {
-    await checkAuth(token);
+    await checkIsAdmin(token);
     const [category, created] = await Category.findOrCreate({
         where: {
             name: {
@@ -50,7 +50,7 @@ export const updateCategoryById = async (
     categoryId: string,
     token: string | undefined,
 ) => {
-    await checkAuth(token);
+    await checkIsAdmin(token);
 
     const category = await findCategoryById(categoryId);
 
@@ -69,7 +69,7 @@ export const updateCategoryById = async (
 };
 
 export const deleteCategoryById = async (categoryId: string, token: string | undefined) => {
-    await checkAuth(token);
+    await checkIsAdmin(token);
     const category = await findCategoryById(categoryId);
 
     if (!category) {
@@ -85,7 +85,7 @@ export const deleteCategoryById = async (categoryId: string, token: string | und
     return category;
 };
 
-export const checkAuth = async (token: string | undefined) => {
+export const checkIsAdmin = async (token: string | undefined) => {
     let headersConfig = {};
 
     if (token) {
@@ -94,7 +94,7 @@ export const checkAuth = async (token: string | undefined) => {
         };
     }
     const response = await axios.post(
-        `http://apigateway:8080/api/v1/auth/check-auth`,
+        `http://apigateway:8080/api/v1/auth/check-admin`,
         {},
         {
             headers: headersConfig,

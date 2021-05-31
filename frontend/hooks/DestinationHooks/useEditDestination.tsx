@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/core';
+import { StackActions, useNavigation } from '@react-navigation/core';
 import { QueryClient, useMutation } from 'react-query';
 import { editDestination } from '../../API/DestinationAPI';
 
@@ -13,7 +13,7 @@ const useEditDestination = (destinationId: string) => {
     onSuccess: () => {
       queryClient.invalidateQueries('destinations');
       queryClient.invalidateQueries(['destination', destinationId]);
-      navigation.navigate('DestinationList');
+      navigation.dispatch(StackActions.replace('DestinationList'));
     },
   });
 };

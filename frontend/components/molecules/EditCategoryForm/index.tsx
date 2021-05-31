@@ -31,7 +31,7 @@ const EditCategoryForm = () => {
     mutateAsync,
     isLoading: isEditCategoryLoading,
     isError: isEditCategoryError,
-  } = useEditCategory();
+  } = useEditCategory(categoryId);
 
   React.useEffect(() => {
     setCategory({
@@ -61,7 +61,7 @@ const EditCategoryForm = () => {
           id: categoryId,
           name: values.name,
         };
-        await mutateAsync(updatedCategory);
+        mutateAsync(updatedCategory);
       }}
       validationSchema={categoryValidationSchema}>
       {({

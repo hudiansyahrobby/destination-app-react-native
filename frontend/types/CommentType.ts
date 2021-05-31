@@ -9,5 +9,5 @@ export type IComment = {
   rating: number;
   productId: string;
   userUUID?: string;
-  commentator: Commentator;
+  commentator?: Commentator;
 };

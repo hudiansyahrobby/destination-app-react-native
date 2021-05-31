@@ -13,6 +13,11 @@ module.exports = {
                 type: Sequelize.STRING(40),
                 allowNull: false,
             },
+            isAdmin: {
+                type: Sequelize.BOOLEAN(),
+                allowNull: false,
+                defaultValue: false,
+            },
             country: {
                 type: Sequelize.STRING(70),
                 allowNull: true,

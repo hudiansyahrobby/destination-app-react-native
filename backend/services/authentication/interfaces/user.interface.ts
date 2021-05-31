@@ -5,4 +5,5 @@ export interface IUser {
     photoURL?: string;
     password?: string;
     facebookId?: string;
+    isAdmin?: boolean;
 }

@@ -1,5 +1,7 @@
+import { useNavigation } from '@react-navigation/core';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
+import { useSelector } from 'react-redux';
 import { IComment } from '../../../types/CommentType';
 import { Title } from '../../atom/Typography';
 import NoData from '../../atom/Typography/NoData';
@@ -13,12 +15,22 @@ interface CommentProps {
 
 const Comment: React.FC<CommentProps> = ({ destinationId, comments }) => {
   const [show, setShow] = React.useState<boolean>(false);
+  const { isLogin } = useSelector((state: any) => state.user);
+  const navigation = useNavigation();
+
+  const onShowCommentForm = () => {
+    if (isLogin) {
+      setShow(!show);
+    } else {
+      navigation.navigate('Auth', { screen: 'Login' });
+    }
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.title}>
         <Title size="sm">Komentar</Title>
-        <Title size="sm" onPress={() => setShow(!show)}>
+        <Title size="sm" onPress={onShowCommentForm}>
           Tambah Komentar
         </Title>
       </View>

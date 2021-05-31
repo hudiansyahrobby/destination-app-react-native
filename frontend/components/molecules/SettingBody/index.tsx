@@ -4,23 +4,25 @@ import { View } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { PRIMARY_COLOR } from '../../../constants/color';
+import useLogout from '../../../hooks/AuthHooks/useLogout';
 
 const SettingBody = () => {
+  const { mutateAsync } = useLogout();
+
+  const onLogout = async () => {
+    await mutateAsync();
+  };
+
   const list = [
     {
-      title: 'My Profile',
+      title: 'Profil Saya',
       icon: 'person-circle-outline',
       navigation: 'MyProfile',
     },
     {
-      title: 'Edit Profile',
+      title: 'Edit Profil',
       icon: 'create-outline',
       navigation: 'EditProfile',
-    },
-    {
-      title: 'Admin Dashboard',
-      icon: 'ios-bar-chart-outline',
-      navigation: 'AdminDashboard',
     },
     {
       title: 'Favorite Destination',
@@ -46,6 +48,13 @@ const SettingBody = () => {
           <ListItem.Chevron />
         </ListItem>
       ))}
+      <ListItem bottomDivider topDivider onPress={() => onLogout()}>
+        <Ionicons name="ios-exit-outline" size={30} color={PRIMARY_COLOR} />
+        <ListItem.Content>
+          <ListItem.Title>Keluar</ListItem.Title>
+        </ListItem.Content>
+        <ListItem.Chevron />
+      </ListItem>
     </View>
   );
 };

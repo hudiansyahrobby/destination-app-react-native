@@ -52,7 +52,7 @@ export const createProduct = async (
 ) => {
     const { categoryId } = newProduct;
 
-    await checkAuth(token);
+    await checkIsAdmin(token);
     const category = await getCategoryById(categoryId);
 
     if (!category) {
@@ -156,7 +156,7 @@ export const updateProductById = async (
     productId: string,
     token: string | undefined,
 ) => {
-    await checkAuth(token);
+    await checkIsAdmin(token);
 
     const product = await getProductbyId(productId);
 
@@ -182,7 +182,7 @@ export const updateProductById = async (
 };
 
 export const deleteProductById = async (productId: string, token: string | undefined) => {
-    await checkAuth(token);
+    await checkIsAdmin(token);
 
     const product = await getProductbyId(productId);
 
@@ -263,6 +263,25 @@ export const checkAuth = async (token: string | undefined) => {
     }
     const response = await axios.post(
         `http://authentication:8087/api/v1/auth/check-auth`,
+        {},
+        {
+            headers: headersConfig,
+        },
+    );
+    const uid = response.data.data.uid;
+    return uid;
+};
+
+export const checkIsAdmin = async (token: string | undefined) => {
+    let headersConfig = {};
+
+    if (token) {
+        headersConfig = {
+            authorization: token,
+        };
+    }
+    const response = await axios.post(
+        `http://authentication:8087/api/v1/auth/check-admin`,
         {},
         {
             headers: headersConfig,

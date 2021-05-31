@@ -12,12 +12,14 @@ import BottomMenu from '../../atom/BottomMenu';
 import { SimpleButton } from '../../atom/Button';
 import { TextInput } from '../../atom/Form';
 import ErrorText from '../../atom/Form/ErrorText';
+import ImageLightBox from '../../atom/ImageLightBox';
 import Loading from '../../atom/Loading';
 import { Title } from '../../atom/Typography';
 
 const EditProfileForm = () => {
   const [avatar, setAvatar] = useState<ImageOrVideo>();
   const [isVisible, setIsVisible] = React.useState(false);
+  const [isImageOpen, setIsImageOpen] = React.useState(false);
 
   const [profile, setProfile] = useState({
     displayName: '',
@@ -67,6 +69,11 @@ const EditProfileForm = () => {
   const listMenu = () => {
     const menu = [
       {
+        title: 'Lihat Gambar',
+        onPress: () => setIsImageOpen(true),
+        icon: 'folder-open',
+      },
+      {
         title: 'Pilih Gambar Dari Galeri',
         onPress: () => launchImageLibrary(),
         icon: 'images',
@@ -97,9 +104,26 @@ const EditProfileForm = () => {
       </View>
     );
   }
+
+  const images = [
+    {
+      url: avatar
+        ? avatar.path
+        : user?.photoURL
+        ? user?.photoURL
+        : 'https://st.depositphotos.com/2101611/3925/v/600/depositphotos_39258143-stock-illustration-businessman-avatar-profile-picture.jpg',
+    },
+  ];
+
   return (
     <View style={styles.wrapper}>
       <View style={styles.image}>
+        <ImageLightBox
+          images={images}
+          isVisible={isImageOpen}
+          setIsVisible={setIsImageOpen}
+        />
+
         <Avatar
           size="xlarge"
           rounded
@@ -146,6 +170,7 @@ const EditProfileForm = () => {
           values,
           touched,
           errors,
+          isValid,
         }) => (
           <>
             <View style={styles.container}>
@@ -180,6 +205,7 @@ const EditProfileForm = () => {
 
               <TextInput
                 label="Tentang Saya"
+                multiline
                 onChangeText={handleChange('about')}
                 onBlur={handleBlur('about')}
                 value={values.about}
@@ -195,6 +221,7 @@ const EditProfileForm = () => {
               title="Edit Profile"
               loading={isMyEditProfileLoading}
               onPress={handleSubmit}
+              disabled={!isValid}
             />
           </>
         )}

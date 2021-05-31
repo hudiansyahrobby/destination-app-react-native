@@ -5,13 +5,13 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { PRIMARY_COLOR } from '../constants/color';
 import AuthStackNavigation from './StackNavigation/AuthStackNavigation';
 import MainStackNavigation from './StackNavigation/MainStackNavigation';
-import { UserStackNavigation } from './StackNavigation';
+import { AdminStackNavigation, UserStackNavigation } from './StackNavigation';
 import { useSelector } from 'react-redux';
 
 const Routes = () => {
   const Tab = createBottomTabNavigator();
 
-  const { isLogin } = useSelector((state: any) => state.user);
+  const { isLogin, isAdmin } = useSelector((state: any) => state.user);
 
   return (
     <NavigationContainer>
@@ -30,6 +30,8 @@ const Routes = () => {
               iconName = focused ? 'settings' : 'settings-outline';
             } else if (route.name === 'Auth') {
               iconName = focused ? 'person' : 'person-outline';
+            } else if (route.name === 'Admin') {
+              iconName = focused ? 'ios-bar-chart' : 'ios-bar-chart-outline';
             }
             // You can return any component that you like here!
             return <Ionicons name={iconName} size={size} color={color} />;
@@ -45,6 +47,13 @@ const Routes = () => {
             name="Auth"
             component={AuthStackNavigation}
             options={{ title: 'Login' }}
+          />
+        )}
+        {isAdmin && (
+          <Tab.Screen
+            name="Admin"
+            component={AdminStackNavigation}
+            options={{ title: 'Admin Dashboard' }}
           />
         )}
         {isLogin && (

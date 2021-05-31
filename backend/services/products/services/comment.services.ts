@@ -124,6 +124,5 @@ export const deleteCommentById = async (commentId: string, token: string | undef
 
 export const getUserByUUID = async (uuid: string) => {
     const user = await axios.get(`http://apigateway:8080/api/v1/auth/users/${uuid}`);
-    console.log('USER', user);
     return user.data.data;
 };

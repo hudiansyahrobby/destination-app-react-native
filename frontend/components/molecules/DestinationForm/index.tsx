@@ -50,29 +50,12 @@ const DestinationForm = () => {
     });
   };
 
-  const launchImageCamera = () => {
-    ImagePicker.openCamera({
-      width: 300,
-      height: 400,
-      cropping: true,
-      multiple: true,
-    }).then((image) => {
-      setImages(image);
-      setIsVisible(false);
-    });
-  };
-
   const listMenu = () => {
     const menu = [
       {
         title: 'Pilih Gambar Dari Galeri',
         onPress: () => launchImageLibrary(),
         icon: 'images',
-      },
-      {
-        title: 'Ambil Gambar',
-        onPress: () => launchImageCamera(),
-        icon: 'ios-camera',
       },
       {
         title: 'Batal',
@@ -116,6 +99,7 @@ const DestinationForm = () => {
     };
   });
 
+  console.log('IMAGES', images);
   return (
     <Formik
       initialValues={{
@@ -204,7 +188,7 @@ const DestinationForm = () => {
 
             {images && (
               <HorizontalScroll>
-                {images.map((image) => {
+                {images?.map((image) => {
                   return (
                     <Image
                       key={image.path}

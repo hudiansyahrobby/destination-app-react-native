@@ -9,7 +9,6 @@ import { ScrollView } from 'react-native-gesture-handler';
 import useComments from '../../../hooks/CommentHooks/useComments';
 import useDestination from '../../../hooks/DestinationHooks/useDestination';
 import { IComment } from '../../../types/CommentType';
-import { IDestination } from '../../../types/DestinationType';
 import Loading from '../../atom/Loading';
 import { Title } from '../../atom/Typography';
 import CommentDetail from '../../organisms/CommentDetail';
@@ -23,10 +22,8 @@ const Detail = () => {
   const { params } = useRoute();
   const destinationId = (params as any)?.itemId;
   const destinationName = (params as any)?.headerTitle;
-
-  navigation.setOptions({
-    headerTitle: destinationName,
-  });
+  console.log(params);
+  console.log(destinationName);
 
   const {
     isLoading: isDestinationLoading,
@@ -51,6 +48,9 @@ const Detail = () => {
     );
   }
 
+  navigation.setOptions({
+    headerTitle: destinationName,
+  });
   return (
     <ScrollView contentContainerStyle={styles.scrollView} ref={ref}>
       <View style={styles.container}>

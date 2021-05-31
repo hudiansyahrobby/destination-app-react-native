@@ -12,6 +12,7 @@ import FlashMessage from 'react-native-flash-message';
 import { MenuProvider } from 'react-native-popup-menu';
 
 LogBox.ignoreLogs(['Setting a timer']);
+LogBox.ignoreAllLogs();
 
 const App = () => {
   const queryClient = new QueryClient();

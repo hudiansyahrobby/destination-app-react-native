@@ -10,6 +10,7 @@ import {
     checkAuth,
     getUser,
     updateUser,
+    checkAdminAuth,
 } from '../controllers/auth.controller';
 import isValid from '../middlewares/isValid';
 import AuthValidation from '../validations/auth.validation';
@@ -29,6 +30,8 @@ router.post('/auth/refresh-token', revokeRefreshToken);
 router.post('/auth/logout', logout);
 
 router.post('/auth/check-auth', checkAuth);
+
+router.post('/auth/check-admin', checkAdminAuth);
 
 router.put('/auth/users', updateUser);
 

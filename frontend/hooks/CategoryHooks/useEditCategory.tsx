@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/core';
+import { StackActions, useNavigation } from '@react-navigation/core';
 import { QueryClient, useMutation } from 'react-query';
 import { updateCategoryById } from '../../API/categoryAPI';
 
@@ -8,7 +8,7 @@ const useEditCategory = () => {
   return useMutation(updateCategoryById, {
     onSuccess: () => {
       queryClient.invalidateQueries('categories');
-      navigation.navigate('CategoryList');
+      navigation.dispatch(StackActions.replace('CategoryList'));
     },
   });
 };

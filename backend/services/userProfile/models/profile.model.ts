@@ -12,6 +12,9 @@ export default class Profile extends Model {
     @Column(DataType.STRING)
     uid: string;
 
+    @Column(DataType.BOOLEAN)
+    isAdmin: boolean;
+
     @AllowNull
     @Column(DataType.STRING)
     country: string;
